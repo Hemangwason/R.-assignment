@@ -3188,6 +3188,186 @@
       margin-bottom: 10px;
     }
 
+    /* ── Inline expansion (traveler quotes) on digest card click ── */
+    .digest-card-expand {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+      background: linear-gradient(180deg, var(--warm-bg-2) 0%, white 100%);
+    }
+
+    .digest-card.expanded .digest-card-expand {
+      max-height: 420px;
+    }
+
+    .digest-card-quotes {
+      padding: 18px 22px 22px;
+      border-top: 1px solid rgba(42, 24, 16, 0.08);
+    }
+
+    .digest-card-quotes h4 {
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 12px;
+    }
+
+    .digest-card-quotes blockquote {
+      font-size: 13px;
+      color: var(--warm-dark);
+      line-height: 1.5;
+      padding-left: 12px;
+      border-left: 3px solid var(--coral-soft);
+      margin-bottom: 10px;
+    }
+
+    .digest-card-quotes blockquote:last-child { margin-bottom: 0; }
+
+    .digest-card-quotes blockquote span {
+      display: block;
+      margin-top: 4px;
+      font-size: 11px;
+      color: var(--warm-dark);
+      opacity: 0.6;
+      font-weight: 700;
+    }
+
+    /* ── Add to my trip buttons (digest + explore cards) ── */
+    .digest-card-add,
+    .explore-card-add {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 14px;
+      border-radius: var(--r-pill);
+      background: white;
+      border: 1.5px solid var(--coral);
+      color: var(--coral);
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 14px;
+      transition: background 0.18s ease, color 0.18s ease,
+                  border-color 0.18s ease, transform 0.12s ease;
+      font-family: var(--font);
+      letter-spacing: 0.01em;
+    }
+
+    .digest-card-add:hover,
+    .explore-card-add:hover {
+      background: var(--coral);
+      color: white;
+      transform: translateY(-1px);
+    }
+
+    .digest-card-add.added,
+    .explore-card-add.added {
+      background: var(--coral);
+      color: white;
+      border-color: var(--coral);
+    }
+
+    .digest-card-add .add-done,
+    .explore-card-add .add-done { display: none; }
+
+    .digest-card-add.added .add-default,
+    .explore-card-add.added .add-default { display: none; }
+
+    .digest-card-add.added .add-done,
+    .explore-card-add.added .add-done { display: inline; }
+
+    /* Explore card add button — positioned above the photo, smaller */
+    .explore-card-add {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 3;
+      margin-top: 0;
+      padding: 6px 11px;
+      font-size: 11px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      color: var(--warm-dark);
+      backdrop-filter: blur(8px);
+    }
+
+    .explore-card-add:hover {
+      background: white;
+      color: var(--coral);
+      border-color: white;
+    }
+
+    .explore-card-add.added {
+      background: var(--coral);
+      color: white;
+      border-color: var(--coral);
+    }
+
+    /* ── Stagger-in shuffle entry for both grids ── */
+    .digest-grid .digest-card,
+    .city-explore-grid .explore-card {
+      animation: cardShuffleIn 0.65s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    }
+
+    .digest-grid .digest-card:nth-child(1),
+    .city-explore-grid .explore-card:nth-child(1) { animation-delay: 60ms; }
+    .digest-grid .digest-card:nth-child(2),
+    .city-explore-grid .explore-card:nth-child(2) { animation-delay: 160ms; }
+    .digest-grid .digest-card:nth-child(3),
+    .city-explore-grid .explore-card:nth-child(3) { animation-delay: 260ms; }
+    .digest-grid .digest-card:nth-child(4),
+    .city-explore-grid .explore-card:nth-child(4) { animation-delay: 360ms; }
+
+    @keyframes cardShuffleIn {
+      from {
+        opacity: 0;
+        transform: translateY(48px) rotate(-1.6deg);
+      }
+      55% {
+        opacity: 1;
+        transform: translateY(-6px) rotate(0.4deg);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) rotate(0);
+      }
+    }
+
+    /* ── Pick counter on the city-plan CTA ── */
+    .city-plan-cta-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 26px;
+      height: 26px;
+      padding: 0 9px;
+      background: white;
+      color: var(--coral);
+      border-radius: var(--r-pill);
+      font-size: 12.5px;
+      font-weight: 800;
+      margin-right: 4px;
+    }
+
+    .city-plan-cta-count[hidden] { display: none; }
+
+    /* Visual cue when a pick lands — gentle pulse on the CTA */
+    .city-plan-cta.pulse {
+      animation: ctaPulse 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes ctaPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); box-shadow: 0 16px 40px rgba(255, 126, 95, 0.6); }
+      100% { transform: scale(1); }
+    }
+
+    /* Make digest card whole-body tappable to expand */
+    .digest-card { cursor: pointer; user-select: none; }
+    .digest-card-add { user-select: text; }
+
     /* Cleaner city view enter — overlay does the heavy lift,
        this just fades the content in underneath. */
     .view-city.active {
@@ -4131,27 +4311,50 @@
         <p>Drawn from every review on the platform — tap any card to see the quotes.</p>
       </div>
       <div class="digest-grid">
-        <article class="digest-card">
+        <article class="digest-card" data-pick="food">
           <div class="digest-card-img">
-            <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=700&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
+            <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=700&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
           </div>
           <div class="digest-card-body">
             <span class="digest-card-tag">Best for food</span>
             <p class="digest-main"><strong>Panjim</strong> dominates · 4.8 avg across the top 30 restaurants</p>
             <p class="digest-sub">Bomras, Gunpowder, Edible Archives top mentions</p>
+            <button class="digest-card-add" data-pick="food" data-label="Food in Panjim">
+              <span class="add-default">+ Add to my trip</span>
+              <span class="add-done">✓ In your trip</span>
+            </button>
+          </div>
+          <div class="digest-card-expand">
+            <div class="digest-card-quotes">
+              <h4>What 1,247 travelers said</h4>
+              <blockquote>"The breakfast at Casa Anjuna had three kinds of fresh dosa daily — the actual reason to stay here." <span>Aisha M., Mumbai</span></blockquote>
+              <blockquote>"Bomras and Gunpowder are worth flying to Goa for. Don't miss the king prawn balchão." <span>Karan S., Delhi</span></blockquote>
+              <blockquote>"Edible Archives 5pm tasting menu was the best meal of our trip." <span>Mira P., Bangalore</span></blockquote>
+            </div>
           </div>
         </article>
-        <article class="digest-card">
+        <article class="digest-card" data-pick="groups">
           <div class="digest-card-img">
-            <img src="https://images.unsplash.com/photo-1545158535-c3f7168c28b6?w=700&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
+            <img src="https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?w=700&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
           </div>
           <div class="digest-card-body">
             <span class="digest-card-tag">Best for groups</span>
             <p class="digest-main"><strong>Anjuna & Vagator</strong> · 47% of group bookings cluster here</p>
             <p class="digest-sub">Open bars, adjoining rooms, walkable strips</p>
+            <button class="digest-card-add" data-pick="groups" data-label="Anjuna for groups">
+              <span class="add-default">+ Add to my trip</span>
+              <span class="add-done">✓ In your trip</span>
+            </button>
+          </div>
+          <div class="digest-card-expand">
+            <div class="digest-card-quotes">
+              <h4>From recent group bookings</h4>
+              <blockquote>"Came as a group of 6 for a birthday — Casa Anjuna handled the adjoining rooms perfectly." <span>Aisha M., Mumbai</span></blockquote>
+              <blockquote>"Sundowner Bar closes at 1am which was perfect for us. Bar staff remembered our orders by night two." <span>Devansh K., Pune</span></blockquote>
+            </div>
           </div>
         </article>
-        <article class="digest-card">
+        <article class="digest-card" data-pick="quiet">
           <div class="digest-card-img">
             <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
           </div>
@@ -4159,16 +4362,38 @@
             <span class="digest-card-tag">Best for quiet</span>
             <p class="digest-main"><strong>South Goa</strong> · Sernabatim, Palolem, Patnem</p>
             <p class="digest-sub">Highest "quiet" mention rate across all reviews</p>
+            <button class="digest-card-add" data-pick="quiet" data-label="South Goa quiet stretches">
+              <span class="add-default">+ Add to my trip</span>
+              <span class="add-done">✓ In your trip</span>
+            </button>
+          </div>
+          <div class="digest-card-expand">
+            <div class="digest-card-quotes">
+              <h4>Voices from South Goa</h4>
+              <blockquote>"Coco Shambala — 30-second walk to the quietest stretch of South Goa. Heard waves, not parties." <span>Mira P., Bangalore</span></blockquote>
+              <blockquote>"Patnem at 6am is the best private beach you'll find without paying for one." <span>Karan S., Delhi</span></blockquote>
+            </div>
           </div>
         </article>
-        <article class="digest-card">
+        <article class="digest-card" data-pick="window">
           <div class="digest-card-img">
-            <img src="https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?w=700&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
+            <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=700&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
           </div>
           <div class="digest-card-body">
             <span class="digest-card-tag">Best window</span>
             <p class="digest-main"><strong>Now → mid-June</strong> · monsoon edge, lowest crowds</p>
             <p class="digest-sub">Rates ~22% below December peak · clear evenings</p>
+            <button class="digest-card-add" data-pick="window" data-label="May-June travel window">
+              <span class="add-default">+ Plan around this window</span>
+              <span class="add-done">✓ Locked in your plan</span>
+            </button>
+          </div>
+          <div class="digest-card-expand">
+            <div class="digest-card-quotes">
+              <h4>What May–June travelers reported</h4>
+              <blockquote>"Got the Casa Anjuna suite for ₹18,500/night — same suite was ₹26k in December." <span>Aisha M., Mumbai</span></blockquote>
+              <blockquote>"Evenings are clear right up until the monsoon proper hits. We had four perfect sunsets in five nights." <span>Devansh K., Pune</span></blockquote>
+            </div>
           </div>
         </article>
       </div>
@@ -4181,7 +4406,8 @@
           <p>Tell us your dates, group size, and budget. We'll surface the stays that fit, hold the dinner reservations, and pencil in the activities.</p>
         </div>
         <button class="city-plan-cta" id="city-plan-btn">
-          Start planning my Goa trip
+          <span class="city-plan-cta-count" id="city-plan-count" hidden></span>
+          <span class="city-plan-cta-label" id="city-plan-label">Start planning my Goa trip</span>
           <span>→</span>
         </button>
       </div>
@@ -4193,40 +4419,56 @@
         <a class="city-row-link">Browse all 89 →</a>
       </div>
       <div class="city-explore-grid">
-        <article class="explore-card">
+        <article class="explore-card" data-pick="cruise" data-label="Sunset cruise">
           <img src="https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=700&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
           <div class="explore-card-overlay"></div>
           <div class="explore-card-body">
             <span class="explore-card-tag">● Popular with groups</span>
             <h4>North Goa sunset cruise</h4>
             <p>From ₹1,200/person · 2,431 reviews</p>
+            <button class="explore-card-add">
+              <span class="add-default">+ Add</span>
+              <span class="add-done">✓ Added</span>
+            </button>
           </div>
         </article>
-        <article class="explore-card">
+        <article class="explore-card" data-pick="heritage" data-label="Old Goa heritage walk">
           <img src="https://images.unsplash.com/photo-1518105779142-d975f22f1b0a?w=700&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
           <div class="explore-card-overlay"></div>
           <div class="explore-card-body">
             <span class="explore-card-tag">● Top-rated local guide</span>
             <h4>Old Goa heritage walk</h4>
             <p>From ₹650/person · 986 reviews</p>
+            <button class="explore-card-add">
+              <span class="add-default">+ Add</span>
+              <span class="add-done">✓ Added</span>
+            </button>
           </div>
         </article>
-        <article class="explore-card">
+        <article class="explore-card" data-pick="thali" data-label="Goan thali tasting">
           <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=700&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
           <div class="explore-card-overlay"></div>
           <div class="explore-card-body">
             <span class="explore-card-tag">● Foodie favorite</span>
             <h4>Goan thali tasting</h4>
             <p>From ₹1,800/person · 512 reviews</p>
+            <button class="explore-card-add">
+              <span class="add-default">+ Add</span>
+              <span class="add-done">✓ Added</span>
+            </button>
           </div>
         </article>
-        <article class="explore-card">
+        <article class="explore-card" data-pick="falls" data-label="Dudhsagar Falls day trip">
           <img src="https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=700&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
           <div class="explore-card-overlay"></div>
           <div class="explore-card-body">
             <span class="explore-card-tag">● Trending this week</span>
             <h4>Dudhsagar Falls day trip</h4>
             <p>From ₹2,200/person · 3,104 reviews</p>
+            <button class="explore-card-add">
+              <span class="add-default">+ Add</span>
+              <span class="add-done">✓ Added</span>
+            </button>
           </div>
         </article>
       </div>
@@ -5138,6 +5380,99 @@
     document.getElementById('city-plan-btn')?.addEventListener('click', () => {
       showView(2);
       renderHotels();
+    });
+
+    /* ============================================================
+       Pre-booking planning loop — clicking a digest card expands
+       it to show traveler quotes; clicking "Add to my trip" adds
+       the pick to the user's plan. The CTA updates with the pick
+       count and the floating assistant reacts with concrete
+       itinerary suggestions as the picks accumulate.
+       ============================================================ */
+
+    const tripPicks = new Map(); // pick id → label
+
+    function notifyAssistant(label) {
+      if (typeof appendAgentMessage !== 'function') return;
+      // Auto-open the assistant if it's collapsed so the response is visible
+      const panel = document.getElementById('assist-panel');
+      const aside = document.getElementById('assist');
+      if (aside && aside.hidden) aside.hidden = false;
+      if (panel && panel.hidden) panel.hidden = false;
+      const count = tripPicks.size;
+      const all = Array.from(tripPicks.values());
+      let msg;
+      if (count === 1) {
+        msg = 'Added <strong>' + label + '</strong> to your plan. Add 1–2 more and I\'ll draft a full itinerary.';
+      } else if (count === 2) {
+        msg = 'Got <strong>' + all.join('</strong> + <strong>') + '</strong>. Suggesting: <strong>Casa Anjuna · 2 nights</strong> · stays near Anjuna · ₹18.5k/night band.';
+      } else if (count >= 3) {
+        msg = 'With <strong>' + count + '</strong> picks (' + all.join(', ') + '), here\'s a draft: <strong>Fri</strong> Gunpowder dinner · <strong>Sat</strong> Mapusa market + Anjuna beach + sunset cruise · <strong>Sun</strong> brunch + Dudhsagar half-day. Hotel: Casa Anjuna. <strong>Tap "Start planning" when ready.</strong>';
+      }
+      if (msg) appendAgentMessage(msg);
+    }
+
+    function updateTripCount() {
+      const count = tripPicks.size;
+      const countEl = document.getElementById('city-plan-count');
+      const labelEl = document.getElementById('city-plan-label');
+      const btn = document.getElementById('city-plan-btn');
+      if (countEl) {
+        countEl.hidden = count === 0;
+        countEl.textContent = count;
+      }
+      if (labelEl) {
+        if (count === 0) {
+          labelEl.textContent = 'Start planning my Goa trip';
+        } else if (count === 1) {
+          labelEl.textContent = 'Plan with this pick';
+        } else {
+          labelEl.textContent = 'Plan my trip · AI drafted ' + count + '-pick itinerary';
+        }
+      }
+      if (btn && count > 0) {
+        btn.classList.add('pulse');
+        setTimeout(() => btn.classList.remove('pulse'), 600);
+      }
+    }
+
+    function togglePick(card, btn) {
+      const id = card.dataset.pick || btn.dataset.pick;
+      const label = btn.dataset.label || card.dataset.label || id;
+      if (tripPicks.has(id)) {
+        tripPicks.delete(id);
+        btn.classList.remove('added');
+      } else {
+        tripPicks.set(id, label);
+        btn.classList.add('added');
+        notifyAssistant(label);
+      }
+      updateTripCount();
+    }
+
+    // Digest cards: click body to expand, click button to add
+    document.querySelectorAll('.digest-card').forEach((card) => {
+      const btn = card.querySelector('.digest-card-add');
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.digest-card-add')) return;
+        card.classList.toggle('expanded');
+      });
+      if (btn) {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          togglePick(card, btn);
+        });
+      }
+    });
+
+    // Explore cards: click button to add (the button is on the image,
+    // doesn't conflict with card-level click handlers).
+    document.querySelectorAll('.explore-card .explore-card-add').forEach((btn) => {
+      const card = btn.closest('.explore-card');
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        togglePick(card, btn);
+      });
     });
 
     renderHotels();
