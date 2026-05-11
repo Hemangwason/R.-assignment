@@ -3972,17 +3972,21 @@
       }, 400);
     }
 
+    // The static [data-query] elements were removed when the
+    // chip-parsing UI got stripped. Keeping a null-safe handler
+    // attachment in case any dynamic ones get added later — but
+    // the chip-parsing pipeline (typeQuery/finishParsing) is no
+    // longer reachable from the rendered UI.
     document.querySelectorAll('[data-query]').forEach((btn) => {
       btn.addEventListener('click', () => {
-        typeQuery(btn.dataset.query);
-        document.querySelector('.search-shell')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        try { typeQuery(btn.dataset.query); } catch (err) {}
       });
     });
 
-    document.getElementById('next-btn').addEventListener('click', () => {
-      showView(2);
-      renderHotels();
-    });
+    // Removed: next-btn handler. The agent-next CTA was stripped
+    // from the HTML when we moved away from the explicit AI
+    // labeling. Leaving a no-op reference here would throw and
+    // halt the rest of the script.
 
     /* ============================================================
        Contextual search suggestions — only appear when user types,
@@ -3992,7 +3996,7 @@
 
     const SUGGESTIONS = {
       goa: {
-        label: 'Top picks inGoa',
+        label: 'Top picks in Goa',
         items: [
           { ico: '🏖', title: 'Anjuna & Vagator beach stays', meta: '47% of group bookings cluster here · walkable strips', query: 'beachfront hotels in Anjuna for a group of 4' },
           { ico: '🍽', title: 'Best Goan food in Panjim', meta: 'Bomras, Gunpowder, Edible Archives — all 4.7+ across 3k reviews', query: 'best Goan food restaurants in Panjim' },
@@ -4001,7 +4005,7 @@
         ]
       },
       kerala: {
-        label: 'Top picks inKerala',
+        label: 'Top picks in Kerala',
         items: [
           { ico: '🚣', title: 'Backwater houseboat stays', meta: 'Alleppey & Kumarakom · 3+ night average · trending', query: '5 nights in Kerala with family, mid-budget, backwaters' },
           { ico: '🍵', title: 'Munnar tea estate retreats', meta: 'Cool weather year-round · top-rated for slow travel', query: 'Munnar tea estate stays' },
@@ -4010,7 +4014,7 @@
         ]
       },
       himachal: {
-        label: 'Top picks inHimachal',
+        label: 'Top picks in Himachal',
         items: [
           { ico: '⛰', title: 'Triund trek — solo friendly', meta: 'Day trek from McLeod Ganj · clear May weather window', query: 'solo trip to Himachal, trekking, ₹15k' },
           { ico: '🏔', title: 'Spiti circuit (open from June)', meta: '7+ nights · high-altitude desert · books out fast', query: 'Spiti valley road trip' },
@@ -4019,7 +4023,7 @@
         ]
       },
       rajasthan: {
-        label: 'Top picks inRajasthan',
+        label: 'Top picks in Rajasthan',
         items: [
           { ico: '🏰', title: 'Udaipur lake palaces', meta: 'Honeymoon-trending · 5 historic palace hotels', query: 'honeymoon couple Rajasthan 7 nights luxury' },
           { ico: '🐪', title: 'Jaisalmer desert camps', meta: 'Sam dunes overnight · ₹6–18k range', query: 'Jaisalmer desert camp stay' },
