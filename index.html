@@ -3183,6 +3183,239 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
+
+    /* ============================================================
+       FLOATING CONTEXTUAL AI ASSISTANT
+       Sits bottom-right on every screen after the homepage.
+       Tracks the current view and shows context-aware suggestions
+       (e.g., "I only have 3 hours before flight — what's near?")
+       ============================================================ */
+
+    .assist {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9000;
+    }
+
+    .assist[hidden] { display: none; }
+
+    .assist-toggle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--ta-text) 0%, #1A2D3C 100%);
+      color: white;
+      border: none;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28),
+                  0 2px 8px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.2s ease;
+    }
+
+    .assist-toggle:hover {
+      transform: translateY(-2px) scale(1.06);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .assist-toggle svg {
+      width: 24px;
+      height: 24px;
+      stroke: white;
+    }
+
+    .assist-toggle::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 12px;
+      height: 12px;
+      background: var(--ta-green);
+      border: 2px solid var(--ta-text);
+      border-radius: 50%;
+      animation: agentPulse 1.8s ease-out infinite;
+    }
+
+    .assist-panel {
+      position: absolute;
+      bottom: 76px;
+      right: 0;
+      width: 380px;
+      max-width: calc(100vw - 48px);
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.28),
+                  0 4px 16px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(14, 31, 45, 0.08);
+      overflow: hidden;
+      transform-origin: bottom right;
+      animation: assistIn 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .assist-panel[hidden] { display: none; }
+
+    @keyframes assistIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.94); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .assist-head {
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--ta-border);
+    }
+
+    .assist-head-info { flex: 1; min-width: 0; }
+
+    .assist-head-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--ta-text);
+      line-height: 1.2;
+    }
+
+    .assist-head-status {
+      font-size: 11.5px;
+      color: var(--ta-text-2);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .assist-close {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--ta-surface);
+      border: none;
+      color: var(--ta-text-2);
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .assist-close:hover { background: var(--ta-surface-3); }
+
+    .assist-body {
+      padding: 18px 16px 14px;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+
+    .assist-intro {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ta-text);
+      margin-bottom: 10px;
+      line-height: 1.35;
+    }
+
+    .assist-context-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 11px;
+      background: var(--agent-bg);
+      border: 1px solid var(--agent-border);
+      border-radius: var(--r-pill);
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--agent-text);
+      margin-bottom: 14px;
+    }
+
+    .assist-context-pill .agent-dot { width: 6px; height: 6px; }
+
+    .assist-sugs {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .assist-sug {
+      padding: 12px 14px;
+      background: var(--agent-bg-2);
+      border: 1px solid var(--agent-border);
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--agent-text);
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.18s ease, border-color 0.18s ease,
+                  transform 0.12s ease;
+      font-family: var(--font);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      line-height: 1.4;
+    }
+
+    .assist-sug:hover {
+      background: var(--agent-bg);
+      border-color: var(--agent);
+      transform: translateX(2px);
+    }
+
+    .assist-sug-arrow {
+      color: var(--agent);
+      flex-shrink: 0;
+      margin-left: auto;
+      font-size: 14px;
+    }
+
+    .assist-input {
+      display: flex;
+      gap: 6px;
+      padding: 12px;
+      border-top: 1px solid var(--ta-border);
+      background: var(--ta-surface);
+    }
+
+    .assist-input input {
+      flex: 1;
+      padding: 11px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--ta-border-2);
+      font-size: 13.5px;
+      font-family: var(--font);
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .assist-input input:focus { border-color: var(--agent); }
+
+    .assist-send {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--ta-text);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.15s ease;
+    }
+
+    .assist-send:hover { background: #1A2D3C; }
+
+    /* Keep the assistant out of the city-mode immersion so it doesn't
+       break the full-bleed Goa hero moment. It reappears in the
+       subsequent views (results, hotel detail, booking). */
+    body.city-mode .assist { display: none; }
   </style>
 </head>
 <body>
@@ -3893,7 +4126,7 @@
       </div>
       <div class="city-explore-grid">
         <article class="explore-card">
-          <img src="https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?w=500&q=80&auto=format&fit=crop" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=700&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
           <div class="explore-card-overlay"></div>
           <div class="explore-card-body">
             <span class="explore-card-tag">● Popular with groups</span>
@@ -3902,7 +4135,7 @@
           </div>
         </article>
         <article class="explore-card">
-          <img src="https://images.unsplash.com/photo-1612277795421-9bc7706a4a34?w=500&q=80&auto=format&fit=crop" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1518105779142-d975f22f1b0a?w=700&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
           <div class="explore-card-overlay"></div>
           <div class="explore-card-body">
             <span class="explore-card-tag">● Top-rated local guide</span>
@@ -3911,7 +4144,7 @@
           </div>
         </article>
         <article class="explore-card">
-          <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=500&q=80&auto=format&fit=crop" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=700&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
           <div class="explore-card-overlay"></div>
           <div class="explore-card-body">
             <span class="explore-card-tag">● Foodie favorite</span>
@@ -3920,7 +4153,7 @@
           </div>
         </article>
         <article class="explore-card">
-          <img src="https://images.unsplash.com/photo-1502136969935-8d8eef54d77b?w=500&q=80&auto=format&fit=crop" alt="" loading="lazy"/>
+          <img src="https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=700&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
           <div class="explore-card-overlay"></div>
           <div class="explore-card-body">
             <span class="explore-card-tag">● Trending this week</span>
@@ -3931,6 +4164,43 @@
       </div>
     </section>
   </main>
+
+  <!-- ============================================================
+       FLOATING CONTEXTUAL AI ASSISTANT
+       Visible on every view except homepage + city portal.
+       Tracks current view + offers context-aware suggestions.
+       ============================================================ -->
+  <aside class="assist" id="assist" hidden>
+    <button class="assist-toggle" id="assist-toggle" aria-label="Open travel assistant">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+      </svg>
+    </button>
+    <div class="assist-panel" id="assist-panel" hidden>
+      <div class="assist-head">
+        <div class="assist-head-info">
+          <div class="assist-head-title">Travel assistant</div>
+          <div class="assist-head-status">
+            <span class="agent-dot pulsing"></span>
+            <span id="assist-status-text">Tracking your trip</span>
+          </div>
+        </div>
+        <button class="assist-close" id="assist-close" aria-label="Close">✕</button>
+      </div>
+      <div class="assist-body">
+        <p class="assist-intro" id="assist-intro">Hey — what's the plan?</p>
+        <div class="assist-context-pill" id="assist-context-pill">
+          <span class="agent-dot"></span>
+          <span id="assist-context-text">Watching your search</span>
+        </div>
+        <div class="assist-sugs" id="assist-sugs"></div>
+      </div>
+      <div class="assist-input">
+        <input type="text" id="assist-input-field" placeholder="Ask me anything…" autocomplete="off"/>
+        <button class="assist-send" id="assist-send" aria-label="Send">→</button>
+      </div>
+    </div>
+  </aside>
 
   <script>
     /* ============================================================
@@ -3951,7 +4221,119 @@
         }
         window.scrollTo({ top: 0, behavior: 'instant' });
       }
+      updateAssist(n);
     }
+
+    /* ============================================================
+       Floating contextual AI assistant — tracks the current view
+       and surfaces context-aware actions. The "3 hours before
+       flight" example lives here.
+       ============================================================ */
+
+    const ASSIST_CONTEXTS = {
+      '1': null, // hidden on homepage — search is the entry point
+      '2': {
+        status: 'Looking at 24 Goa hotels',
+        intro: 'I can narrow these down. Want me to?',
+        context: 'Search results · Goa · 4 guests · 2 rooms',
+        suggestions: [
+          'Only show stays with free cancellation',
+          'Drop hotels above ₹20k/person',
+          'Best for groups of 4 only',
+          'Walking distance to a beach'
+        ]
+      },
+      '3': {
+        status: 'Casa Anjuna Beach Resort',
+        intro: 'Anything else I can help with for this stay?',
+        context: 'On Casa Anjuna · Anjuna Beach · ₹18,500/night',
+        suggestions: [
+          'Top restaurants within walking distance',
+          'Build a 2-night itinerary around this hotel',
+          'I have 3 hours before flight — what\'s nearby?',
+          'Quietest room with the best view'
+        ]
+      },
+      '4': {
+        status: 'Booked · 22–24 May · Casa Anjuna',
+        intro: 'You\'re set. Want me to plan the gaps?',
+        context: 'Confirmation TA-AJ7B2L9 · 2 nights · group of 4',
+        suggestions: [
+          'Best dinner near Casa Anjuna · Saturday 8pm',
+          'Activities for Saturday morning',
+          'Last-minute Sunday brunch spots',
+          'Airport transfer back to GOI'
+        ]
+      },
+      'city': {
+        status: 'Exploring Goa',
+        intro: 'Tell me what kind of Goa trip — I\'ll plan it.',
+        context: 'Goa · 1.2M reviews · 178 hotels',
+        suggestions: [
+          'Plan a 2-night weekend with friends',
+          'Best stretch for foodies',
+          'Quiet stays in South Goa',
+          '5-night trip with kids'
+        ]
+      }
+    };
+
+    const assistEl = document.getElementById('assist');
+    const assistToggle = document.getElementById('assist-toggle');
+    const assistPanel = document.getElementById('assist-panel');
+    const assistClose = document.getElementById('assist-close');
+    const assistIntro = document.getElementById('assist-intro');
+    const assistStatus = document.getElementById('assist-status-text');
+    const assistContext = document.getElementById('assist-context-text');
+    const assistSugs = document.getElementById('assist-sugs');
+
+    function updateAssist(viewName) {
+      const ctx = ASSIST_CONTEXTS[String(viewName)];
+      if (!ctx) {
+        if (assistEl) assistEl.hidden = true;
+        return;
+      }
+      if (assistEl) assistEl.hidden = false;
+      if (assistStatus) assistStatus.textContent = ctx.status;
+      if (assistIntro) assistIntro.textContent = ctx.intro;
+      if (assistContext) assistContext.textContent = ctx.context;
+      if (assistSugs) {
+        assistSugs.innerHTML = ctx.suggestions.map((s) => (
+          '<button class="assist-sug">' +
+            '<span>' + s + '</span>' +
+            '<span class="assist-sug-arrow">→</span>' +
+          '</button>'
+        )).join('');
+        assistSugs.querySelectorAll('.assist-sug').forEach((b) => {
+          b.addEventListener('click', () => {
+            // Visual confirmation — in a real product this would route
+            // to a filtered view or a chat response.
+            b.style.background = 'var(--pos-bg)';
+            b.style.borderColor = 'var(--pos)';
+            b.style.color = 'var(--pos)';
+            const arrow = b.querySelector('.assist-sug-arrow');
+            if (arrow) { arrow.textContent = '✓'; arrow.style.color = 'var(--pos)'; }
+          });
+        });
+      }
+    }
+
+    if (assistToggle && assistPanel) {
+      assistToggle.addEventListener('click', () => {
+        assistPanel.hidden = !assistPanel.hidden;
+      });
+    }
+    if (assistClose && assistPanel) {
+      assistClose.addEventListener('click', () => {
+        assistPanel.hidden = true;
+      });
+    }
+    // Close panel when clicking outside the whole assist widget
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.assist') && assistPanel && !assistPanel.hidden) {
+        assistPanel.hidden = true;
+      }
+    });
 
     document.addEventListener('click', (e) => {
       const trigger = e.target.closest('[data-view]');
