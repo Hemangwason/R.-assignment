@@ -7,7 +7,7 @@
   <title>Tripadvisor · plan a weekend in Goa</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     /* ============================================================
        FORCE LIGHT MODE — beat system dark-mode overrides
@@ -61,9 +61,12 @@
       --r-pill: 9999px;
 
       /* Type */
-      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-        'Helvetica Neue', Arial, sans-serif;
-      --font-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+      /* Single sans-serif stack — no serifs anywhere on the site.
+         Inter as primary (close to Tripadvisor's Trip Sans in feel),
+         Helvetica Neue + system as fallback. */
+      --font: 'Inter', 'Helvetica Neue', Helvetica, -apple-system, BlinkMacSystemFont,
+        'Segoe UI', Roboto, Arial, sans-serif;
+      --font-serif: var(--font);
 
       /* Agent overlay */
       --agent: #2D5BFF;
@@ -252,15 +255,17 @@
        HERO + ATMOSPHERIC BACKGROUND
        ============================================================ */
 
+    /* Hero is a full-bleed cinematic video. Travel-feel first frame,
+       text overlaid in white over a soft gradient veil. */
     .hero {
       position: relative;
       overflow: hidden;
-      padding: 88px 24px 80px;
-      background:
-        radial-gradient(ellipse 60% 80% at 0% 0%, var(--pastel-mint) 0%, transparent 50%),
-        radial-gradient(ellipse 50% 70% at 100% 0%, var(--pastel-peach) 0%, transparent 50%),
-        radial-gradient(ellipse 80% 60% at 50% 100%, var(--pastel-blush) 0%, transparent 50%),
-        linear-gradient(180deg, var(--ta-cream) 0%, var(--ta-bg) 100%);
+      padding: 96px 24px 80px;
+      background: #0E1F2D;
+      min-height: 760px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .hero-bg {
@@ -271,22 +276,28 @@
       overflow: hidden;
     }
 
-    .blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.55;
-      animation: blobFloat 22s ease-in-out infinite;
+    .hero-bg-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.82) saturate(1.05);
+      animation: heroKenBurns 32s ease-in-out infinite alternate;
+      display: block;
     }
 
-    .blob-1 { width: 540px; height: 540px; background: var(--pastel-mint); top: -180px; left: -120px; }
-    .blob-2 { width: 480px; height: 480px; background: var(--pastel-peach); top: -100px; right: -100px; animation-delay: -7s; }
-    .blob-3 { width: 420px; height: 420px; background: var(--pastel-sky); bottom: -200px; left: 40%; animation-delay: -14s; }
+    @keyframes heroKenBurns {
+      from { transform: scale(1.02) translate(0, 0); }
+      to { transform: scale(1.12) translate(-1%, -1.5%); }
+    }
 
-    @keyframes blobFloat {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(40px, 30px) scale(1.05); }
-      66% { transform: translate(-30px, 50px) scale(0.95); }
+    .hero-bg-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg,
+          rgba(14, 31, 45, 0.5) 0%,
+          rgba(14, 31, 45, 0.12) 30%,
+          rgba(14, 31, 45, 0.55) 100%);
     }
 
     .hero-content {
@@ -315,33 +326,37 @@
     }
 
     .hero-title {
-      font-size: clamp(64px, 10vw, 120px);
-      line-height: 0.92;
+      font-size: clamp(64px, 10vw, 132px);
+      line-height: 0.9;
       letter-spacing: -0.045em;
       font-weight: 900;
       margin-bottom: 20px;
-      color: var(--ta-text);
+      color: #ffffff;
+      text-shadow: 0 4px 36px rgba(0, 0, 0, 0.35);
     }
 
+    /* Green accent character — same sans bold as the rest, just
+       coloured. No more serif italic anywhere. */
     .hero-title .serif {
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-weight: 400;
-      letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #00AA6C, #34E0A1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-family: inherit;
+      font-style: normal;
+      font-weight: 900;
+      letter-spacing: -0.045em;
+      color: var(--ta-green);
+      -webkit-text-fill-color: var(--ta-green);
+      background: none;
     }
 
     .hero-sub {
       font-size: 19px;
-      color: var(--ta-text-2);
+      color: rgba(255, 255, 255, 0.92);
       margin-bottom: 40px;
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
       line-height: 1.5;
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+      font-weight: 500;
     }
 
     /* ============================================================
@@ -353,17 +368,18 @@
       margin: 0 auto;
     }
 
+    /* Glass-effect tabs that sit on top of the cinematic hero video */
     .search-tabs {
       display: inline-flex;
       gap: 2px;
       margin-bottom: 16px;
       padding: 5px;
       border-radius: var(--r-pill);
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      box-shadow: var(--sh-xs);
-      border: 1px solid rgba(14, 31, 45, 0.05);
+      background: rgba(255, 255, 255, 0.14);
+      backdrop-filter: saturate(180%) blur(24px);
+      -webkit-backdrop-filter: saturate(180%) blur(24px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.22);
     }
 
     .search-tab {
@@ -371,7 +387,7 @@
       font-size: 14px;
       font-weight: 700;
       border-radius: var(--r-pill);
-      color: var(--ta-text);
+      color: #ffffff;
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -379,16 +395,16 @@
       font-family: var(--font);
     }
 
-    .scope-ico { font-size: 13px; color: var(--ta-text-2); }
+    .scope-ico { font-size: 13px; color: rgba(255, 255, 255, 0.7); }
 
-    .search-tab:hover { background: var(--ta-surface-2); }
+    .search-tab:hover { background: rgba(255, 255, 255, 0.16); }
 
     .search-tab.active {
-      background: var(--ta-text);
-      color: var(--ta-text-inv);
+      background: #ffffff;
+      color: var(--ta-text);
     }
 
-    .search-tab.active .scope-ico { color: var(--ta-green); }
+    .search-tab.active .scope-ico { color: var(--ta-green-dark); }
 
     .search-bar {
       background: var(--ta-bg);
@@ -735,12 +751,13 @@
       align-items: center;
       gap: 14px;
       font-size: 13px;
-      color: var(--ta-text-2);
+      color: rgba(255, 255, 255, 0.85);
       font-weight: 500;
       flex-wrap: wrap;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
     }
 
-    .trust-sep { color: var(--ta-text-3); }
+    .trust-sep { color: rgba(255, 255, 255, 0.5); }
 
     /* ============================================================
        BELOW-FOLD ROWS
@@ -3081,6 +3098,81 @@
       opacity: 0;
     }
 
+    /* ============================================================
+       SINGLE SANS POLICY — no italic, no serif accents.
+       This block runs after all other rules so it wins by source
+       order at equal specificity. Where italic was used for soft
+       emphasis, we now lean on weight + color instead.
+       ============================================================ */
+    .hero-title .serif,
+    .row-head .year,
+    .city-title-pre,
+    .city-digest-head h2 em,
+    .city-plan h2 em,
+    .city-row-head h2 em,
+    .ambient-head h2 em,
+    .suggested-prompt em,
+    .hotel-card-adapted-text em,
+    .match-cite,
+    .match-list li em,
+    .synthesis-label,
+    .proto-flag,
+    .floated-flag,
+    .ambient-card .reason,
+    em, i {
+      font-style: normal;
+      font-family: inherit;
+    }
+
+    /* ============================================================
+       DIGEST CARDS — photo-led panels (replaces emoji-only treatment)
+       ============================================================ */
+    .digest-card {
+      padding: 0;
+      background: #ffffff;
+      border-radius: var(--r-lg);
+      border: 1px solid rgba(42, 24, 16, 0.08);
+      overflow: hidden;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .digest-card-img {
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: linear-gradient(135deg, #FFE4B0, #FF9A6C);
+      position: relative;
+    }
+
+    .digest-card-img img,
+    .digest-card-img video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      display: block;
+    }
+
+    .digest-card:hover .digest-card-img img,
+    .digest-card:hover .digest-card-img video {
+      transform: scale(1.06);
+    }
+
+    .digest-card-body {
+      padding: 20px 22px 22px;
+    }
+
+    .digest-card-tag {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 10px;
+    }
+
     /* Cleaner city view enter — overlay does the heavy lift,
        this just fades the content in underneath. */
     .view-city.active {
@@ -3126,9 +3218,10 @@
   <main class="view active" id="view-1">
     <section class="hero">
       <div class="hero-bg" aria-hidden="true">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
+        <video class="hero-bg-video" autoplay muted loop playsinline preload="auto"
+               poster="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1800&q=85&auto=format&fit=crop"
+               src="https://videos.pexels.com/video-files/856083/856083-hd_1920_1080_25fps.mp4"></video>
+        <div class="hero-bg-overlay"></div>
       </div>
       <div class="hero-content">
         <h1 class="hero-title">Where to<span class="serif">?</span></h1>
@@ -3738,28 +3831,44 @@
       </div>
       <div class="digest-grid">
         <article class="digest-card">
-          <span class="digest-emoji">🍽</span>
-          <h3>Best for food</h3>
-          <p class="digest-main"><strong>Panjim</strong> dominates · 4.8 avg across the top 30 restaurants</p>
-          <p class="digest-sub">Bomras, Gunpowder, Edible Archives top mentions</p>
+          <div class="digest-card-img">
+            <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=700&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
+          </div>
+          <div class="digest-card-body">
+            <span class="digest-card-tag">Best for food</span>
+            <p class="digest-main"><strong>Panjim</strong> dominates · 4.8 avg across the top 30 restaurants</p>
+            <p class="digest-sub">Bomras, Gunpowder, Edible Archives top mentions</p>
+          </div>
         </article>
         <article class="digest-card">
-          <span class="digest-emoji">👥</span>
-          <h3>Best for groups</h3>
-          <p class="digest-main"><strong>Anjuna & Vagator</strong> · 47% of group bookings cluster here</p>
-          <p class="digest-sub">Open bars, adjoining rooms, walkable strips</p>
+          <div class="digest-card-img">
+            <img src="https://images.unsplash.com/photo-1545158535-c3f7168c28b6?w=700&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
+          </div>
+          <div class="digest-card-body">
+            <span class="digest-card-tag">Best for groups</span>
+            <p class="digest-main"><strong>Anjuna & Vagator</strong> · 47% of group bookings cluster here</p>
+            <p class="digest-sub">Open bars, adjoining rooms, walkable strips</p>
+          </div>
         </article>
         <article class="digest-card">
-          <span class="digest-emoji">🌿</span>
-          <h3>Best for quiet</h3>
-          <p class="digest-main"><strong>South Goa</strong> · Sernabatim, Palolem, Patnem</p>
-          <p class="digest-sub">Highest "quiet" mention rate across all reviews</p>
+          <div class="digest-card-img">
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
+          </div>
+          <div class="digest-card-body">
+            <span class="digest-card-tag">Best for quiet</span>
+            <p class="digest-main"><strong>South Goa</strong> · Sernabatim, Palolem, Patnem</p>
+            <p class="digest-sub">Highest "quiet" mention rate across all reviews</p>
+          </div>
         </article>
         <article class="digest-card">
-          <span class="digest-emoji">📅</span>
-          <h3>Best window</h3>
-          <p class="digest-main"><strong>Now → mid-June</strong> · monsoon edge, lowest crowds</p>
-          <p class="digest-sub">Rates ~22% below December peak · clear evenings</p>
+          <div class="digest-card-img">
+            <img src="https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?w=700&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
+          </div>
+          <div class="digest-card-body">
+            <span class="digest-card-tag">Best window</span>
+            <p class="digest-main"><strong>Now → mid-June</strong> · monsoon edge, lowest crowds</p>
+            <p class="digest-sub">Rates ~22% below December peak · clear evenings</p>
+          </div>
         </article>
       </div>
     </section>
