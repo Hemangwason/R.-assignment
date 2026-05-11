@@ -1,0 +1,4397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <title>Tripadvisor · plan a weekend in Goa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       FORCE LIGHT MODE — beat system dark-mode overrides
+       ============================================================ */
+    :root {
+      color-scheme: light only;
+
+      /* Brand */
+      --ta-green: #34E0A1;
+      --ta-green-hover: #2BC288;
+      --ta-green-dark: #00AA6C;
+      --ta-green-soft: #E6FAEF;
+      --ta-red: #FA6064;
+
+      /* Text */
+      --ta-text: #0E1F2D;
+      --ta-text-2: #54616B;
+      --ta-text-3: #8A929B;
+      --ta-text-inv: #FFFFFF;
+
+      /* Surfaces */
+      --ta-bg: #FFFFFF;
+      --ta-cream: #FFFCF7;
+      --ta-surface: #F7F8F9;
+      --ta-surface-2: #F1F3F5;
+      --ta-surface-3: #E9ECEF;
+
+      /* Atmospheric pastels */
+      --pastel-mint: #D8F3E1;
+      --pastel-peach: #FFE8D1;
+      --pastel-blush: #FFE1E6;
+      --pastel-sky: #DCEEF7;
+      --pastel-cream: #FFF6E7;
+
+      /* Borders */
+      --ta-border: #EBEDF0;
+      --ta-border-2: #D8DCE0;
+
+      /* Shadows */
+      --sh-xs: 0 1px 2px rgba(14, 31, 45, 0.04);
+      --sh-sm: 0 2px 6px rgba(14, 31, 45, 0.05);
+      --sh-md: 0 6px 20px rgba(14, 31, 45, 0.08);
+      --sh-lg: 0 18px 48px rgba(14, 31, 45, 0.12);
+      --sh-xl: 0 28px 64px rgba(14, 31, 45, 0.18);
+
+      /* Radii */
+      --r-sm: 8px;
+      --r: 14px;
+      --r-lg: 20px;
+      --r-xl: 28px;
+      --r-pill: 9999px;
+
+      /* Type */
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+        'Helvetica Neue', Arial, sans-serif;
+      --font-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+
+      /* Agent overlay */
+      --agent: #2D5BFF;
+      --agent-hover: #1E47E5;
+      --agent-bg: #EEF2FF;
+      --agent-bg-2: #F5F8FF;
+      --agent-border: #C7D3FE;
+      --agent-text: #1E3FB8;
+
+      --pos: #0F6E3D;
+      --pos-bg: #E7F6EE;
+      --neutral: #8B5E13;
+      --neutral-bg: #FBF3E2;
+      --neg: #9B1C1C;
+      --neg-bg: #FBEAEA;
+    }
+
+    /* Override system dark-mode at every level */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        color-scheme: light !important;
+      }
+      html, body {
+        background: #FFFFFF !important;
+        color: #0E1F2D !important;
+      }
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: #FFFFFF;
+      color: #0E1F2D;
+    }
+
+    html, body {
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--ta-text);
+      background: var(--ta-bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    button {
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+      border: 0;
+      background: transparent;
+      color: inherit;
+    }
+
+    input, select {
+      font-family: inherit;
+      font-size: inherit;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    mark {
+      background: linear-gradient(180deg, transparent 60%, #FFF3B8 60%);
+      padding: 0 2px;
+      color: var(--ta-text);
+      font-weight: 600;
+    }
+
+    /* ============================================================
+       HEADER
+       ============================================================ */
+
+    .ta-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: saturate(180%) blur(14px);
+      -webkit-backdrop-filter: saturate(180%) blur(14px);
+      border-bottom: 1px solid var(--ta-border);
+    }
+
+    .ta-header-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .ta-logo {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 800;
+      color: var(--ta-text);
+      flex-shrink: 0;
+    }
+
+    .ta-logo svg { display: block; }
+
+    .ta-logo-text {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.015em;
+      color: var(--ta-text);
+    }
+
+    .ta-nav {
+      display: flex;
+      gap: 2px;
+      flex: 1;
+      margin-left: 8px;
+    }
+
+    .ta-nav-link {
+      padding: 10px 16px;
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--ta-text);
+      border-radius: var(--r-pill);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.18s ease;
+    }
+
+    .ta-nav-ico { color: var(--ta-text-2); font-size: 12px; }
+
+    .ta-nav-link:hover,
+    .ta-nav-link.active { background: var(--ta-surface-2); }
+
+    .ta-header-right {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .ta-currency,
+    .ta-signin {
+      padding: 9px 16px;
+      font-size: 13.5px;
+      font-weight: 700;
+      border-radius: var(--r-pill);
+      color: var(--ta-text);
+      transition: background 0.18s ease;
+    }
+
+    .ta-currency:hover { background: var(--ta-surface-2); }
+
+    .ta-signin { border: 1.5px solid var(--ta-text); }
+    .ta-signin:hover { background: var(--ta-text); color: var(--ta-text-inv); }
+
+    /* ============================================================
+       VIEW SWITCHER
+       ============================================================ */
+
+    .view { display: none; }
+    .view.active {
+      display: block;
+      animation: viewIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes viewIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================================
+       HERO + ATMOSPHERIC BACKGROUND
+       ============================================================ */
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 88px 24px 80px;
+      background:
+        radial-gradient(ellipse 60% 80% at 0% 0%, var(--pastel-mint) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 70% at 100% 0%, var(--pastel-peach) 0%, transparent 50%),
+        radial-gradient(ellipse 80% 60% at 50% 100%, var(--pastel-blush) 0%, transparent 50%),
+        linear-gradient(180deg, var(--ta-cream) 0%, var(--ta-bg) 100%);
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.55;
+      animation: blobFloat 22s ease-in-out infinite;
+    }
+
+    .blob-1 { width: 540px; height: 540px; background: var(--pastel-mint); top: -180px; left: -120px; }
+    .blob-2 { width: 480px; height: 480px; background: var(--pastel-peach); top: -100px; right: -100px; animation-delay: -7s; }
+    .blob-3 { width: 420px; height: 420px; background: var(--pastel-sky); bottom: -200px; left: 40%; animation-delay: -14s; }
+
+    @keyframes blobFloat {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(40px, 30px) scale(1.05); }
+      66% { transform: translate(-30px, 50px) scale(0.95); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px;
+      border-radius: var(--r-pill);
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(14, 31, 45, 0.08);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ta-text);
+      margin-bottom: 28px;
+      box-shadow: var(--sh-xs);
+    }
+
+    .hero-title {
+      font-size: clamp(64px, 10vw, 120px);
+      line-height: 0.92;
+      letter-spacing: -0.045em;
+      font-weight: 900;
+      margin-bottom: 20px;
+      color: var(--ta-text);
+    }
+
+    .hero-title .serif {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #00AA6C, #34E0A1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 19px;
+      color: var(--ta-text-2);
+      margin-bottom: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+       SEARCH SHELL
+       ============================================================ */
+
+    .search-shell {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    .search-tabs {
+      display: inline-flex;
+      gap: 2px;
+      margin-bottom: 16px;
+      padding: 5px;
+      border-radius: var(--r-pill);
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: var(--sh-xs);
+      border: 1px solid rgba(14, 31, 45, 0.05);
+    }
+
+    .search-tab {
+      padding: 9px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: var(--r-pill);
+      color: var(--ta-text);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.18s ease, color 0.18s ease;
+      font-family: var(--font);
+    }
+
+    .scope-ico { font-size: 13px; color: var(--ta-text-2); }
+
+    .search-tab:hover { background: var(--ta-surface-2); }
+
+    .search-tab.active {
+      background: var(--ta-text);
+      color: var(--ta-text-inv);
+    }
+
+    .search-tab.active .scope-ico { color: var(--ta-green); }
+
+    .search-bar {
+      background: var(--ta-bg);
+      border-radius: 34px;
+      box-shadow: var(--sh-md);
+      overflow: hidden;
+      transition: box-shadow 0.25s ease, transform 0.2s ease;
+      border: 1px solid rgba(14, 31, 45, 0.06);
+    }
+
+    .search-bar:focus-within {
+      box-shadow: var(--sh-lg);
+      transform: translateY(-1px);
+    }
+
+    .search-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 6px 6px 6px 24px;
+    }
+
+    .search-icon { color: var(--ta-text-2); flex-shrink: 0; }
+
+    #search-input {
+      flex: 1;
+      height: 64px;
+      border: 0;
+      outline: 0;
+      font-size: 17px;
+      background: transparent;
+      color: var(--ta-text);
+      font-weight: 500;
+      font-family: var(--font);
+    }
+
+    #search-input::placeholder {
+      color: var(--ta-text-3);
+      font-weight: 500;
+    }
+
+    .search-btn {
+      height: 52px;
+      padding: 0 36px;
+      background: var(--ta-text);
+      color: var(--ta-text-inv);
+      font-weight: 800;
+      font-size: 15px;
+      border-radius: var(--r-pill);
+      transition: background 0.18s ease, transform 0.1s ease;
+      letter-spacing: 0.01em;
+      font-family: var(--font);
+    }
+
+    .search-btn:hover { background: #1A2D3C; }
+    .search-btn:active { transform: scale(0.97); }
+
+    /* ============================================================
+       AGENT DOT (the shared primitive)
+       ============================================================ */
+
+    .agent-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--agent);
+      flex-shrink: 0;
+      vertical-align: baseline;
+      position: relative;
+    }
+
+    .agent-dot.pulsing::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 50%;
+      background: var(--agent);
+      opacity: 0.4;
+      animation: agentPulse 1.8s ease-out infinite;
+    }
+
+    @keyframes agentPulse {
+      0% { transform: scale(0.9); opacity: 0.4; }
+      100% { transform: scale(2.6); opacity: 0; }
+    }
+
+    /* ============================================================
+       INTENT CHIPS
+       ============================================================ */
+
+    .intent-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      padding: 0 20px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                  padding 0.3s ease;
+    }
+
+    .intent-chips.populated {
+      max-height: 220px;
+      padding: 16px 20px 8px;
+      border-bottom: 1px solid var(--agent-border);
+    }
+
+    .intent-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 13px;
+      background: var(--agent-bg);
+      border: 1.5px solid var(--agent-border);
+      border-radius: var(--r-pill);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--agent-text);
+      cursor: pointer;
+      transition: background 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+      animation: chipIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+      font-family: var(--font);
+    }
+
+    .intent-chip:hover {
+      background: #E1E8FF;
+      border-color: var(--agent);
+      transform: translateY(-1px);
+    }
+
+    .intent-chip-ico { font-size: 13px; line-height: 1; }
+    .intent-chip-edit { margin-left: 2px; opacity: 0.5; font-size: 10px; transition: opacity 0.18s ease; }
+    .intent-chip:hover .intent-chip-edit { opacity: 1; }
+
+    .intent-chip.uncertain {
+      background: var(--neutral-bg);
+      border-color: #EBC683;
+      color: var(--neutral);
+      animation:
+        chipIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) backwards,
+        chipWobble 2.4s ease-in-out infinite 0.5s;
+    }
+
+    @keyframes chipIn {
+      from { opacity: 0; transform: translateY(-8px) scale(0.88); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes chipWobble {
+      0%, 88%, 100% { transform: rotate(0); }
+      92% { transform: rotate(-2deg); }
+      96% { transform: rotate(2deg); }
+    }
+
+    /* ============================================================
+       SUGGESTED PROMPT + QUICK BRIEFS
+       ============================================================ */
+
+    .prompt-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .prompt-label {
+      font-size: 13.5px;
+      color: var(--ta-text-2);
+      font-weight: 600;
+    }
+
+    .suggested-prompt {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1.5px dashed var(--agent-border);
+      border-radius: var(--r-pill);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--agent-text);
+      cursor: pointer;
+      transition: background 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+      font-family: var(--font);
+    }
+
+    .suggested-prompt em { font-style: italic; font-weight: 600; }
+
+    .suggested-prompt:hover {
+      background: var(--agent-bg);
+      border-style: solid;
+      border-color: var(--agent);
+      transform: translateY(-1px);
+    }
+
+    .prompt-spark { font-style: normal; color: var(--agent); font-size: 14px; font-weight: 700; }
+
+    .quick-briefs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .quick-pill {
+      padding: 7px 14px;
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(14, 31, 45, 0.08);
+      border-radius: var(--r-pill);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ta-text);
+      cursor: pointer;
+      transition: background 0.18s ease, transform 0.12s ease, border-color 0.18s ease, color 0.18s ease;
+      font-family: var(--font);
+    }
+
+    .quick-pill:hover {
+      background: rgba(255, 255, 255, 0.95);
+      border-color: var(--agent);
+      color: var(--agent-text);
+      transform: translateY(-1px);
+    }
+
+    /* ============================================================
+       AGENT PROGRESS + NEXT
+       ============================================================ */
+
+    .agent-progress {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 24px;
+      font-size: 14px;
+      color: var(--agent-text);
+      font-weight: 700;
+      animation: progressIn 0.3s ease;
+    }
+
+    @keyframes progressIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .progress-text {
+      position: relative;
+      padding-right: 22px;
+    }
+
+    .progress-text::after {
+      content: '';
+      position: absolute;
+      right: 2px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--agent);
+      box-shadow: 8px 0 0 var(--agent), 16px 0 0 var(--agent);
+      animation: dots 1.4s ease-in-out infinite;
+    }
+
+    @keyframes dots {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    .agent-next {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      animation: nextIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes nextIn {
+      from { opacity: 0; transform: translateY(10px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .agent-summary {
+      font-size: 15px;
+      color: var(--ta-text-2);
+      text-align: center;
+      max-width: 600px;
+      line-height: 1.55;
+    }
+
+    .agent-summary strong { color: var(--ta-text); font-weight: 700; }
+
+    .next-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 32px;
+      background: var(--ta-text);
+      color: var(--ta-text-inv);
+      border-radius: var(--r-pill);
+      font-weight: 800;
+      font-size: 16px;
+      transition: background 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease;
+      box-shadow: var(--sh-md);
+      font-family: var(--font);
+    }
+
+    .next-btn:hover {
+      background: #1A2D3C;
+      transform: translateY(-2px);
+      box-shadow: var(--sh-lg);
+    }
+
+    .next-arrow { transition: transform 0.2s ease; font-size: 18px; }
+    .next-btn:hover .next-arrow { transform: translateX(4px); }
+
+    .agent-foot {
+      font-size: 12.5px;
+      color: var(--ta-text-2);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-style: italic;
+    }
+
+    /* ============================================================
+       TRUST ROW
+       ============================================================ */
+
+    .trust-row {
+      margin-top: 64px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      font-size: 13px;
+      color: var(--ta-text-2);
+      font-weight: 500;
+      flex-wrap: wrap;
+    }
+
+    .trust-sep { color: var(--ta-text-3); }
+
+    /* ============================================================
+       BELOW-FOLD ROWS
+       ============================================================ */
+
+    .below-fold {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 28px 28px 72px;
+    }
+
+    .row { margin-top: 72px; }
+
+    .row-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      gap: 16px;
+    }
+
+    .row-head h2 {
+      font-size: clamp(26px, 3vw, 34px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .row-head .year {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--ta-green-dark);
+    }
+
+    .row-link {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ta-text);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color 0.18s ease;
+    }
+
+    .row-link:hover { color: var(--ta-green-dark); }
+
+    .card-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 1024px) {
+      .card-strip { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* Destination card — editorial cover style.
+       Image fills the entire card. Text overlays at the bottom
+       on a soft gradient veil. Click triggers the cinematic
+       card-open transition (see body.opening-card below). */
+    .dest-card {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: var(--sh-sm);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.4s ease;
+    }
+
+    .dest-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--sh-xl);
+    }
+
+    .dest-img {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      border-radius: var(--r-lg);
+    }
+
+    .dest-card[data-tint='goa'] .dest-img { background: linear-gradient(135deg, #FFE4B0 0%, #FF9A6C 50%, #B85C5C 100%); }
+    .dest-card[data-tint='kerala'] .dest-img { background: linear-gradient(135deg, #A8E6CF 0%, #4DBA8F 50%, #1A6B4A 100%); }
+    .dest-card[data-tint='rajasthan'] .dest-img { background: linear-gradient(135deg, #FFD9A0 0%, #E07A50 50%, #8B3A2A 100%); }
+    .dest-card[data-tint='himachal'] .dest-img { background: linear-gradient(135deg, #C8D7E8 0%, #6B8AA8 50%, #344766 100%); }
+
+    .dest-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .dest-card:hover .dest-img img {
+      transform: scale(1.07);
+    }
+
+    .dest-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 38%, rgba(12, 8, 4, 0.82) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .dest-card-text {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 22px 24px 24px;
+      color: #ffffff;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .dest-region {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      margin-bottom: 10px;
+    }
+
+    .dest-card h3 {
+      font-size: clamp(28px, 2.6vw, 36px);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 0.96;
+      color: #ffffff;
+    }
+
+    /* Subtle hover hint — signals the click opens something */
+    .dest-card-hint {
+      position: absolute;
+      bottom: 26px;
+      right: 24px;
+      color: #ffffff;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.35s ease,
+                  transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .dest-card:hover .dest-card-hint {
+      opacity: 0.92;
+      transform: translateY(0);
+    }
+
+    /* Heart sits above text + overlay so it's clickable + visible */
+    .dest-card .heart {
+      z-index: 3;
+    }
+
+    /* Heart save */
+    .heart {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--ta-text);
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--sh-xs);
+      transition: transform 0.18s ease, background 0.18s ease;
+      z-index: 2;
+    }
+
+    .heart:hover { transform: scale(1.08); background: #fff; }
+
+    /* Experience card */
+    .exp-card {
+      position: relative;
+      background: var(--ta-bg);
+      border-radius: var(--r-lg);
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .exp-card:hover { transform: translateY(-4px); }
+
+    .exp-img {
+      aspect-ratio: 4 / 3;
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      position: relative;
+      box-shadow: var(--sh-sm);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .exp-card:hover .exp-img { box-shadow: var(--sh-lg); }
+
+    .exp-card[data-tint='sunset'] .exp-img { background: linear-gradient(135deg, #FFD89B 0%, #E8855D 100%); }
+    .exp-card[data-tint='heritage'] .exp-img { background: linear-gradient(135deg, #D6BC9C 0%, #8A6B4A 100%); }
+    .exp-card[data-tint='food'] .exp-img { background: linear-gradient(135deg, #F4C99C 0%, #C97140 100%); }
+    .exp-card[data-tint='falls'] .exp-img { background: linear-gradient(135deg, #A4D8E6 0%, #4A8AA6 100%); }
+
+    .exp-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .exp-card:hover .exp-img img { transform: scale(1.05); }
+
+    .exp-card-body { padding: 14px 4px 0; }
+
+    .badge {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: var(--r-pill);
+      background: var(--ta-text);
+      color: var(--ta-green);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .exp-card-body h3 {
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 6px;
+      letter-spacing: -0.005em;
+    }
+
+    .rating-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+
+    .bubbles {
+      color: var(--ta-green-dark);
+      font-size: 11px;
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+
+    .bubbles.small { font-size: 9.5px; letter-spacing: 1.5px; }
+
+    .rating-count { font-size: 13px; color: var(--ta-text-2); }
+
+    .exp-price {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ta-text-2);
+      margin-top: 4px;
+    }
+
+    .exp-price strong { font-weight: 800; color: var(--ta-text); }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+
+    .ta-footer {
+      margin-top: 96px;
+      border-top: 1px solid var(--ta-border);
+      background: var(--ta-surface);
+    }
+
+    .ta-footer-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 32px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      color: var(--ta-text-2);
+      font-size: 13px;
+    }
+
+    .footer-strong { font-weight: 700; color: var(--ta-text); }
+
+    .proto-flag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-style: italic;
+      color: var(--ta-text-2);
+    }
+
+    /* ============================================================
+       VIEW 2 — Results
+       ============================================================ */
+
+    .result-strip {
+      background: rgba(255, 255, 255, 0.92);
+      border-bottom: 1px solid var(--ta-border);
+      position: sticky;
+      top: 65px;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .result-strip-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .back-link {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ta-text);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color 0.18s ease;
+    }
+
+    .back-link:hover { color: var(--ta-green-dark); }
+
+    .ranking-ribbon {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      background: linear-gradient(135deg, var(--agent-bg-2), var(--agent-bg));
+      border: 1px solid var(--agent-border);
+      border-radius: var(--r-pill);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--agent-text);
+      flex-wrap: wrap;
+    }
+
+    .ribbon-label { color: var(--ta-text-2); font-weight: 600; }
+
+    .ribbon-tag {
+      padding: 4px 11px;
+      background: var(--ta-bg);
+      border: 1px solid var(--agent-border);
+      border-radius: var(--r-pill);
+      font-weight: 700;
+      color: var(--agent-text);
+      font-size: 12.5px;
+    }
+
+    .ribbon-adjust {
+      margin-left: 4px;
+      font-weight: 700;
+      color: var(--agent);
+      font-size: 13px;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .results-page-head {
+      background: linear-gradient(180deg, var(--ta-cream) 0%, var(--ta-bg) 100%);
+      border-bottom: 1px solid var(--ta-border);
+    }
+
+    .results-page-head-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 36px 28px 32px;
+    }
+
+    .breadcrumb { font-size: 13px; color: var(--ta-text-2); margin-bottom: 6px; }
+
+    .results-title {
+      font-size: clamp(28px, 3vw, 38px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+
+    .results-sub { font-size: 15px; color: var(--ta-text-2); }
+
+    .results-shell {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 288px 1fr;
+      gap: 36px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .results-shell { grid-template-columns: 1fr; }
+    }
+
+    .filters {
+      position: sticky;
+      top: 150px;
+      background: var(--ta-bg);
+      border: 1px solid var(--ta-border);
+      border-radius: var(--r-lg);
+      padding: 22px;
+      box-shadow: var(--sh-xs);
+      max-height: calc(100vh - 180px);
+      overflow-y: auto;
+    }
+
+    .filters h3 {
+      font-size: 19px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .filter-sub {
+      font-size: 13px;
+      color: var(--ta-text-2);
+      margin-bottom: 20px;
+      line-height: 1.45;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .filter-group {
+      border-top: 1px solid var(--ta-border);
+      padding: 18px 0;
+    }
+
+    .filter-group:first-of-type { border-top: 0; padding-top: 0; }
+
+    .filter-group h4 {
+      font-size: 14.5px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .filter-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 0;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .filter-option input[type='checkbox'] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--ta-text);
+      cursor: pointer;
+    }
+
+    .filter-option span:not(.agent-tag) { flex: 1; }
+
+    .filter-option.agent-set {
+      background: var(--agent-bg-2);
+      border-radius: var(--r-sm);
+      padding: 8px 10px;
+      margin: 2px 0;
+      border: 1px solid transparent;
+      transition: border-color 0.18s ease;
+    }
+
+    .filter-option.agent-set:hover { border-color: var(--agent-border); }
+
+    .agent-tag {
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: var(--r-pill);
+      background: var(--agent);
+      color: var(--ta-text-inv);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      flex-shrink: 0;
+    }
+
+    /* Results main column */
+    .results-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .results-count {
+      font-size: 14px;
+      color: var(--ta-text-2);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .results-count strong {
+      font-weight: 800;
+      color: var(--ta-text);
+      font-size: 15px;
+    }
+
+    .empty-state-fake {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--agent);
+      background: var(--agent-bg-2);
+      border: 1px dashed var(--agent-border);
+      padding: 5px 11px;
+      border-radius: var(--r-pill);
+      cursor: pointer;
+      transition: background 0.18s ease;
+    }
+
+    .empty-state-fake:hover { background: var(--agent-bg); }
+
+    .sort {
+      font-size: 13.5px;
+      color: var(--ta-text-2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sort select {
+      padding: 8px 14px;
+      border: 1px solid var(--ta-border-2);
+      border-radius: var(--r-pill);
+      font-weight: 700;
+      background: var(--ta-bg);
+      color: var(--ta-text);
+      cursor: pointer;
+    }
+
+    .hotel-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Hotel card */
+    .hotel-card {
+      display: grid;
+      grid-template-columns: 300px 1fr 220px;
+      gap: 22px;
+      background: var(--ta-bg);
+      border: 1px solid var(--ta-border);
+      border-radius: var(--r-lg);
+      padding: 18px;
+      cursor: pointer;
+      transition: box-shadow 0.25s ease, transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .hotel-card:hover {
+      box-shadow: var(--sh-lg);
+      transform: translateY(-2px);
+      border-color: var(--ta-border-2);
+    }
+
+    .hotel-card-img {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      border-radius: var(--r);
+      overflow: hidden;
+      background: linear-gradient(135deg, #FFE4B0, #FF9A6C);
+    }
+
+    .hotel-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .hotel-card:hover .hotel-card-img img { transform: scale(1.04); }
+
+    .hotel-card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .hotel-card-badges {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .hotel-card h3 {
+      font-size: 21px;
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--ta-text);
+      letter-spacing: -0.015em;
+    }
+
+    .hotel-card-meta { font-size: 13px; color: var(--ta-text-2); }
+
+    .hotel-card-adapted {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 11px 14px;
+      background: var(--agent-bg-2);
+      border-left: 3px solid var(--agent);
+      border-radius: 0 var(--r-sm) var(--r-sm) 0;
+      margin-top: 4px;
+    }
+
+    .hotel-card-adapted-text {
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: var(--ta-text);
+      flex: 1;
+      font-weight: 500;
+    }
+
+    .hotel-card-adapted-text strong { font-weight: 800; }
+    .hotel-card-adapted-text em { font-style: italic; color: var(--ta-text-2); }
+
+    .hotel-card-adapted-cite {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--agent);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      cursor: pointer;
+      flex-shrink: 0;
+      white-space: nowrap;
+      align-self: center;
+    }
+
+    .hotel-card-adapted .agent-dot { margin-top: 6px; }
+
+    .hotel-card-price {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: space-between;
+      text-align: right;
+      border-left: 1px solid var(--ta-border);
+      padding-left: 22px;
+    }
+
+    .hcp-rate {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .hcp-rate small {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--ta-text-2);
+      display: block;
+      margin-top: 2px;
+      letter-spacing: 0;
+    }
+
+    .hcp-budget {
+      font-size: 12px;
+      color: var(--ta-green-dark);
+      margin-top: 6px;
+      font-weight: 600;
+    }
+
+    .hcp-budget.over { color: var(--ta-red); }
+
+    .hcp-cta {
+      height: 42px;
+      padding: 0 18px;
+      background: var(--ta-text);
+      color: var(--ta-text-inv);
+      border-radius: var(--r-pill);
+      font-weight: 700;
+      font-size: 13.5px;
+      transition: background 0.18s ease, transform 0.1s ease;
+      margin-top: 14px;
+      font-family: var(--font);
+    }
+
+    .hcp-cta:hover { background: #1A2D3C; }
+
+    @media (max-width: 900px) {
+      .hotel-card { grid-template-columns: 1fr; }
+      .hotel-card-price {
+        border-left: 0;
+        padding-left: 0;
+        border-top: 1px solid var(--ta-border);
+        padding-top: 14px;
+        align-items: flex-start;
+        text-align: left;
+      }
+    }
+
+    /* Empty state */
+    .empty-state {
+      background: linear-gradient(135deg, var(--agent-bg-2), var(--agent-bg));
+      border: 1px solid var(--agent-border);
+      border-radius: var(--r-lg);
+      padding: 28px;
+      margin-top: 18px;
+    }
+
+    .empty-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .empty-head h3 {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .empty-state p {
+      font-size: 14.5px;
+      color: var(--ta-text);
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .empty-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    /* ============================================================
+       VIEW 3 — Hotel detail
+       ============================================================ */
+
+    .detail-back {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 20px 28px 0;
+    }
+
+    .detail-photos {
+      max-width: 1320px;
+      margin: 18px auto 0;
+      padding: 0 28px;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 240px 240px;
+      gap: 8px;
+    }
+
+    .photo {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      border-radius: var(--r);
+    }
+
+    .photo[data-tint='ocean'] { background: linear-gradient(135deg, #A8DCE6 0%, #4A8AA6 100%); }
+    .photo[data-tint='beach'] { background: linear-gradient(135deg, #FFE4B0 0%, #C97140 100%); }
+    .photo[data-tint='food'] { background: linear-gradient(135deg, #F4C99C 0%, #C97140 100%); }
+    .photo[data-tint='room'] { background: linear-gradient(135deg, #E8D5BB 0%, #8A6B4A 100%); }
+    .photo[data-tint='bar'] { background: linear-gradient(135deg, #C9A86F 0%, #5A3A1F 100%); }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .photo:hover img { transform: scale(1.04); }
+
+    .photo-main {
+      grid-row: span 2;
+      border-radius: var(--r-lg) 0 0 var(--r-lg);
+    }
+
+    .photo-sm:nth-child(3) { border-radius: 0 var(--r-lg) 0 0; }
+    .photo-sm:nth-child(5) { border-radius: 0 0 var(--r-lg) 0; }
+
+    .anno-pill {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: var(--r-pill);
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--ta-text);
+      box-shadow: var(--sh-sm);
+      max-width: calc(100% - 28px);
+      border: 1px solid var(--agent-border);
+    }
+
+    .photo[data-anno]:hover::after {
+      content: attr(data-anno);
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      right: 14px;
+      padding: 12px 14px;
+      background: rgba(14, 31, 45, 0.94);
+      color: var(--ta-text-inv);
+      border-radius: var(--r-sm);
+      font-size: 12.5px;
+      font-weight: 600;
+      line-height: 1.45;
+      animation: annoIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    @keyframes annoIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .see-photos {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      padding: 10px 18px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      border-radius: var(--r-pill);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ta-text);
+      box-shadow: var(--sh-sm);
+      transition: background 0.18s ease, transform 0.1s ease;
+      font-family: var(--font);
+    }
+
+    .see-photos:hover { background: #fff; transform: scale(1.02); }
+
+    .detail-summary {
+      max-width: 1320px;
+      margin: 36px auto 0;
+      padding: 0 28px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 48px;
+    }
+
+    @media (max-width: 900px) {
+      .detail-summary { grid-template-columns: 1fr; }
+    }
+
+    .detail-summary-left h1 {
+      font-size: clamp(30px, 3.4vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin: 10px 0 10px;
+      line-height: 1.1;
+    }
+
+    .rating-row.big { font-size: 15px; gap: 12px; flex-wrap: wrap; }
+    .rating-row.big .bubbles { font-size: 15px; letter-spacing: 2.5px; }
+
+    .rating-meta { font-weight: 600; color: var(--ta-text); }
+
+    .ranked {
+      color: var(--ta-text-2);
+      border-left: 1px solid var(--ta-border-2);
+      padding-left: 14px;
+      font-size: 14px;
+    }
+
+    .location {
+      margin-top: 10px;
+      color: var(--ta-text-2);
+      font-size: 15px;
+    }
+
+    .match-summary {
+      margin-top: 22px;
+      padding: 22px 24px;
+      background: linear-gradient(135deg, var(--agent-bg-2), var(--agent-bg));
+      border: 1px solid var(--agent-border);
+      border-radius: var(--r-lg);
+    }
+
+    .match-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .match-head strong {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--ta-text);
+    }
+
+    .match-cite { font-size: 12px; color: var(--ta-text-2); font-style: italic; }
+
+    .match-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .match-list li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .match-list li em { font-style: italic; color: var(--ta-text-2); }
+    .match-list li strong { font-weight: 700; }
+
+    .match-bullet {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--pos);
+      color: var(--ta-text-inv);
+      font-size: 11px;
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .match-bullet.warn { background: var(--neutral); }
+    .match-list li.caveat { color: var(--ta-text-2); }
+
+    .price-card {
+      position: sticky;
+      top: 90px;
+      background: var(--ta-bg);
+      border: 1px solid var(--ta-border);
+      border-radius: var(--r-lg);
+      padding: 26px;
+      box-shadow: var(--sh-md);
+    }
+
+    .price-label {
+      font-size: 11.5px;
+      color: var(--ta-text-2);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+    }
+
+    .price {
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin: 4px 0 6px;
+      line-height: 1;
+    }
+
+    .price span {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--ta-text-2);
+    }
+
+    .price-sub {
+      font-size: 13.5px;
+      color: var(--ta-text-2);
+      margin-bottom: 14px;
+    }
+
+    .price-budget {
+      font-size: 12.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      background: var(--agent-bg-2);
+      border: 1px solid var(--agent-border);
+      border-radius: var(--r-pill);
+      color: var(--agent-text);
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .primary {
+      background: var(--ta-text);
+      color: var(--ta-text-inv);
+      padding: 12px 22px;
+      border-radius: var(--r-pill);
+      font-weight: 700;
+      font-size: 14px;
+      transition: background 0.18s ease, transform 0.1s ease;
+      font-family: var(--font);
+    }
+
+    .primary:hover { background: #1A2D3C; }
+    .primary:active { transform: scale(0.98); }
+
+    .primary.big {
+      width: 100%;
+      padding: 16px 22px;
+      font-size: 15.5px;
+    }
+
+    .primary.small { padding: 9px 14px; font-size: 13px; }
+
+    .ghost {
+      background: transparent;
+      color: var(--ta-text);
+      padding: 12px 22px;
+      border-radius: var(--r-pill);
+      border: 1.5px solid var(--ta-border-2);
+      font-weight: 700;
+      font-size: 14px;
+      transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+      font-family: var(--font);
+    }
+
+    .ghost:hover {
+      background: var(--ta-text);
+      color: var(--ta-text-inv);
+      border-color: var(--ta-text);
+    }
+
+    .ghost.small { padding: 9px 14px; font-size: 13px; }
+
+    .price-foot {
+      font-size: 12px;
+      color: var(--ta-text-2);
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    .detail-tabs {
+      max-width: 1320px;
+      margin: 40px auto 0;
+      padding: 0 28px;
+      display: flex;
+      gap: 4px;
+      border-bottom: 1px solid var(--ta-border);
+      overflow-x: auto;
+    }
+
+    .detail-tabs a {
+      padding: 16px 20px;
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--ta-text-2);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: color 0.18s ease, border-color 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .detail-tabs a:hover { color: var(--ta-text); }
+    .detail-tabs a.active { color: var(--ta-text); border-bottom-color: var(--ta-text); }
+
+    .detail-modules {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 36px 28px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .module {
+      border: 1px solid var(--ta-border);
+      border-radius: var(--r-lg);
+      padding: 32px;
+      background: var(--ta-bg);
+      box-shadow: var(--sh-xs);
+    }
+
+    .module.agent-floated {
+      border-color: var(--agent-border);
+      background: linear-gradient(135deg, var(--agent-bg-2) 0%, var(--ta-bg) 100%);
+    }
+
+    .module-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .module-head h2 {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.015em;
+    }
+
+    .floated-flag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 12px;
+      background: var(--ta-bg);
+      border: 1px solid var(--agent-border);
+      border-radius: var(--r-pill);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--agent-text);
+    }
+
+    .reviews-meta { font-size: 14px; color: var(--ta-text-2); font-weight: 600; }
+
+    .dining-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    @media (max-width: 700px) { .dining-grid { grid-template-columns: 1fr; } }
+
+    .dining-item {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .dining-img {
+      width: 100px;
+      aspect-ratio: 1;
+      border-radius: var(--r);
+      overflow: hidden;
+      background: linear-gradient(135deg, #F4C99C, #C97140);
+    }
+
+    .dining-img[data-tint='food'] { background: linear-gradient(135deg, #F4C99C, #C97140); }
+    .dining-img[data-tint='bar'] { background: linear-gradient(135deg, #C9A86F, #5A3A1F); }
+
+    .dining-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .dining-item h4 {
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .dining-item p {
+      font-size: 14px;
+      color: var(--ta-text-2);
+      line-height: 1.5;
+    }
+
+    .dining-item .meta {
+      font-size: 12.5px;
+      color: var(--ta-text-3);
+      margin-top: 8px;
+      font-weight: 500;
+    }
+
+    .room-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .room-item {
+      display: grid;
+      grid-template-columns: 132px 1fr 210px;
+      gap: 20px;
+      padding: 16px;
+      border: 1px solid var(--ta-border);
+      border-radius: var(--r);
+      align-items: center;
+    }
+
+    .room-img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: var(--r-sm);
+      overflow: hidden;
+      background: linear-gradient(135deg, #E8D5BB, #8A6B4A);
+    }
+
+    .room-img[data-tint='room'] { background: linear-gradient(135deg, #E8D5BB, #8A6B4A); }
+    .room-img[data-tint='villa'] { background: linear-gradient(135deg, #D8F3E1, #4A8A6B); }
+
+    .room-img img { width: 100%; height: 100%; object-fit: cover; }
+
+    .room-info h4 {
+      font-size: 17px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .room-info p {
+      font-size: 14px;
+      color: var(--ta-text-2);
+      margin-bottom: 4px;
+      line-height: 1.5;
+    }
+
+    .room-meta {
+      font-size: 12.5px !important;
+      color: var(--ta-text-3) !important;
+      font-weight: 500;
+    }
+
+    .suggested-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--agent-bg);
+      border: 1px solid var(--agent-border);
+      border-radius: var(--r-pill);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--agent-text);
+    }
+
+    .room-price { text-align: right; }
+    .room-price p { font-size: 15px; margin-bottom: 10px; }
+    .room-price strong { font-size: 20px; font-weight: 800; letter-spacing: -0.01em; }
+    .room-price small { font-size: 12px; color: var(--ta-text-2); font-weight: 600; }
+
+    @media (max-width: 700px) {
+      .room-item { grid-template-columns: 1fr; }
+      .room-price { text-align: left; }
+    }
+
+    /* Synthesis chips */
+    .synthesis-shell {
+      padding: 22px 24px;
+      background: linear-gradient(135deg, var(--agent-bg-2) 0%, #fff 100%);
+      border: 1px solid var(--agent-border);
+      border-radius: var(--r-lg);
+      margin-bottom: 12px;
+    }
+
+    .synthesis-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12.5px;
+      color: var(--ta-text-2);
+      font-weight: 600;
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+
+    .synthesis-chips {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 900px) { .synthesis-chips { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .synthesis-chips { grid-template-columns: 1fr; } }
+
+    .synth-chip {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      padding: 12px 16px;
+      background: var(--ta-bg);
+      border: 1px solid var(--ta-border);
+      border-radius: var(--r);
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.12s ease;
+      font-family: var(--font);
+    }
+
+    .synth-chip:hover {
+      border-color: var(--agent);
+      box-shadow: 0 4px 14px rgba(45, 91, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .synth-label { font-size: 14px; font-weight: 800; }
+    .synth-meta { font-size: 12px; color: var(--ta-text-2); font-weight: 500; }
+
+    .synth-chip.pos { border-left: 4px solid var(--pos); }
+    .synth-chip.pos .synth-label { color: var(--pos); }
+    .synth-chip.neutral { border-left: 4px solid var(--neutral); }
+    .synth-chip.neutral .synth-label { color: var(--neutral); }
+    .synth-chip.neg { border-left: 4px solid var(--neg); }
+    .synth-chip.neg .synth-label { color: var(--neg); }
+
+    /* Reviews */
+    .reviews-list {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      margin-top: 28px;
+    }
+
+    .review header {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .reviewer-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      color: var(--ta-text);
+      flex-shrink: 0;
+    }
+
+    .reviewer-info { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+    .reviewer { font-weight: 700; color: var(--ta-text); font-size: 14px; }
+    .reviewer-meta { font-size: 12.5px; color: var(--ta-text-2); }
+
+    .review h4 {
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -0.005em;
+    }
+
+    .review p {
+      font-size: 14px;
+      color: var(--ta-text);
+      line-height: 1.6;
+    }
+
+    .see-all-reviews {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ta-text);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .see-all-reviews:hover { color: var(--ta-green-dark); }
+
+    /* ============================================================
+       VIEW 4 — Confirmation + ambient
+       ============================================================ */
+
+    .confirm-hero {
+      max-width: 820px;
+      margin: 64px auto 36px;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      animation: confirmIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes confirmIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .confirm-icon { flex-shrink: 0; }
+
+    .confirm-info h1 {
+      font-size: clamp(32px, 3.6vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 4px;
+      line-height: 1.1;
+    }
+
+    .conf-id { font-size: 14px; color: var(--ta-text-2); }
+
+    .confirm-card {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 22px;
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 22px;
+      background: var(--ta-bg);
+      border: 1px solid var(--ta-border);
+      border-radius: var(--r-lg);
+      box-shadow: var(--sh-sm);
+      align-items: center;
+    }
+
+    .confirm-card-img {
+      aspect-ratio: 1;
+      border-radius: var(--r);
+      overflow: hidden;
+      background: linear-gradient(135deg, #A8DCE6, #4A8AA6);
+    }
+
+    .confirm-card-img img { width: 100%; height: 100%; object-fit: cover; }
+
+    .confirm-card-body h3 {
+      font-size: 22px;
+      font-weight: 800;
+      margin: 8px 0 4px;
+      letter-spacing: -0.015em;
+    }
+
+    .confirm-card-body p {
+      font-size: 14px;
+      color: var(--ta-text-2);
+      margin-bottom: 4px;
+    }
+
+    .total {
+      font-size: 15px !important;
+      margin-top: 10px !important;
+      color: var(--ta-text) !important;
+    }
+
+    .total strong { font-weight: 800; font-size: 17px; }
+
+    .ambient {
+      max-width: 1100px;
+      margin: 56px auto 80px;
+      padding: 0 28px;
+    }
+
+    .ambient-head {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--ta-border);
+      margin-bottom: 28px;
+    }
+
+    .ambient-head h2 {
+      font-size: clamp(24px, 2.6vw, 30px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      line-height: 1.2;
+    }
+
+    .ambient-head p {
+      font-size: 15px;
+      color: var(--ta-text-2);
+      max-width: 720px;
+      line-height: 1.55;
+    }
+
+    .ambient-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 900px) { .ambient-grid { grid-template-columns: 1fr; } }
+
+    .ambient-card {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 22px;
+      background: var(--ta-bg);
+      border: 1px solid var(--agent-border);
+      border-radius: var(--r-lg);
+      transition: box-shadow 0.22s ease, transform 0.18s ease;
+      box-shadow: var(--sh-xs);
+    }
+
+    .ambient-card:hover {
+      box-shadow: var(--sh-md);
+      transform: translateY(-2px);
+    }
+
+    .ambient-tag {
+      align-self: flex-start;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      background: var(--agent-bg);
+      color: var(--agent-text);
+      border-radius: var(--r-pill);
+    }
+
+    .ambient-card h4 {
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    .ambient-card > p {
+      font-size: 13.5px;
+      color: var(--ta-text-2);
+      line-height: 1.5;
+    }
+
+    .ambient-card .reason {
+      font-size: 12.5px;
+      color: var(--agent-text);
+      padding: 12px 14px;
+      background: var(--agent-bg-2);
+      border-radius: var(--r-sm);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-style: italic;
+      line-height: 1.5;
+      margin-top: 4px;
+    }
+
+    .ambient-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .ambient-foot {
+      margin-top: 32px;
+      text-align: center;
+    }
+
+    /* ============================================================
+       AI BADGE inside search bar
+       ============================================================ */
+
+    .ai-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--agent-bg);
+      border: 1px solid var(--agent-border);
+      border-radius: var(--r-pill);
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--agent-text);
+      flex-shrink: 0;
+      letter-spacing: 0.02em;
+    }
+
+    .ai-badge .agent-dot {
+      width: 6px;
+      height: 6px;
+    }
+
+    /* ============================================================
+       SEARCH SUGGESTIONS DROPDOWN — opens below the search bar
+       ============================================================ */
+
+    .search-suggestions {
+      margin-top: 12px;
+      background: var(--ta-bg);
+      border-radius: var(--r-lg);
+      box-shadow: var(--sh-lg);
+      overflow: hidden;
+      border: 1px solid var(--ta-border);
+      text-align: left;
+      animation: dropIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes dropIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .suggestions-section { padding: 16px 18px 8px; }
+
+    .suggestions-section + .suggestions-section {
+      border-top: 1px solid var(--ta-border);
+    }
+
+    .suggestions-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11.5px;
+      font-weight: 800;
+      color: var(--ta-text-2);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    .suggestions-head.ai { color: var(--agent-text); }
+
+    .suggestions-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .suggestion {
+      display: grid;
+      grid-template-columns: 44px 1fr auto;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 12px;
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      transition: background 0.15s ease;
+      text-align: left;
+    }
+
+    .suggestion:hover { background: var(--ta-surface-2); }
+
+    .suggestion-ico {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      background: var(--ta-surface-2);
+      border-radius: var(--r-sm);
+      flex-shrink: 0;
+    }
+
+    .suggestion-ico.ai { background: var(--agent-bg); }
+
+    .suggestion-body { min-width: 0; }
+
+    .suggestion-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ta-text);
+      line-height: 1.3;
+      margin-bottom: 2px;
+    }
+
+    .suggestion-meta {
+      font-size: 12.5px;
+      color: var(--ta-text-2);
+      line-height: 1.35;
+    }
+
+    .suggestion-arrow {
+      color: var(--ta-text-3);
+      font-size: 14px;
+      transition: color 0.15s ease, transform 0.15s ease;
+    }
+
+    .suggestion:hover .suggestion-arrow {
+      color: var(--agent);
+      transform: translateX(3px);
+    }
+
+    .suggestions-foot {
+      padding: 14px 18px;
+      background: linear-gradient(135deg, var(--agent-bg-2) 0%, var(--ta-bg) 100%);
+      border-top: 1px solid var(--agent-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .suggestions-foot-label {
+      font-size: 12.5px;
+      color: var(--ta-text-2);
+      font-weight: 600;
+    }
+
+    .describe-trip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      background: var(--ta-bg);
+      border: 1.5px solid var(--agent);
+      border-radius: var(--r-pill);
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--agent-text);
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.18s ease;
+      font-family: var(--font);
+    }
+
+    .describe-trip:hover {
+      background: var(--agent);
+      color: var(--ta-text-inv);
+      transform: translateY(-1px);
+      box-shadow: var(--sh-md);
+    }
+
+    .describe-trip .prompt-spark { color: inherit; }
+
+    .describe-arrow {
+      transition: transform 0.2s ease;
+      font-size: 15px;
+    }
+
+    .describe-trip:hover .describe-arrow { transform: translateX(3px); }
+
+    /* ============================================================
+       AI TAG OVERLAYS on destination + experience cards
+       ============================================================ */
+
+    .card-ai-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: var(--r-pill);
+      font-size: 11.5px;
+      font-weight: 800;
+      color: var(--ta-text);
+      box-shadow: var(--sh-xs);
+      z-index: 2;
+      max-width: calc(100% - 60px);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card-ai-tag .agent-dot {
+      width: 6px;
+      height: 6px;
+    }
+
+    .dest-card:hover .card-ai-tag,
+    .exp-card:hover .card-ai-tag {
+      transform: translateY(-2px);
+      box-shadow: var(--sh-sm);
+    }
+
+    /* Adaptive variant — for cards where AI ranking is the primary message */
+    .card-ai-tag.strong {
+      background: var(--ta-text);
+      color: var(--ta-bg);
+    }
+
+    .card-ai-tag.strong .agent-dot { background: var(--ta-green); }
+
+    /* Destination cards on homepage should feel clickable */
+    .dest-card { cursor: pointer; }
+
+    /* ============================================================
+       VIEW-CITY — the immersive destination experience (Goa-themed)
+       Clicking a destination card transforms the page into the
+       city's own atmosphere. Color palette shifts to the city's
+       landscape; the hero is a full-bleed photo of the place.
+       ============================================================ */
+
+    .view-city {
+      --warm-bg: #FFF6E7;
+      --warm-bg-2: #FFEFD6;
+      --coral: #FF7E5F;
+      --coral-dark: #E66A4D;
+      --coral-soft: #FFE5DD;
+      --warm-dark: #2A1810;
+      --warm-dark-2: #4A2818;
+      background: var(--warm-bg);
+      color: var(--warm-dark);
+    }
+
+    .view-city.active {
+      animation: cityIn 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes cityIn {
+      from { opacity: 0; transform: scale(0.985); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .city-hero {
+      position: relative;
+      height: 580px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .city-hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: linear-gradient(135deg, #FFE4B0 0%, #FF9A6C 50%, #B85C5C 100%);
+    }
+
+    .city-hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      animation: heroZoom 16s ease-in-out infinite alternate;
+    }
+
+    @keyframes heroZoom {
+      from { transform: scale(1); }
+      to { transform: scale(1.08); }
+    }
+
+    .city-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg,
+        rgba(42, 24, 16, 0.1) 0%,
+        rgba(255, 246, 231, 0) 30%,
+        rgba(255, 246, 231, 0.55) 70%,
+        rgba(255, 246, 231, 1) 100%
+      );
+      z-index: 1;
+    }
+
+    .city-hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 48px 28px 56px;
+      width: 100%;
+    }
+
+    .city-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--warm-dark);
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 9px 16px;
+      border-radius: var(--r-pill);
+      margin-bottom: 28px;
+      font-size: 13.5px;
+      cursor: pointer;
+      transition: background 0.18s ease, transform 0.12s ease;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .city-back:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: translateX(-2px);
+    }
+
+    .city-eyebrow {
+      display: inline-block;
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: var(--warm-dark);
+      color: var(--warm-bg);
+      padding: 7px 14px;
+      border-radius: var(--r-pill);
+      margin-bottom: 22px;
+    }
+
+    .city-title {
+      font-family: var(--font);
+      font-size: clamp(80px, 14vw, 180px);
+      font-weight: 900;
+      letter-spacing: -0.055em;
+      line-height: 0.82;
+      color: var(--warm-dark);
+      margin-bottom: 22px;
+    }
+
+    .city-title-pre {
+      display: block;
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 0.26em;
+      letter-spacing: -0.015em;
+      color: var(--coral);
+      margin-bottom: 6px;
+      line-height: 1;
+    }
+
+    .city-tag {
+      font-size: 19px;
+      color: var(--warm-dark);
+      max-width: 660px;
+      margin-bottom: 36px;
+      opacity: 0.78;
+      line-height: 1.45;
+    }
+
+    .city-stats {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .city-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .city-stat strong {
+      font-size: 30px;
+      font-weight: 800;
+      color: var(--warm-dark);
+      letter-spacing: -0.025em;
+      line-height: 1;
+    }
+
+    .city-stat span {
+      font-size: 11.5px;
+      color: var(--warm-dark);
+      opacity: 0.6;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    /* ─── AI review digest ─── */
+    .city-digest {
+      max-width: 1320px;
+      margin: 72px auto 0;
+      padding: 0 28px;
+    }
+
+    .city-digest-head {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .city-digest-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--coral);
+      background: var(--coral-soft);
+      padding: 6px 14px;
+      border-radius: var(--r-pill);
+      margin-bottom: 14px;
+    }
+
+    .city-digest-head h2 {
+      font-size: clamp(30px, 3.8vw, 44px);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--warm-dark);
+      margin-bottom: 8px;
+      line-height: 1.1;
+    }
+
+    .city-digest-head h2 em {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--coral);
+    }
+
+    .city-digest-head p {
+      font-size: 15px;
+      color: var(--warm-dark);
+      opacity: 0.65;
+    }
+
+    .digest-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 1000px) { .digest-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .digest-grid { grid-template-columns: 1fr; } }
+
+    .digest-card {
+      padding: 26px 22px;
+      background: white;
+      border-radius: var(--r-lg);
+      border: 1px solid rgba(42, 24, 16, 0.08);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .digest-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(42, 24, 16, 0.12);
+    }
+
+    .digest-emoji {
+      font-size: 32px;
+      display: block;
+      margin-bottom: 16px;
+      line-height: 1;
+    }
+
+    .digest-card h3 {
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 12px;
+    }
+
+    .digest-card .digest-main {
+      font-size: 15px;
+      color: var(--warm-dark);
+      line-height: 1.5;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .digest-card .digest-sub {
+      font-size: 12.5px;
+      color: var(--warm-dark);
+      opacity: 0.6;
+      line-height: 1.45;
+    }
+
+    .digest-card .digest-main strong { font-weight: 800; }
+
+    /* ─── Plan CTA section ─── */
+    .city-plan {
+      max-width: 1320px;
+      margin: 80px auto 0;
+      padding: 0 28px;
+    }
+
+    .city-plan-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 40px 48px;
+      background: linear-gradient(135deg, var(--warm-dark) 0%, var(--warm-dark-2) 100%);
+      color: var(--warm-bg);
+      border-radius: var(--r-xl);
+      gap: 32px;
+      flex-wrap: wrap;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .city-plan-inner::after {
+      content: '';
+      position: absolute;
+      top: -40%;
+      right: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, var(--coral) 0%, transparent 70%);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .city-plan-text { position: relative; z-index: 2; max-width: 560px; }
+
+    .city-plan h2 {
+      font-size: clamp(26px, 3.2vw, 36px);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 8px;
+      line-height: 1.15;
+    }
+
+    .city-plan h2 em {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--coral);
+    }
+
+    .city-plan p {
+      font-size: 15px;
+      opacity: 0.78;
+      line-height: 1.5;
+    }
+
+    .city-plan-cta {
+      position: relative;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 28px;
+      background: var(--coral);
+      color: white;
+      border-radius: var(--r-pill);
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease;
+      font-family: var(--font);
+      box-shadow: 0 8px 24px rgba(255, 126, 95, 0.4);
+    }
+
+    .city-plan-cta:hover {
+      background: var(--coral-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(255, 126, 95, 0.5);
+    }
+
+    /* ─── Things to explore in Goa ─── */
+    .city-explore {
+      max-width: 1320px;
+      margin: 80px auto 96px;
+      padding: 0 28px;
+    }
+
+    .city-row-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 24px;
+      gap: 16px;
+    }
+
+    .city-row-head h2 {
+      font-size: clamp(26px, 3vw, 34px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--warm-dark);
+    }
+
+    .city-row-head h2 em {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--coral);
+    }
+
+    .city-row-link {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--warm-dark);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      cursor: pointer;
+      transition: color 0.18s ease;
+    }
+
+    .city-row-link:hover { color: var(--coral); }
+
+    .city-explore-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 1000px) { .city-explore-grid { grid-template-columns: 1fr 1fr; } }
+
+    .explore-card {
+      position: relative;
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      aspect-ratio: 4 / 5;
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      background: linear-gradient(135deg, #FFE4B0, #FF9A6C);
+    }
+
+    .explore-card:hover { transform: translateY(-4px); }
+
+    .explore-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .explore-card:hover img { transform: scale(1.06); }
+
+    .explore-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(42, 24, 16, 0.92) 100%);
+    }
+
+    .explore-card-body {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px;
+      color: white;
+    }
+
+    .explore-card-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--warm-dark);
+      border-radius: var(--r-pill);
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .explore-card h4 {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.015em;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .explore-card p {
+      font-size: 12.5px;
+      opacity: 0.85;
+      line-height: 1.4;
+    }
+
+    /* ============================================================
+       CITY MODE — full immersion. Hide the Tripadvisor chrome
+       when the user has "entered" a destination, so the page
+       feels entirely like that city.
+       ============================================================ */
+
+    body.city-mode .ta-header {
+      display: none;
+    }
+
+    body.city-mode {
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       CARD-OPEN TRANSITION — the destination card visually
+       expands to fill the viewport, then the city view emerges
+       underneath. Feels like opening a door into the place.
+       ============================================================ */
+
+    .card-open-overlay {
+      position: fixed;
+      z-index: 999;
+      overflow: hidden;
+      pointer-events: none;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+      transition:
+        top 0.85s cubic-bezier(0.65, 0, 0.35, 1),
+        left 0.85s cubic-bezier(0.65, 0, 0.35, 1),
+        width 0.85s cubic-bezier(0.65, 0, 0.35, 1),
+        height 0.85s cubic-bezier(0.65, 0, 0.35, 1),
+        border-radius 0.85s cubic-bezier(0.65, 0, 0.35, 1),
+        opacity 0.5s ease-out;
+    }
+
+    .card-open-overlay img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      animation: overlayPan 0.85s cubic-bezier(0.65, 0, 0.35, 1) both;
+    }
+
+    @keyframes overlayPan {
+      from { transform: scale(1); }
+      to { transform: scale(1.08); }
+    }
+
+    .card-open-overlay.expanding {
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      border-radius: 0 !important;
+    }
+
+    .card-open-overlay.fading {
+      opacity: 0;
+    }
+
+    /* While a card is opening, dim the homepage so attention
+       is on the expanding image. */
+    body.opening-card #view-1 {
+      transition: opacity 0.5s ease-out, transform 0.6s ease-out;
+      opacity: 0.4;
+      transform: scale(0.98);
+    }
+
+    /* The destination card whose image is being cloned should
+       hide briefly so it doesn't appear duplicated. */
+    .dest-card.opening .dest-img img {
+      opacity: 0;
+    }
+
+    /* Cleaner city view enter — overlay does the heavy lift,
+       this just fades the content in underneath. */
+    .view-city.active {
+      animation: cityFadeIn 0.6s ease-out;
+    }
+
+    @keyframes cityFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="ta-header">
+    <div class="ta-header-inner">
+      <a href="#" class="ta-logo" data-view="1" aria-label="Tripadvisor home">
+        <svg viewBox="0 0 110 28" width="110" height="28" aria-hidden="true">
+          <ellipse cx="55" cy="14" rx="54" ry="13" fill="#000"/>
+          <circle cx="25" cy="14" r="9.5" fill="#fff"/>
+          <circle cx="25" cy="14" r="6.2" fill="#000"/>
+          <circle cx="27" cy="11.5" r="2" fill="#34E0A1"/>
+          <circle cx="85" cy="14" r="9.5" fill="#fff"/>
+          <circle cx="85" cy="14" r="6.2" fill="#000"/>
+          <circle cx="83" cy="11.5" r="2" fill="#FA6064"/>
+        </svg>
+        <span class="ta-logo-text">tripadvisor</span>
+      </a>
+      <nav class="ta-nav">
+        <a class="ta-nav-link active"><span class="ta-nav-ico">◇</span> Discover</a>
+        <a class="ta-nav-link"><span class="ta-nav-ico">✦</span> Trips</a>
+        <a class="ta-nav-link"><span class="ta-nav-ico">✎</span> Review</a>
+        <a class="ta-nav-link"><span class="ta-nav-ico">⋯</span> More</a>
+      </nav>
+      <div class="ta-header-right">
+        <button class="ta-currency">INR ₹</button>
+        <button class="ta-signin">Sign in</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- VIEW 1 — Homepage -->
+  <main class="view active" id="view-1">
+    <section class="hero">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+      </div>
+      <div class="hero-content">
+        <h1 class="hero-title">Where to<span class="serif">?</span></h1>
+        <p class="hero-sub">Hotels, restaurants, things to do.</p>
+
+        <div class="search-shell">
+          <div class="search-tabs">
+            <button class="search-tab active" data-scope="all"><span class="scope-ico">✦</span> All</button>
+            <button class="search-tab" data-scope="hotels"><span class="scope-ico">⌂</span> Hotels</button>
+            <button class="search-tab" data-scope="things"><span class="scope-ico">◎</span> Things to Do</button>
+            <button class="search-tab" data-scope="restaurants"><span class="scope-ico">⌘</span> Restaurants</button>
+            <button class="search-tab" data-scope="flights"><span class="scope-ico">✈</span> Flights</button>
+            <button class="search-tab" data-scope="rentals"><span class="scope-ico">▤</span> Rentals</button>
+          </div>
+
+          <div class="search-bar" id="search-bar">
+            <div class="search-row">
+              <svg class="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+                <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <input type="text" id="search-input" placeholder="Search a place, hotel, or restaurant…" autocomplete="off" />
+              <button class="search-btn" id="search-btn">Search</button>
+            </div>
+          </div>
+
+          <div class="search-suggestions" id="search-suggestions" hidden>
+            <div class="suggestions-section">
+              <p class="suggestions-head">
+                <span id="suggestions-context">Top picks</span>
+              </p>
+              <ul class="suggestions-list" id="suggestions-list"></ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="trust-row">
+          <span>Trusted by 463M travelers</span>
+          <span class="trust-sep">·</span>
+          <span>1B+ reviews</span>
+          <span class="trust-sep">·</span>
+          <span>Now with agent assistance on every screen</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="below-fold">
+      <div class="row">
+        <div class="row-head">
+          <h2>Travelers' Choice Awards <span class="year">2026</span></h2>
+          <a class="row-link">See all winners →</a>
+        </div>
+        <div class="card-strip">
+          <article class="dest-card" data-city="goa" data-tint="goa">
+            <div class="dest-img">
+              <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=800&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
+            </div>
+            <div class="dest-overlay"></div>
+            <button class="heart" aria-label="Save">♡</button>
+            <div class="dest-card-text">
+              <span class="dest-region">India · Coastal</span>
+              <h3>Goa</h3>
+            </div>
+            <span class="dest-card-hint">Open →</span>
+          </article>
+          <article class="dest-card" data-city="kerala" data-tint="kerala">
+            <div class="dest-img">
+              <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=800&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
+            </div>
+            <div class="dest-overlay"></div>
+            <button class="heart" aria-label="Save">♡</button>
+            <div class="dest-card-text">
+              <span class="dest-region">India · Backwaters</span>
+              <h3>Kerala</h3>
+            </div>
+            <span class="dest-card-hint">Open →</span>
+          </article>
+          <article class="dest-card" data-city="rajasthan" data-tint="rajasthan">
+            <div class="dest-img">
+              <img src="https://images.unsplash.com/photo-1599661046827-dacde6976549?w=800&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
+            </div>
+            <div class="dest-overlay"></div>
+            <button class="heart" aria-label="Save">♡</button>
+            <div class="dest-card-text">
+              <span class="dest-region">India · Heritage</span>
+              <h3>Rajasthan</h3>
+            </div>
+            <span class="dest-card-hint">Open →</span>
+          </article>
+          <article class="dest-card" data-city="himachal" data-tint="himachal">
+            <div class="dest-img">
+              <img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=800&q=85&auto=format&fit=crop" alt="" loading="lazy"/>
+            </div>
+            <div class="dest-overlay"></div>
+            <button class="heart" aria-label="Save">♡</button>
+            <div class="dest-card-text">
+              <span class="dest-region">India · Mountains</span>
+              <h3>Himachal</h3>
+            </div>
+            <span class="dest-card-hint">Open →</span>
+          </article>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="row-head">
+          <h2>Things to do</h2>
+          <a class="row-link">Browse all →</a>
+        </div>
+        <div class="card-strip">
+          <article class="exp-card" data-tint="sunset">
+            <div class="exp-img">
+              <img src="https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?w=500&q=80&auto=format&fit=crop" alt="" loading="lazy"/>
+            </div>
+            <button class="heart">♡</button>
+            <div class="exp-card-body">
+              <span class="badge">Travelers' Choice</span>
+              <h3>North Goa sunset cruise</h3>
+              <div class="rating-row">
+                <span class="bubbles">●●●●●</span>
+                <span class="rating-count">2,431 reviews</span>
+              </div>
+              <p class="exp-price">From <strong>₹1,200</strong>/person</p>
+            </div>
+          </article>
+          <article class="exp-card" data-tint="heritage">
+            <div class="exp-img">
+              <img src="https://images.unsplash.com/photo-1574236170880-faf8c2cdb3a4?w=500&q=80&auto=format&fit=crop" alt="" loading="lazy"/>
+            </div>
+            <button class="heart">♡</button>
+            <div class="exp-card-body">
+              <span class="badge">Travelers' Choice</span>
+              <h3>Old Goa heritage walk</h3>
+              <div class="rating-row">
+                <span class="bubbles">●●●●●</span>
+                <span class="rating-count">986 reviews</span>
+              </div>
+              <p class="exp-price">From <strong>₹650</strong>/person</p>
+            </div>
+          </article>
+          <article class="exp-card" data-tint="food">
+            <div class="exp-img">
+              <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=500&q=80&auto=format&fit=crop" alt="" loading="lazy"/>
+            </div>
+            <button class="heart">♡</button>
+            <div class="exp-card-body">
+              <h3>Goan thali tasting · Panjim</h3>
+              <div class="rating-row">
+                <span class="bubbles">●●●●○</span>
+                <span class="rating-count">512 reviews</span>
+              </div>
+              <p class="exp-price">From <strong>₹1,800</strong>/person</p>
+            </div>
+          </article>
+          <article class="exp-card" data-tint="falls">
+            <div class="exp-img">
+              <img src="https://images.unsplash.com/photo-1502136969935-8d8eef54d77b?w=500&q=80&auto=format&fit=crop" alt="" loading="lazy"/>
+            </div>
+            <button class="heart">♡</button>
+            <div class="exp-card-body">
+              <h3>Dudhsagar Falls day trip</h3>
+              <div class="rating-row">
+                <span class="bubbles">●●●●●</span>
+                <span class="rating-count">3,104 reviews</span>
+              </div>
+              <p class="exp-price">From <strong>₹2,200</strong>/person</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <footer class="ta-footer">
+      <div class="ta-footer-inner">
+        <div>
+          <p class="footer-strong">© 2026 Tripadvisor LLC</p>
+          <p>All rights reserved</p>
+        </div>
+        <p class="proto-flag"><span class="agent-dot"></span> Prototype · concept exploration · not a live booking surface</p>
+      </div>
+    </footer>
+  </main>
+
+
+  <!-- VIEW 2 — Search results -->
+  <main class="view" id="view-2">
+    <div class="result-strip">
+      <div class="result-strip-inner">
+        <a class="back-link" data-view="1">← Edit your brief</a>
+        <div class="ranking-ribbon">
+          <span class="agent-dot pulsing"></span>
+          <span class="ribbon-label">Ranked for:</span>
+          <span class="ribbon-tag">food access</span>
+          <span class="ribbon-tag">beach proximity</span>
+          <span class="ribbon-tag">group of 4</span>
+          <span class="ribbon-tag">₹15–25k/night</span>
+          <button class="ribbon-adjust">Adjust →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="results-page-head">
+      <div class="results-page-head-inner">
+        <p class="breadcrumb">India · Goa · Hotels</p>
+        <h1 class="results-title">Goa hotels for your weekend</h1>
+        <p class="results-sub">Friday May 22 – Sunday May 24 · 4 guests · 2 rooms</p>
+      </div>
+    </div>
+
+    <div class="results-shell">
+      <aside class="filters">
+        <h3>Filter results</h3>
+        <p class="filter-sub">
+          <span class="agent-dot"></span>
+          Agent pre-checked filters from your brief. Uncheck anything that doesn't fit.
+        </p>
+        <div class="filter-group">
+          <h4>Price per night (2 rooms)</h4>
+          <label class="filter-option agent-set">
+            <input type="checkbox" checked /> <span>₹15,000 – ₹25,000</span>
+            <span class="agent-tag">agent</span>
+          </label>
+          <label class="filter-option"><input type="checkbox" /> <span>Under ₹15,000</span></label>
+          <label class="filter-option"><input type="checkbox" /> <span>₹25,000+</span></label>
+        </div>
+        <div class="filter-group">
+          <h4>Property type</h4>
+          <label class="filter-option agent-set"><input type="checkbox" checked /> <span>Beachfront</span><span class="agent-tag">agent</span></label>
+          <label class="filter-option agent-set"><input type="checkbox" checked /> <span>Group-friendly</span><span class="agent-tag">agent</span></label>
+          <label class="filter-option"><input type="checkbox" /> <span>Boutique</span></label>
+          <label class="filter-option"><input type="checkbox" /> <span>Villa rental</span></label>
+        </div>
+        <div class="filter-group">
+          <h4>Amenities</h4>
+          <label class="filter-option agent-set" id="filter-breakfast"><input type="checkbox" checked /> <span>Breakfast included</span><span class="agent-tag">agent</span></label>
+          <label class="filter-option"><input type="checkbox" /> <span>Pool</span></label>
+          <label class="filter-option"><input type="checkbox" /> <span>Spa</span></label>
+          <label class="filter-option"><input type="checkbox" /> <span>Late checkout</span></label>
+        </div>
+        <div class="filter-group">
+          <h4>Traveler rating</h4>
+          <label class="filter-option agent-set"><input type="checkbox" checked /> <span>4.0 and up</span><span class="agent-tag">agent</span></label>
+          <label class="filter-option"><input type="checkbox" /> <span>4.5 and up</span></label>
+        </div>
+      </aside>
+
+      <div class="results-main">
+        <div class="results-head">
+          <div class="results-count">
+            <strong id="results-count-num">24 properties</strong> match your brief
+            <button class="empty-state-fake" id="show-empty">
+              <span class="agent-dot"></span>
+              Demo: tighten filters →
+            </button>
+          </div>
+          <div class="sort">
+            <span>Sort by</span>
+            <select>
+              <option>Best fit for your brief</option>
+              <option>Price (low → high)</option>
+              <option>Rating</option>
+              <option>Distance to beach</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="hotel-grid" id="hotel-grid"></div>
+
+        <div class="empty-state" id="empty-state" hidden>
+          <div class="empty-head">
+            <span class="agent-dot pulsing"></span>
+            <h3>Nothing exact under those filters.</h3>
+          </div>
+          <p>Drop the <strong>"Breakfast included"</strong> filter — the <strong>7 matches</strong> that show up rate breakfast 4.6 or higher anyway. The signal is already in the reviews; the filter is just cutting them off.</p>
+          <div class="empty-actions">
+            <button class="ghost" id="empty-undo">Undo my filter change</button>
+            <button class="primary" id="empty-relax">Show those 7 →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+  <!-- VIEW 3 — Hotel detail -->
+  <main class="view" id="view-3">
+    <div class="detail-back">
+      <a class="back-link" data-view="2">← Back to 24 Goa hotels</a>
+    </div>
+
+    <section class="detail-photos">
+      <div class="photo photo-main" data-tint="ocean">
+        <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1400&q=80&auto=format&fit=crop" alt="" loading="lazy"/>
+        <span class="anno-pill">
+          <span class="agent-dot pulsing"></span>
+          89% of recent reviews call out the sunset
+        </span>
+      </div>
+      <div class="photo photo-sm" data-tint="beach" data-anno="2-min walk down stairs — no road to cross, confirmed by 134 reviewers">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=80&auto=format&fit=crop" alt="" loading="lazy"/>
+      </div>
+      <div class="photo photo-sm" data-tint="food" data-anno="Daily Goan thali — #2 most-mentioned dish across 67 reviews">
+        <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=700&q=80&auto=format&fit=crop" alt="" loading="lazy"/>
+      </div>
+      <div class="photo photo-sm" data-tint="room" data-anno="Adjoining sea-view suites — 43 group bookings cite this layout">
+        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=700&q=80&auto=format&fit=crop" alt="" loading="lazy"/>
+      </div>
+      <div class="photo photo-sm" data-tint="bar" data-anno="Open-air bar — confirmed 1am closes from recent group reviews">
+        <img src="https://images.unsplash.com/photo-1567337710282-00832b415979?w=700&q=80&auto=format&fit=crop" alt="" loading="lazy"/>
+        <button class="see-photos">See all 247 photos</button>
+      </div>
+    </section>
+
+    <section class="detail-summary">
+      <div class="detail-summary-left">
+        <span class="badge">Travelers' Choice 2026</span>
+        <h1>Casa Anjuna Beach Resort</h1>
+        <div class="rating-row big">
+          <span class="bubbles">●●●●●</span>
+          <span class="rating-meta"><strong>4.6</strong> · 1,247 reviews</span>
+          <span class="ranked">#3 of 178 hotels in North Goa</span>
+        </div>
+        <p class="location">⌖ Anjuna Beach, North Goa · 2-min walk to beach</p>
+
+        <div class="match-summary">
+          <div class="match-head">
+            <span class="agent-dot pulsing"></span>
+            <strong>Why this matches your brief</strong>
+            <span class="match-cite">synthesized from 1,247 reviews · every claim taps to its source</span>
+          </div>
+          <ul class="match-list">
+            <li><span class="match-bullet">✓</span><span>Adjoining rooms available for a group of 4 — <em>43 group bookings in the last 6 months</em></span></li>
+            <li><span class="match-bullet">✓</span><span>Praised for breakfast in <strong>87%</strong> of recent reviews — fits the "food" signal</span></li>
+            <li><span class="match-bullet">✓</span><span>Beach access without crossing a road — <em>134 reviewers confirm</em></span></li>
+            <li><span class="match-bullet">✓</span><span>₹18,500/night for the 4-person suite — leaves <strong>₹1,500/night/person</strong> under budget for food + activities</span></li>
+            <li class="caveat"><span class="match-bullet warn">!</span><span>Wi-Fi by the pool is patchy — <em>12 reviews mention</em></span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="detail-summary-right">
+        <div class="price-card">
+          <p class="price-label">From</p>
+          <p class="price"><strong>₹18,500</strong> <span>/ night</span></p>
+          <p class="price-sub">4 guests · 2 rooms · 2 nights = <strong>₹37,000</strong></p>
+          <p class="price-budget"><span class="agent-dot"></span> ₹9,250/person · under your ₹20k budget</p>
+          <button class="primary big" id="check-rates">Check rates</button>
+          <p class="price-foot">Free cancellation until 48hrs before check-in</p>
+        </div>
+      </div>
+    </section>
+
+    <nav class="detail-tabs">
+      <a class="active">Overview</a>
+      <a>Rooms</a>
+      <a>Dining</a>
+      <a>Amenities</a>
+      <a>Reviews</a>
+      <a>Location</a>
+    </nav>
+
+    <section class="detail-modules">
+      <article class="module module-dining agent-floated">
+        <div class="module-head">
+          <h2>Dining</h2>
+          <span class="floated-flag">
+            <span class="agent-dot pulsing"></span>
+            Moved up · matches "food" in your brief
+          </span>
+        </div>
+        <div class="dining-grid">
+          <div class="dining-item">
+            <div class="dining-img" data-tint="food"><img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=400&q=80&auto=format&fit=crop" alt="" loading="lazy"/></div>
+            <div>
+              <h4>Casa Kitchen</h4>
+              <p>Goan thali, fresh seafood, breakfast that gets called out by name in reviews.</p>
+              <p class="meta">Open 7am–11pm · ₹600–₹1,800/head</p>
+            </div>
+          </div>
+          <div class="dining-item">
+            <div class="dining-img" data-tint="bar"><img src="https://images.unsplash.com/photo-1567337710282-00832b415979?w=400&q=80&auto=format&fit=crop" alt="" loading="lazy"/></div>
+            <div>
+              <h4>Sundowner Bar</h4>
+              <p>Open-air, cliff-edge, last orders 1am — confirmed late closes for groups.</p>
+              <p class="meta">Open 5pm–1am · ₹400–₹1,200/head</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="module">
+        <div class="module-head"><h2>Rooms</h2></div>
+        <div class="room-list">
+          <div class="room-item">
+            <div class="room-img" data-tint="room"><img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=320&q=80&auto=format&fit=crop" alt="" loading="lazy"/></div>
+            <div class="room-info">
+              <h4>Adjoining Sea-View Suites <span class="suggested-badge"><span class="agent-dot"></span>Suggested for your group</span></h4>
+              <p>Two connecting rooms, each sleeps 2 · private balcony · sea view</p>
+              <p class="room-meta">2 queen beds · 2 bathrooms · 38 sq m each</p>
+            </div>
+            <div class="room-price">
+              <p><strong>₹18,500</strong> <small>/ night total</small></p>
+              <button class="ghost">Select</button>
+            </div>
+          </div>
+          <div class="room-item">
+            <div class="room-img" data-tint="villa"><img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=320&q=80&auto=format&fit=crop" alt="" loading="lazy"/></div>
+            <div class="room-info">
+              <h4>Garden Villa</h4>
+              <p>Standalone villa · private plunge pool · sleeps 4 across 2 bedrooms</p>
+              <p class="room-meta">2 bedrooms · 2 bathrooms · 110 sq m</p>
+            </div>
+            <div class="room-price">
+              <p><strong>₹32,000</strong> <small>/ night</small></p>
+              <button class="ghost">Select</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="module module-reviews">
+        <div class="module-head">
+          <h2>Reviews</h2>
+          <span class="reviews-meta">4.6 · 1,247 reviews</span>
+        </div>
+        <div class="synthesis-shell">
+          <p class="synthesis-label">
+            <span class="agent-dot pulsing"></span>
+            Synthesized from 1,247 reviews · tap any chip to see the underlying quotes
+          </p>
+          <div class="synthesis-chips">
+            <button class="synth-chip pos"><span class="synth-label">Breakfast: praised</span><span class="synth-meta">87% of recent reviews</span></button>
+            <button class="synth-chip pos"><span class="synth-label">Beach: 2 min walk</span><span class="synth-meta">134 mentions</span></button>
+            <button class="synth-chip pos"><span class="synth-label">Group-friendly rooms</span><span class="synth-meta">43 group bookings</span></button>
+            <button class="synth-chip neutral"><span class="synth-label">Pool: small but quiet</span><span class="synth-meta">23 reviewers confirm</span></button>
+            <button class="synth-chip neg"><span class="synth-label">Wi-Fi: spotty by pool</span><span class="synth-meta">12 reviews mention</span></button>
+            <button class="synth-chip neutral"><span class="synth-label">Service: warm but slow</span><span class="synth-meta">28 mentions</span></button>
+          </div>
+        </div>
+        <div class="reviews-list">
+          <article class="review">
+            <header>
+              <span class="reviewer-avatar" style="background:#FFB997">A</span>
+              <div class="reviewer-info">
+                <span class="reviewer">Aisha M.</span>
+                <span class="reviewer-meta">Mumbai · 2 weeks ago</span>
+              </div>
+              <span class="bubbles small">●●●●●</span>
+            </header>
+            <h4>"Came as a group of 6 for a birthday — perfectly handled."</h4>
+            <p>The resort gave us four adjoining rooms with shared balconies. Breakfast had <mark>three kinds of fresh dosa daily</mark> and the kitchen handled a custom thali for the birthday. Beach is a 2-min walk down stairs, no road to cross.</p>
+          </article>
+          <article class="review">
+            <header>
+              <span class="reviewer-avatar" style="background:#D8F3E1">K</span>
+              <div class="reviewer-info">
+                <span class="reviewer">Karan S.</span>
+                <span class="reviewer-meta">Delhi · 3 weeks ago</span>
+              </div>
+              <span class="bubbles small">●●●●○</span>
+            </header>
+            <h4>"Pool faces sunset, Wi-Fi doesn't quite face the pool."</h4>
+            <p>Pool right at the cliff edge — sunset every evening was worth showing up for. <mark>Wi-Fi by the pool is patchy</mark>, fine in rooms. Goan thali at dinner was the best meal of the trip.</p>
+          </article>
+          <article class="review">
+            <header>
+              <span class="reviewer-avatar" style="background:#FFE8D1">M</span>
+              <div class="reviewer-info">
+                <span class="reviewer">Mira P.</span>
+                <span class="reviewer-meta">Bangalore · 5 weeks ago</span>
+              </div>
+              <span class="bubbles small">●●●●●</span>
+            </header>
+            <h4>"Two-minute walk to Anjuna beach — no road, just stairs."</h4>
+            <p>Came as a couple but the property is clearly set up for groups — lots of common spaces, open bar till 1am. Loved it anyway. The breakfast spread is the actual reason to stay here.</p>
+          </article>
+          <article class="review">
+            <header>
+              <span class="reviewer-avatar" style="background:#CEDDFF">D</span>
+              <div class="reviewer-info">
+                <span class="reviewer">Devansh K.</span>
+                <span class="reviewer-meta">Pune · 2 months ago</span>
+              </div>
+              <span class="bubbles small">●●●●●</span>
+            </header>
+            <h4>"Group of 4, adjoining rooms, late nights — all good."</h4>
+            <p>Two queen rooms next to each other, balconies opened up. Bar closes at 1am which was perfect. <mark>Breakfast at the Casa Kitchen was unreal — the fresh dosa station is no joke.</mark></p>
+          </article>
+          <a class="see-all-reviews">See all 1,247 reviews →</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+
+  <!-- VIEW 4 — Booking confirmation -->
+  <main class="view" id="view-4">
+    <section class="confirm-hero">
+      <div class="confirm-icon">
+        <svg viewBox="0 0 40 40" width="48" height="48" fill="none">
+          <circle cx="20" cy="20" r="19" fill="#34E0A1"/>
+          <path d="M11 20l6 6 12-13" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </div>
+      <div class="confirm-info">
+        <h1>You're booked.</h1>
+        <p class="conf-id">Confirmation <strong>TA-AJ7B2L9</strong> · receipt sent to your email</p>
+      </div>
+    </section>
+
+    <section class="confirm-card">
+      <div class="confirm-card-img">
+        <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=500&q=80&auto=format&fit=crop" alt=""/>
+      </div>
+      <div class="confirm-card-body">
+        <span class="badge">Travelers' Choice 2026</span>
+        <h3>Casa Anjuna Beach Resort</h3>
+        <p>Adjoining Sea-View Suites · 2 rooms · 4 guests</p>
+        <p>Friday May 22 – Sunday May 24, 2026 · 2 nights</p>
+        <p class="total">Total <strong>₹37,000</strong> · ₹9,250/person</p>
+      </div>
+    </section>
+
+    <section class="ambient">
+      <div class="ambient-head">
+        <h2><span class="agent-dot pulsing"></span> You've got Saturday night free in Anjuna.</h2>
+        <p>I noticed a few things that fit your brief. Hold any, dismiss any — none of these are booked yet.</p>
+      </div>
+      <div class="ambient-grid">
+        <article class="ambient-card">
+          <span class="ambient-tag">Dinner</span>
+          <h4>Gunpowder · 8pm Saturday</h4>
+          <p>#1 Goan restaurant in your area · 7-min ride · ₹2,400 for 4</p>
+          <p class="reason"><span class="agent-dot"></span> because you said "food" and Gunpowder is the #1 Goan-restaurant pick in the corpus</p>
+          <div class="ambient-actions">
+            <button class="primary small">Hold the table</button>
+            <button class="ghost small">Not this</button>
+          </div>
+        </article>
+        <article class="ambient-card">
+          <span class="ambient-tag">Activity</span>
+          <h4>Mandovi sunset cruise · 6pm</h4>
+          <p>4 seats open · ₹1,200/person · ~90 min · pickup from your hotel</p>
+          <p class="reason"><span class="agent-dot"></span> because you're a group of 4 and Saturday evening is your only open window</p>
+          <div class="ambient-actions">
+            <button class="primary small">Hold 4 spots</button>
+            <button class="ghost small">Not this</button>
+          </div>
+        </article>
+        <article class="ambient-card">
+          <span class="ambient-tag">Saturday morning</span>
+          <h4>Mapusa Saturday Market</h4>
+          <p>Local-favorite breakfast + market · 15-min ride · ~₹300/person</p>
+          <p class="reason"><span class="agent-dot"></span> flagged because you mentioned "food" and Saturday morning is open</p>
+          <div class="ambient-actions">
+            <button class="primary small">Add to plan</button>
+            <button class="ghost small">Not this</button>
+          </div>
+        </article>
+      </div>
+      <div class="ambient-foot">
+        <button class="ghost" id="restart">Start a fresh trip →</button>
+      </div>
+    </section>
+  </main>
+
+
+  <!-- VIEW-CITY — immersive destination experience (Goa) -->
+  <main class="view view-city" id="view-city">
+    <section class="city-hero">
+      <div class="city-hero-bg">
+        <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=1800&q=85&auto=format&fit=crop" alt="Goa coastline"/>
+      </div>
+      <div class="city-hero-overlay"></div>
+      <div class="city-hero-content">
+        <a class="city-back" data-view="1">← All destinations</a>
+        <span class="city-eyebrow">India · Konkan Coast</span>
+        <h1 class="city-title">
+          <span class="city-title-pre">Welcome to</span>
+          Goa
+        </h1>
+        <p class="city-tag">Beaches, food, and the country's most laid-back long weekend. We've read every review so you don't have to.</p>
+        <div class="city-stats">
+          <div class="city-stat"><strong>1.2M</strong><span>Reviews</span></div>
+          <div class="city-stat"><strong>178</strong><span>Hotels</span></div>
+          <div class="city-stat"><strong>340+</strong><span>Restaurants</span></div>
+          <div class="city-stat"><strong>89</strong><span>Things to do</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="city-digest">
+      <div class="city-digest-head">
+        <span class="city-digest-eyebrow">From 1.2M traveler reviews</span>
+        <h2>What Goa <em>actually</em> looks like</h2>
+        <p>Drawn from every review on the platform — tap any card to see the quotes.</p>
+      </div>
+      <div class="digest-grid">
+        <article class="digest-card">
+          <span class="digest-emoji">🍽</span>
+          <h3>Best for food</h3>
+          <p class="digest-main"><strong>Panjim</strong> dominates · 4.8 avg across the top 30 restaurants</p>
+          <p class="digest-sub">Bomras, Gunpowder, Edible Archives top mentions</p>
+        </article>
+        <article class="digest-card">
+          <span class="digest-emoji">👥</span>
+          <h3>Best for groups</h3>
+          <p class="digest-main"><strong>Anjuna & Vagator</strong> · 47% of group bookings cluster here</p>
+          <p class="digest-sub">Open bars, adjoining rooms, walkable strips</p>
+        </article>
+        <article class="digest-card">
+          <span class="digest-emoji">🌿</span>
+          <h3>Best for quiet</h3>
+          <p class="digest-main"><strong>South Goa</strong> · Sernabatim, Palolem, Patnem</p>
+          <p class="digest-sub">Highest "quiet" mention rate across all reviews</p>
+        </article>
+        <article class="digest-card">
+          <span class="digest-emoji">📅</span>
+          <h3>Best window</h3>
+          <p class="digest-main"><strong>Now → mid-June</strong> · monsoon edge, lowest crowds</p>
+          <p class="digest-sub">Rates ~22% below December peak · clear evenings</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="city-plan">
+      <div class="city-plan-inner">
+        <div class="city-plan-text">
+          <h2>Ready to <em>plan</em> your weekend?</h2>
+          <p>Tell us your dates, group size, and budget. We'll surface the stays that fit, hold the dinner reservations, and pencil in the activities.</p>
+        </div>
+        <button class="city-plan-cta" id="city-plan-btn">
+          Start planning my Goa trip
+          <span>→</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="city-explore">
+      <div class="city-row-head">
+        <h2>Things to <em>explore</em> in Goa</h2>
+        <a class="city-row-link">Browse all 89 →</a>
+      </div>
+      <div class="city-explore-grid">
+        <article class="explore-card">
+          <img src="https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?w=500&q=80&auto=format&fit=crop" alt="" loading="lazy"/>
+          <div class="explore-card-overlay"></div>
+          <div class="explore-card-body">
+            <span class="explore-card-tag">● Popular with groups</span>
+            <h4>North Goa sunset cruise</h4>
+            <p>From ₹1,200/person · 2,431 reviews</p>
+          </div>
+        </article>
+        <article class="explore-card">
+          <img src="https://images.unsplash.com/photo-1574236170880-faf8c2cdb3a4?w=500&q=80&auto=format&fit=crop" alt="" loading="lazy"/>
+          <div class="explore-card-overlay"></div>
+          <div class="explore-card-body">
+            <span class="explore-card-tag">● Top-rated local guide</span>
+            <h4>Old Goa heritage walk</h4>
+            <p>From ₹650/person · 986 reviews</p>
+          </div>
+        </article>
+        <article class="explore-card">
+          <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=500&q=80&auto=format&fit=crop" alt="" loading="lazy"/>
+          <div class="explore-card-overlay"></div>
+          <div class="explore-card-body">
+            <span class="explore-card-tag">● Foodie favorite</span>
+            <h4>Goan thali tasting</h4>
+            <p>From ₹1,800/person · 512 reviews</p>
+          </div>
+        </article>
+        <article class="explore-card">
+          <img src="https://images.unsplash.com/photo-1502136969935-8d8eef54d77b?w=500&q=80&auto=format&fit=crop" alt="" loading="lazy"/>
+          <div class="explore-card-overlay"></div>
+          <div class="explore-card-body">
+            <span class="explore-card-tag">● Trending this week</span>
+            <h4>Dudhsagar Falls day trip</h4>
+            <p>From ₹2,200/person · 3,104 reviews</p>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    /* ============================================================
+       Tripadvisor agentic flow — inlined for portability
+       ============================================================ */
+
+    const DEMO_QUERY = 'weekend trip to Goa with friends, ₹20k per person';
+
+    function showView(n) {
+      document.querySelectorAll('.view').forEach((v) => v.classList.remove('active'));
+      const target = document.getElementById('view-' + n);
+      if (target) {
+        target.classList.add('active');
+        if (String(n) === 'city') {
+          document.body.classList.add('city-mode');
+        } else {
+          document.body.classList.remove('city-mode');
+        }
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }
+    }
+
+    document.addEventListener('click', (e) => {
+      const trigger = e.target.closest('[data-view]');
+      if (trigger) {
+        e.preventDefault();
+        showView(trigger.dataset.view);
+      }
+    });
+
+    const chipsContainer = document.getElementById('intent-chips');
+    const liveChips = new Map();
+
+    function renderChip(chip) {
+      if (liveChips.has(chip.id)) return;
+      const el = document.createElement('button');
+      el.className = 'intent-chip' + (chip.uncertain ? ' uncertain' : '');
+      el.title = chip.detail || '';
+      el.innerHTML = '<span class="intent-chip-ico">' + chip.icon + '</span><span>' + chip.label + '</span><span class="intent-chip-edit">✎</span>';
+      el.style.animationDelay = liveChips.size * 70 + 'ms';
+      el.addEventListener('click', () => el.classList.toggle('uncertain'));
+      chipsContainer.appendChild(el);
+      liveChips.set(chip.id, el);
+      if (!chipsContainer.classList.contains('populated')) {
+        chipsContainer.classList.add('populated');
+      }
+    }
+
+    function clearChips() {
+      liveChips.clear();
+      chipsContainer.innerHTML = '';
+      chipsContainer.classList.remove('populated');
+    }
+
+    function parseQueryToChips(text) {
+      const lower = text.toLowerCase();
+      const matched = [];
+
+      if (/\bweekend\b/.test(lower)) {
+        matched.push({ id: 'dates', label: '2 nights', icon: '📅', detail: 'Fri 22 – Sun 24 May · tap to change' });
+      } else if (/(\d+)\s*(night|day)/.test(lower)) {
+        const m = lower.match(/(\d+)\s*(night|day)/);
+        matched.push({ id: 'dates', label: m[1] + ' ' + m[2] + (m[1] === '1' ? '' : 's'), icon: '📅' });
+      }
+
+      const dests = ['goa', 'kerala', 'rajasthan', 'himachal', 'mumbai', 'delhi', 'bangalore'];
+      for (const d of dests) {
+        if (new RegExp('\\b' + d + '\\b').test(lower)) {
+          matched.push({ id: 'dest', label: d.charAt(0).toUpperCase() + d.slice(1), icon: '📍' });
+          break;
+        }
+      }
+
+      if (/\bfriends?\b/.test(lower) || /\bgroup\b/.test(lower)) {
+        matched.push({ id: 'party', label: 'Group · 4 people', icon: '👥', detail: 'inferred — tap to change' });
+      } else if (/\bcouple\b|\bhoneymoon\b|\bromantic\b/.test(lower)) {
+        matched.push({ id: 'party', label: 'Couple · 2 people', icon: '💑' });
+      } else if (/\bsolo\b/.test(lower)) {
+        matched.push({ id: 'party', label: 'Solo', icon: '🧍' });
+      } else if (/\bfamily\b/.test(lower)) {
+        matched.push({ id: 'party', label: 'Family', icon: '👨‍👩‍👧' });
+      }
+
+      const bm = text.match(/(?:₹|rs\.?|inr)?\s*(\d{1,3})\s*k\b\s*(?:per person|\/\s*person|each|\/\s*head|pp)?/i);
+      if (bm) {
+        const isPP = /per person|\/\s*person|each|\/\s*head|pp/i.test(text);
+        matched.push({
+          id: 'budget',
+          label: '₹' + bm[1] + 'k' + (isPP ? ' / person' : ' total'),
+          icon: '💸',
+          detail: isPP ? '~₹' + (bm[1] * 4) + 'k total · split across stay, food, activities' : null
+        });
+      }
+
+      if (/\bfood|foodie|restaurant|culinary|eat\b/.test(lower)) matched.push({ id: 'food', label: 'Food', icon: '🍽' });
+      if (/\bbeach/.test(lower)) matched.push({ id: 'beach', label: 'Beach', icon: '🏖' });
+      if (/\bparty|nightlife|club\b/.test(lower)) matched.push({ id: 'nightlife', label: 'Nightlife', icon: '🕺' });
+      if (/\bquiet|peaceful|relaxing\b/.test(lower)) matched.push({ id: 'quiet', label: 'Quiet', icon: '🌿' });
+      if (/\btrek|trekking|hiking\b/.test(lower)) matched.push({ id: 'trek', label: 'Trekking', icon: '⛰' });
+      if (/\bbackwater/.test(lower)) matched.push({ id: 'backwater', label: 'Backwaters', icon: '🚣' });
+      if (/\bluxury\b/.test(lower)) matched.push({ id: 'luxury', label: 'Luxury', icon: '✨' });
+
+      return matched;
+    }
+
+    const searchInput = document.getElementById('search-input');
+    const agentProgress = document.getElementById('agent-progress');
+    const progressText = document.getElementById('progress-text');
+    const agentNext = document.getElementById('agent-next');
+    const agentSummary = document.getElementById('agent-summary');
+    const searchSuggestions = document.getElementById('search-suggestions');
+
+    let typingActive = false;
+
+    function hideDropdown() { if (searchSuggestions) searchSuggestions.hidden = true; }
+    function showDropdown() { if (searchSuggestions) searchSuggestions.hidden = false; }
+
+    function typeQuery(query) {
+      if (typingActive) return;
+      typingActive = true;
+      clearChips();
+      hideDropdown();
+      agentNext.hidden = true;
+      searchInput.value = '';
+      agentProgress.hidden = false;
+      progressText.textContent = 'Reading your brief';
+
+      let i = 0;
+      let lastChipCount = 0;
+      const step = () => {
+        if (i > query.length) {
+          typingActive = false;
+          finishParsing(query);
+          return;
+        }
+        searchInput.value = query.slice(0, i);
+        const chips = parseQueryToChips(searchInput.value);
+        if (chips.length > lastChipCount) {
+          for (let k = lastChipCount; k < chips.length; k++) renderChip(chips[k]);
+          lastChipCount = chips.length;
+          progressText.textContent = 'Parsed ' + chips.length + ' signal' + (chips.length === 1 ? '' : 's');
+        }
+        i++;
+        setTimeout(step, 28);
+      };
+      step();
+    }
+
+    function finishParsing(query) {
+      const chips = parseQueryToChips(query);
+      const dest = chips.find((c) => c.id === 'dest');
+      const party = chips.find((c) => c.id === 'party');
+      const budget = chips.find((c) => c.id === 'budget');
+      const prefs = chips.filter((c) => ['food', 'beach', 'nightlife', 'quiet', 'trek', 'backwater', 'luxury'].includes(c.id));
+
+      setTimeout(() => {
+        agentProgress.hidden = true;
+        const parts = [];
+        if (chips.find((c) => c.id === 'dates')) parts.push('<strong>' + chips.find((c) => c.id === 'dates').label + '</strong>');
+        if (dest) parts.push('in <strong>' + dest.label + '</strong>');
+        if (party) parts.push('for a <strong>' + party.label.toLowerCase() + '</strong>');
+        if (budget) parts.push('<strong>' + budget.label + '</strong>');
+        if (prefs.length) parts.push('weighted to ' + prefs.map((p) => '<strong>' + p.label.toLowerCase() + '</strong>').join(' + '));
+
+        const summary = parts.length ? 'Got it. Looking for ' + parts.join(', ') + '.' : 'Got it. Searching now.';
+        agentSummary.innerHTML = summary + '<br/><span style="opacity:0.65; font-size:13px">Checked 178 properties · 24 fit your brief.</span>';
+        agentNext.hidden = false;
+      }, 400);
+    }
+
+    document.querySelectorAll('[data-query]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        typeQuery(btn.dataset.query);
+        document.querySelector('.search-shell')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    });
+
+    document.getElementById('next-btn').addEventListener('click', () => {
+      showView(2);
+      renderHotels();
+    });
+
+    /* ============================================================
+       Contextual search suggestions — only appear when user types,
+       and adapt to what they typed. No static "AI picks" lying
+       around when the input is empty.
+       ============================================================ */
+
+    const SUGGESTIONS = {
+      goa: {
+        label: 'Top picks inGoa',
+        items: [
+          { ico: '🏖', title: 'Anjuna & Vagator beach stays', meta: '47% of group bookings cluster here · walkable strips', query: 'beachfront hotels in Anjuna for a group of 4' },
+          { ico: '🍽', title: 'Best Goan food in Panjim', meta: 'Bomras, Gunpowder, Edible Archives — all 4.7+ across 3k reviews', query: 'best Goan food restaurants in Panjim' },
+          { ico: '👥', title: 'Goa for the long weekend with friends', meta: '24 group-friendly stays · ₹15–25k/night band busiest', query: 'weekend trip to Goa with friends, ₹20k per person' },
+          { ico: '🌿', title: 'Quiet South Goa stretches', meta: 'Sernabatim, Palolem, Patnem · highest "quiet" mentions', query: 'quiet beach resorts in South Goa' }
+        ]
+      },
+      kerala: {
+        label: 'Top picks inKerala',
+        items: [
+          { ico: '🚣', title: 'Backwater houseboat stays', meta: 'Alleppey & Kumarakom · 3+ night average · trending', query: '5 nights in Kerala with family, mid-budget, backwaters' },
+          { ico: '🍵', title: 'Munnar tea estate retreats', meta: 'Cool weather year-round · top-rated for slow travel', query: 'Munnar tea estate stays' },
+          { ico: '🥘', title: 'Kochi food tours', meta: 'Fort Kochi heritage walks pair with Mattancherry food', query: 'Kochi food tour' },
+          { ico: '🏝', title: 'Varkala cliffside stays', meta: 'Beach-meets-cliff · backpacker-favorite reborn', query: 'Varkala beach resorts' }
+        ]
+      },
+      himachal: {
+        label: 'Top picks inHimachal',
+        items: [
+          { ico: '⛰', title: 'Triund trek — solo friendly', meta: 'Day trek from McLeod Ganj · clear May weather window', query: 'solo trip to Himachal, trekking, ₹15k' },
+          { ico: '🏔', title: 'Spiti circuit (open from June)', meta: '7+ nights · high-altitude desert · books out fast', query: 'Spiti valley road trip' },
+          { ico: '🌲', title: 'Old Manali cafés & stays', meta: 'Pre-monsoon window · trekking + slow days mixed', query: 'Old Manali stays' },
+          { ico: '☕', title: 'Dharamshala monastery walks', meta: 'McLeod Ganj base · top-rated guided tours', query: 'Dharamshala monastery tours' }
+        ]
+      },
+      rajasthan: {
+        label: 'Top picks inRajasthan',
+        items: [
+          { ico: '🏰', title: 'Udaipur lake palaces', meta: 'Honeymoon-trending · 5 historic palace hotels', query: 'honeymoon couple Rajasthan 7 nights luxury' },
+          { ico: '🐪', title: 'Jaisalmer desert camps', meta: 'Sam dunes overnight · ₹6–18k range', query: 'Jaisalmer desert camp stay' },
+          { ico: '🕌', title: 'Jodhpur old city walks', meta: 'Mehrangarh fort + blue city — heritage walks 4.8 avg', query: 'Jodhpur heritage walks' },
+          { ico: '🎨', title: 'Jaipur craft & food trail', meta: 'Block printing, blue pottery, dal baati', query: 'Jaipur cultural tours' }
+        ]
+      },
+      generic: {
+        label: 'Top picks',
+        items: [
+          { ico: '🏨', title: 'Hotels matching your search', meta: 'Refine with dates, group size, and budget', query: 'hotels search' },
+          { ico: '🍽', title: 'Restaurants in your area', meta: 'Filter by cuisine and rating', query: 'restaurants' },
+          { ico: '◎', title: 'Things to do nearby', meta: 'Top experiences and tours', query: 'things to do' },
+          { ico: '✦', title: 'Or use a fuller brief', meta: 'Describe your trip in your own words', query: 'weekend trip to Goa with friends, ₹20k per person' }
+        ]
+      }
+    };
+
+    function pickSuggestionSet(text) {
+      const q = text.toLowerCase();
+      if (/\b(goa|panjim|anjuna|baga|vagator|calangute|candolim|morjim|palolem|colva)\b/.test(q)) return SUGGESTIONS.goa;
+      if (/\b(kerala|kochi|munnar|alleppey|varkala|kovalam|wayanad)\b/.test(q)) return SUGGESTIONS.kerala;
+      if (/\b(himachal|manali|shimla|dharamshala|spiti|kasol|mcleod)\b/.test(q)) return SUGGESTIONS.himachal;
+      if (/\b(rajasthan|jaipur|udaipur|jodhpur|jaisalmer|pushkar)\b/.test(q)) return SUGGESTIONS.rajasthan;
+      return SUGGESTIONS.generic;
+    }
+
+    function renderSuggestions(text) {
+      const list = document.getElementById('suggestions-list');
+      const ctx = document.getElementById('suggestions-context');
+      if (!list || !ctx) return;
+      const set = pickSuggestionSet(text);
+      ctx.textContent = set.label;
+      list.innerHTML = set.items.map((item) => (
+        '<li class="suggestion" data-query="' + item.query.replace(/"/g, '&quot;') + '">' +
+          '<span class="suggestion-ico">' + item.ico + '</span>' +
+          '<div class="suggestion-body">' +
+            '<p class="suggestion-title">' + item.title + '</p>' +
+            '<p class="suggestion-meta">' + item.meta + '</p>' +
+          '</div>' +
+          '<span class="suggestion-arrow">→</span>' +
+        '</li>'
+      )).join('');
+      list.querySelectorAll('.suggestion').forEach((s) => {
+        s.addEventListener('click', () => {
+          searchInput.value = s.dataset.query;
+          hideDropdown();
+          showView(2);
+          renderHotels();
+        });
+      });
+    }
+
+    searchInput.addEventListener('input', () => {
+      const val = searchInput.value.trim();
+      if (!val) {
+        hideDropdown();
+        return;
+      }
+      renderSuggestions(val);
+      showDropdown();
+    });
+
+    searchInput.addEventListener('focus', () => {
+      const val = searchInput.value.trim();
+      if (val) {
+        renderSuggestions(val);
+        showDropdown();
+      }
+    });
+
+    // Close dropdown when clicking outside the search shell
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.search-shell')) {
+        hideDropdown();
+      }
+    });
+
+    document.getElementById('search-btn').addEventListener('click', () => {
+      hideDropdown();
+      showView(2);
+      renderHotels();
+    });
+
+    /* Hotel data */
+    const HOTELS = [
+      {
+        id: 'casa-anjuna', name: 'Casa Anjuna Beach Resort', location: 'Anjuna Beach, North Goa',
+        rating: 4.6, reviewCount: 1247, price: 18500, rank: 1, badge: "Travelers' Choice 2026",
+        img: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=600&q=80&auto=format&fit=crop',
+        tint: 'ocean',
+        adapted: {
+          food: 'Praised for breakfast in <strong>87%</strong> of recent reviews — <em>"three kinds of fresh dosa daily"</em>',
+          group: '<strong>Adjoining sea-view suites</strong> for 4 · 43 group bookings cited in last 6 months'
+        },
+        default: 'Beachfront resort with sunset-view pool and an on-property restaurant'
+      },
+      {
+        id: 'vagator-sands', name: 'Vagator Sands Villa', location: 'Vagator, North Goa',
+        rating: 4.7, reviewCount: 412, price: 22000, rank: 2,
+        img: 'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=600&q=80&auto=format&fit=crop',
+        tint: 'villa',
+        adapted: {
+          group: '<strong>Whole villa for 4</strong> · private plunge pool · 2 bedrooms · sleeps 6 if needed',
+          food: 'In-house chef does Goan + Continental on request — <em>"private dinner under fairy lights"</em>'
+        },
+        default: 'Standalone villa with plunge pool and direct cliff access'
+      },
+      {
+        id: 'coco-shambala', name: 'Coco Shambala, Sernabatim', location: 'Sernabatim, South Goa',
+        rating: 4.8, reviewCount: 268, price: 24500, rank: 3,
+        img: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=600&q=80&auto=format&fit=crop',
+        tint: 'tropical',
+        adapted: {
+          beach: 'Beach is <strong>30 sec walk</strong> through the resort gate · quietest stretch of South Goa',
+          food: 'Acclaimed seafood kitchen — <em>"order the king prawn balchão"</em>'
+        },
+        default: 'Quiet South Goa villas with private gardens'
+      },
+      {
+        id: 'goan-village', name: 'The Goan Village, Assagao', location: 'Assagao, North Goa',
+        rating: 4.5, reviewCount: 891, price: 16800, rank: 4,
+        img: 'https://images.unsplash.com/photo-1455587734955-081b22074882?w=600&q=80&auto=format&fit=crop',
+        tint: 'heritage',
+        adapted: {
+          food: "<strong>Walking distance to 4 of Goa's top-30 restaurants</strong> — Bomras, Gunpowder, Edible Archives, Vinayak",
+          group: 'Adjoining rooms · sound-insulated · breakfast till 11am'
+        },
+        default: 'Boutique stay in a Portuguese-era home'
+      },
+      {
+        id: 'riviera', name: 'Riviera Sun Suites', location: 'Calangute, North Goa',
+        rating: 4.3, reviewCount: 2104, price: 14200, rank: 5,
+        img: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80&auto=format&fit=crop',
+        tint: 'sunset',
+        adapted: {
+          budget: 'Under-budget for groups · <strong>₹14,200/night for the 4-person suite</strong> = ₹3,550/person/night',
+          food: 'Within 5 min walk of Souza Lobo and Infantaria — reliable Goan + bakery picks'
+        },
+        default: 'Budget-friendly central Calangute property'
+      },
+      {
+        id: 'la-cabana', name: 'La Cabana Beach Resort', location: 'Baga, North Goa',
+        rating: 4.4, reviewCount: 1623, price: 19500, rank: 6,
+        img: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=600&q=80&auto=format&fit=crop',
+        tint: 'nightlife',
+        adapted: {
+          group: 'Group-friendly · <strong>open bar till 2am</strong> · pool deck stays open · Baga main strip 4 min away',
+          beach: 'Direct beach steps · cabana-style rooms · party-strip walkable'
+        },
+        default: 'Resort on the Baga strip with pool and bar'
+      }
+    ];
+
+    const TINTS = {
+      ocean: 'linear-gradient(135deg, #A8DCE6, #4A8AA6)',
+      villa: 'linear-gradient(135deg, #D8F3E1, #4A8A6B)',
+      tropical: 'linear-gradient(135deg, #FFE4B0, #C97140)',
+      heritage: 'linear-gradient(135deg, #D6BC9C, #8A6B4A)',
+      sunset: 'linear-gradient(135deg, #FFD89B, #E8855D)',
+      nightlife: 'linear-gradient(135deg, #C9A86F, #5A3A1F)'
+    };
+
+    function pickAdapted(hotel, signals) {
+      const order = ['food', 'group', 'beach', 'budget'];
+      for (const s of order) {
+        if (signals.includes(s) && hotel.adapted[s]) return { signal: s, line: hotel.adapted[s] };
+      }
+      return { signal: null, line: hotel.default };
+    }
+
+    function renderHotels() {
+      const grid = document.getElementById('hotel-grid');
+      if (!grid) return;
+      const userSignals = ['food', 'group', 'beach', 'budget'];
+
+      grid.innerHTML = HOTELS.map((h) => {
+        const adapted = pickAdapted(h, userSignals);
+        const full = Math.floor(h.rating);
+        const half = h.rating - full >= 0.5;
+        const empty = 5 - full - (half ? 1 : 0);
+        const bubbles = '●'.repeat(full) + (half ? '◐' : '') + '○'.repeat(empty);
+        const perPerson = Math.round((h.price * 2) / 4);
+        const underBudget = perPerson <= 20000;
+        const bg = TINTS[h.tint] || TINTS.ocean;
+
+        return '<article class="hotel-card" data-hotel="' + h.id + '">' +
+          '<div class="hotel-card-img" style="background:' + bg + '">' +
+            '<img src="' + h.img + '" alt="' + h.name + '" loading="lazy"/>' +
+            '<button class="heart">♡</button>' +
+          '</div>' +
+          '<div class="hotel-card-body">' +
+            '<div class="hotel-card-badges">' +
+              (h.badge ? '<span class="badge">' + h.badge + '</span>' : '') +
+              '<span class="hotel-card-meta">#' + h.rank + ' of 178 in Goa</span>' +
+            '</div>' +
+            '<h3>' + h.name + '</h3>' +
+            '<div class="rating-row">' +
+              '<span class="bubbles">' + bubbles + '</span>' +
+              '<span class="rating-count"><strong>' + h.rating + '</strong> · ' + h.reviewCount.toLocaleString() + ' reviews</span>' +
+            '</div>' +
+            '<div class="hotel-card-meta">⌖ ' + h.location + '</div>' +
+            '<div class="hotel-card-adapted">' +
+              '<span class="agent-dot"></span>' +
+              '<span class="hotel-card-adapted-text">' + adapted.line + '</span>' +
+              (adapted.signal ? '<a class="hotel-card-adapted-cite">via reviews →</a>' : '') +
+            '</div>' +
+          '</div>' +
+          '<div class="hotel-card-price">' +
+            '<div>' +
+              '<div class="hcp-rate">₹' + h.price.toLocaleString() + '<small>/ night for 4</small></div>' +
+              '<div class="hcp-budget ' + (underBudget ? '' : 'over') + '">' +
+                (underBudget ? '✓ under your ₹20k/person budget' : '⚠ ₹' + (perPerson - 20000).toLocaleString() + '/person over') +
+              '</div>' +
+            '</div>' +
+            '<button class="hcp-cta">View details</button>' +
+          '</div>' +
+        '</article>';
+      }).join('');
+
+      grid.querySelectorAll('.hotel-card').forEach((card) => {
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('.heart')) return;
+          showView(3);
+        });
+      });
+    }
+
+    document.getElementById('show-empty')?.addEventListener('click', () => {
+      document.getElementById('hotel-grid').style.opacity = '0.3';
+      document.getElementById('hotel-grid').style.pointerEvents = 'none';
+      document.getElementById('empty-state').hidden = false;
+      document.getElementById('empty-state').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    document.getElementById('empty-undo')?.addEventListener('click', () => {
+      document.getElementById('hotel-grid').style.opacity = '';
+      document.getElementById('hotel-grid').style.pointerEvents = '';
+      document.getElementById('empty-state').hidden = true;
+    });
+
+    document.getElementById('empty-relax')?.addEventListener('click', () => {
+      document.getElementById('hotel-grid').style.opacity = '';
+      document.getElementById('hotel-grid').style.pointerEvents = '';
+      document.getElementById('empty-state').hidden = true;
+      const bf = document.getElementById('filter-breakfast');
+      bf.classList.remove('agent-set');
+      bf.querySelector('input').checked = false;
+      bf.querySelector('.agent-tag')?.remove();
+      document.getElementById('results-count-num').textContent = '7 properties';
+    });
+
+    document.getElementById('check-rates')?.addEventListener('click', () => showView(4));
+
+    document.querySelectorAll('.synth-chip').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        document.querySelector('.reviews-list').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    document.querySelectorAll('.ambient-card .primary').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('.ambient-card');
+        card.style.borderColor = 'var(--pos)';
+        card.style.background = 'var(--pos-bg)';
+        btn.textContent = '✓ Held — confirm later';
+        btn.disabled = true;
+      });
+    });
+
+    document.querySelectorAll('.ambient-card .ghost').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('.ambient-card');
+        card.style.opacity = '0.35';
+        card.style.pointerEvents = 'none';
+      });
+    });
+
+    document.getElementById('restart')?.addEventListener('click', () => {
+      clearChips();
+      searchInput.value = '';
+      agentNext.hidden = true;
+      agentProgress.hidden = true;
+      document.getElementById('empty-state').hidden = true;
+      document.getElementById('hotel-grid').style.opacity = '';
+      document.getElementById('hotel-grid').style.pointerEvents = '';
+      showView(1);
+    });
+
+    document.querySelectorAll('.search-tab').forEach((tab) => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.search-tab').forEach((t) => t.classList.remove('active'));
+        tab.classList.add('active');
+      });
+    });
+
+    /* ============================================================
+       Destination cards → cinematic card-open transition
+       The clicked card's image visually expands to fill the
+       viewport, then the city view emerges underneath. Feels
+       like opening a door into the destination.
+       ============================================================ */
+
+    function openCityFromCard(card) {
+      const imgEl = card.querySelector('.dest-img img');
+      const imgWrap = card.querySelector('.dest-img');
+      if (!imgEl || !imgWrap) {
+        showView('city');
+        return;
+      }
+
+      const rect = imgWrap.getBoundingClientRect();
+      const radius = window.getComputedStyle(imgWrap).borderRadius;
+
+      const overlay = document.createElement('div');
+      overlay.className = 'card-open-overlay';
+      overlay.style.top = rect.top + 'px';
+      overlay.style.left = rect.left + 'px';
+      overlay.style.width = rect.width + 'px';
+      overlay.style.height = rect.height + 'px';
+      overlay.style.borderRadius = radius;
+
+      const cloned = new Image();
+      cloned.src = imgEl.src;
+      cloned.alt = '';
+      overlay.appendChild(cloned);
+
+      document.body.appendChild(overlay);
+      card.classList.add('opening');
+      document.body.classList.add('opening-card');
+
+      // Two RAFs to ensure the browser registers the initial state
+      // before transitioning to the expanded state.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          overlay.classList.add('expanding');
+        });
+      });
+
+      // Mid-expand, switch the underlying view so when the overlay
+      // fades, the city view is ready and visible underneath.
+      setTimeout(() => {
+        showView('city');
+      }, 600);
+
+      // After the expand completes, fade the overlay out — the city
+      // view's hero image takes over seamlessly.
+      setTimeout(() => {
+        overlay.classList.add('fading');
+        setTimeout(() => {
+          overlay.remove();
+          card.classList.remove('opening');
+          document.body.classList.remove('opening-card');
+        }, 520);
+      }, 870);
+    }
+
+    document.querySelectorAll('#view-1 .dest-card').forEach((card) => {
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.heart')) return;
+        openCityFromCard(card);
+      });
+    });
+
+    /* The "Start planning my Goa trip" CTA inside the city view
+       hands off to the existing search results (24 Goa hotels). */
+    document.getElementById('city-plan-btn')?.addEventListener('click', () => {
+      showView(2);
+      renderHotels();
+    });
+
+    renderHotels();
+  </script>
+</body>
+</html>

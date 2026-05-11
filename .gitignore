@@ -1,0 +1,11 @@
+.claude/
+.DS_Store
+.env
+.env.local
+node_modules/
+
+# Superseded standalone files — everything is inlined into index.html.
+# Kept in the working directory for reference but not pushed to the repo.
+styles.css
+agent.css
+app.js
