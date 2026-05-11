@@ -1318,167 +1318,182 @@
       cursor: pointer;
     }
 
+    /* Hotel grid — visual-first cards in a 2-up layout that
+       echoes the homepage destination cards. */
     .hotel-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
     }
 
-    /* Hotel card */
+    @media (max-width: 1100px) {
+      .hotel-grid { grid-template-columns: 1fr; }
+    }
+
     .hotel-card {
-      display: grid;
-      grid-template-columns: 300px 1fr 220px;
-      gap: 22px;
-      background: var(--ta-bg);
-      border: 1px solid var(--ta-border);
+      position: relative;
       border-radius: var(--r-lg);
-      padding: 18px;
+      overflow: hidden;
       cursor: pointer;
-      transition: box-shadow 0.25s ease, transform 0.2s ease, border-color 0.2s ease;
+      background: white;
+      border: 1px solid var(--ta-border);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.3s ease,
+                  border-color 0.25s ease;
     }
 
     .hotel-card:hover {
+      transform: translateY(-4px);
       box-shadow: var(--sh-lg);
-      transform: translateY(-2px);
       border-color: var(--ta-border-2);
     }
 
-    .hotel-card-img {
+    .hotel-card-media {
       position: relative;
-      aspect-ratio: 4 / 3;
-      border-radius: var(--r);
+      aspect-ratio: 16 / 11;
       overflow: hidden;
-      background: linear-gradient(135deg, #FFE4B0, #FF9A6C);
     }
 
-    .hotel-card-img img {
+    .hotel-card-media img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.5s ease;
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .hotel-card:hover .hotel-card-img img { transform: scale(1.04); }
+    .hotel-card:hover .hotel-card-media img { transform: scale(1.06); }
 
-    .hotel-card-body {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      min-width: 0;
+    .hotel-card-tc {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      z-index: 2;
+      padding: 5px 11px;
+      background: rgba(14, 31, 45, 0.88);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--ta-green);
+      border-radius: var(--r-pill);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
     }
 
-    .hotel-card-badges {
+    .hotel-card .heart { z-index: 3; }
+
+    .hotel-card-shadow {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 65%;
+      background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.82) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hotel-card-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 18px 20px;
+      color: white;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .hotel-card-rating-row {
       display: flex;
-      gap: 8px;
       align-items: center;
-      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 6px;
     }
 
-    .hotel-card h3 {
-      font-size: 21px;
+    .hotel-card-overlay .bubbles {
+      color: var(--ta-green);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+    }
+
+    .hotel-card-rating-text {
+      font-size: 12.5px;
+      color: rgba(255, 255, 255, 0.92);
+      font-weight: 600;
+    }
+
+    .hotel-card-overlay h3 {
+      font-size: 22px;
       font-weight: 800;
-      line-height: 1.2;
-      color: var(--ta-text);
-      letter-spacing: -0.015em;
+      letter-spacing: -0.018em;
+      color: white;
+      line-height: 1.15;
+      margin-bottom: 10px;
     }
 
-    .hotel-card-meta { font-size: 13px; color: var(--ta-text-2); }
-
-    .hotel-card-adapted {
+    .hotel-card-foot {
       display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 11px 14px;
-      background: var(--agent-bg-2);
-      border-left: 3px solid var(--agent);
-      border-radius: 0 var(--r-sm) var(--r-sm) 0;
-      margin-top: 4px;
-    }
-
-    .hotel-card-adapted-text {
-      font-size: 13.5px;
-      line-height: 1.5;
-      color: var(--ta-text);
-      flex: 1;
-      font-weight: 500;
-    }
-
-    .hotel-card-adapted-text strong { font-weight: 800; }
-    .hotel-card-adapted-text em { font-style: italic; color: var(--ta-text-2); }
-
-    .hotel-card-adapted-cite {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--agent);
-      text-decoration: underline;
-      text-underline-offset: 2px;
-      cursor: pointer;
-      flex-shrink: 0;
-      white-space: nowrap;
-      align-self: center;
-    }
-
-    .hotel-card-adapted .agent-dot { margin-top: 6px; }
-
-    .hotel-card-price {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
       justify-content: space-between;
-      text-align: right;
-      border-left: 1px solid var(--ta-border);
-      padding-left: 22px;
+      align-items: baseline;
+      gap: 12px;
     }
 
-    .hcp-rate {
-      font-size: 24px;
+    .hotel-card-loc {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .hotel-card-price-tag {
+      font-size: 18px;
       font-weight: 800;
+      color: white;
       letter-spacing: -0.01em;
     }
 
-    .hcp-rate small {
+    .hotel-card-price-tag small {
       font-size: 11.5px;
       font-weight: 600;
-      color: var(--ta-text-2);
-      display: block;
-      margin-top: 2px;
-      letter-spacing: 0;
+      color: rgba(255, 255, 255, 0.8);
+      margin-left: 3px;
     }
 
-    .hcp-budget {
-      font-size: 12px;
-      color: var(--ta-green-dark);
-      margin-top: 6px;
-      font-weight: 600;
+    /* Thin AI-insight strip under the image — keeps the visual
+       weight on the photo while keeping the agent's read visible. */
+    .hotel-card-ai {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      background: var(--agent-bg-2);
+      border-top: 1px solid var(--agent-border);
+      font-size: 12.5px;
+      color: var(--ta-text);
+      line-height: 1.4;
     }
 
-    .hcp-budget.over { color: var(--ta-red); }
+    .hotel-card-ai-text {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
 
-    .hcp-cta {
-      height: 42px;
-      padding: 0 18px;
-      background: var(--ta-text);
-      color: var(--ta-text-inv);
+    .hotel-card-ai-text strong { font-weight: 800; }
+    .hotel-card-ai-text em { color: var(--ta-text-2); }
+
+    .hotel-card-budget-tag {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--pos);
+      padding: 3px 8px;
+      background: var(--pos-bg);
       border-radius: var(--r-pill);
-      font-weight: 700;
-      font-size: 13.5px;
-      transition: background 0.18s ease, transform 0.1s ease;
-      margin-top: 14px;
-      font-family: var(--font);
-    }
-
-    .hcp-cta:hover { background: #1A2D3C; }
-
-    @media (max-width: 900px) {
-      .hotel-card { grid-template-columns: 1fr; }
-      .hotel-card-price {
-        border-left: 0;
-        padding-left: 0;
-        border-top: 1px solid var(--ta-border);
-        padding-top: 14px;
-        align-items: flex-start;
-        text-align: left;
-      }
+      flex-shrink: 0;
+      white-space: nowrap;
     }
 
     /* Empty state */
@@ -3339,6 +3354,59 @@
 
     .assist-context-pill .agent-dot { width: 6px; height: 6px; }
 
+    /* Chat thread — appended messages from user + agent */
+    .assist-thread {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .assist-thread:empty { display: none; }
+
+    .assist-msg {
+      padding: 10px 13px;
+      border-radius: 14px;
+      font-size: 13px;
+      line-height: 1.45;
+      max-width: 88%;
+      animation: msgIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes msgIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .assist-msg-user {
+      background: var(--ta-text);
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+      font-weight: 500;
+    }
+
+    .assist-msg-agent {
+      background: var(--agent-bg);
+      color: var(--agent-text);
+      border: 1px solid var(--agent-border);
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+      font-weight: 600;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .assist-msg-agent .agent-dot {
+      width: 6px;
+      height: 6px;
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+
+    .assist-msg-agent strong { font-weight: 800; }
+
     .assist-sugs {
       display: flex;
       flex-direction: column;
@@ -4193,6 +4261,7 @@
           <span class="agent-dot"></span>
           <span id="assist-context-text">Watching your search</span>
         </div>
+        <div class="assist-thread" id="assist-thread"></div>
         <div class="assist-sugs" id="assist-sugs"></div>
       </div>
       <div class="assist-input">
@@ -4286,6 +4355,71 @@
     const assistStatus = document.getElementById('assist-status-text');
     const assistContext = document.getElementById('assist-context-text');
     const assistSugs = document.getElementById('assist-sugs');
+    const assistThread = document.getElementById('assist-thread');
+    const assistInputField = document.getElementById('assist-input-field');
+    const assistSend = document.getElementById('assist-send');
+    const assistBody = document.querySelector('.assist-body');
+
+    /* Rule-based "AI" response generator. In a real product an LLM
+       would handle this with full context; for the prototype we map
+       intents to concrete answers that reflect the current view. */
+    function generateAgentReply(text) {
+      const q = (text || '').toLowerCase();
+      if (/(under|less|below|cheap|budget)\s*(\d|20k|15k|10k)|20k|15k|10k|cancel/.test(q)) {
+        return 'Filtered to <strong>12 stays</strong> in your budget · average rating now <strong>4.7</strong>. The 4 hotels above ₹20k/person are tucked away.';
+      }
+      if (/free.?cancel|cancel/.test(q)) {
+        return 'Showing <strong>9 stays</strong> with free cancellation up to 48hrs before check-in.';
+      }
+      if (/beach|walk|near.+beach/.test(q)) {
+        return '<strong>7 stays</strong> are within a 5-min walk to a beach. Top 3: Casa Anjuna, Coco Shambala, La Cabana.';
+      }
+      if (/3.?hour|flight|airport|before.?flight/.test(q)) {
+        return 'Best within <strong>30 min of GOI airport</strong>: <em>Black Sheep Bistro</em> (8 min from your hotel), <em>The Salt Water Cafe</em> (12 min), and a Pre Departure lounge with a day pass option.';
+      }
+      if (/group|friend/.test(q)) {
+        return '<strong>5 group-friendly stays</strong> with adjoining rooms surfaced to the top. Avg group size in reviews: 4–6.';
+      }
+      if (/dinner|food|eat|restaurant/.test(q)) {
+        return 'Top picks within 10 min: <strong>Gunpowder</strong> (8pm available · ₹2,400 for 4), <strong>Bomras</strong> (waitlist), <strong>Edible Archives</strong> (5pm tasting slot).';
+      }
+      if (/morning|breakfast|saturday/.test(q)) {
+        return 'For Saturday morning: <strong>Mapusa market</strong> opens at 6am · 15-min drive · ~₹300/person. Plus the in-house dosa station from 7am.';
+      }
+      if (/quiet|peaceful/.test(q)) {
+        return 'Quietest 3 in South Goa: <strong>Coco Shambala</strong>, <strong>Sernabatim Beach Resort</strong>, <strong>Patnem Stay</strong>. All 4.6+ on the "quiet" mention rate.';
+      }
+      if (/itinerary|plan|2.?night/.test(q)) {
+        return 'Drafted a 2-night plan: <strong>Fri evening</strong> Gunpowder dinner · <strong>Sat</strong> Mapusa market + Anjuna beach + sunset cruise · <strong>Sun</strong> brunch at La Plage, depart by 5pm.';
+      }
+      return 'On it. Anything else to refine?';
+    }
+
+    function appendUserMessage(text) {
+      if (!assistThread) return;
+      const el = document.createElement('div');
+      el.className = 'assist-msg assist-msg-user';
+      el.textContent = text;
+      assistThread.appendChild(el);
+      if (assistBody) assistBody.scrollTop = assistBody.scrollHeight;
+    }
+
+    function appendAgentMessage(html) {
+      if (!assistThread) return;
+      const el = document.createElement('div');
+      el.className = 'assist-msg assist-msg-agent';
+      el.innerHTML = '<span class="agent-dot pulsing"></span><span>' + html + '</span>';
+      assistThread.appendChild(el);
+      if (assistBody) assistBody.scrollTop = assistBody.scrollHeight;
+    }
+
+    function sendAssistMessage(text) {
+      const value = (text || '').trim();
+      if (!value) return;
+      appendUserMessage(value);
+      // Brief delay so it feels like the agent is "thinking"
+      setTimeout(() => appendAgentMessage(generateAgentReply(value)), 380);
+    }
 
     function updateAssist(viewName) {
       const ctx = ASSIST_CONTEXTS[String(viewName)];
@@ -4297,22 +4431,27 @@
       if (assistStatus) assistStatus.textContent = ctx.status;
       if (assistIntro) assistIntro.textContent = ctx.intro;
       if (assistContext) assistContext.textContent = ctx.context;
+      // Reset the thread on view change so context is clean
+      if (assistThread) assistThread.innerHTML = '';
       if (assistSugs) {
         assistSugs.innerHTML = ctx.suggestions.map((s) => (
-          '<button class="assist-sug">' +
+          '<button class="assist-sug" data-sug="' + s.replace(/"/g, '&quot;') + '">' +
             '<span>' + s + '</span>' +
             '<span class="assist-sug-arrow">→</span>' +
           '</button>'
         )).join('');
         assistSugs.querySelectorAll('.assist-sug').forEach((b) => {
           b.addEventListener('click', () => {
-            // Visual confirmation — in a real product this would route
-            // to a filtered view or a chat response.
+            const text = b.dataset.sug || b.textContent.trim();
+            // Mark the suggestion as applied
             b.style.background = 'var(--pos-bg)';
             b.style.borderColor = 'var(--pos)';
             b.style.color = 'var(--pos)';
             const arrow = b.querySelector('.assist-sug-arrow');
             if (arrow) { arrow.textContent = '✓'; arrow.style.color = 'var(--pos)'; }
+            b.disabled = true;
+            // Send it through the message pipeline so it produces a real reply
+            sendAssistMessage(text);
           });
         });
       }
@@ -4326,6 +4465,19 @@
     if (assistClose && assistPanel) {
       assistClose.addEventListener('click', () => {
         assistPanel.hidden = true;
+      });
+    }
+    if (assistSend && assistInputField) {
+      assistSend.addEventListener('click', () => {
+        sendAssistMessage(assistInputField.value);
+        assistInputField.value = '';
+      });
+      assistInputField.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          sendAssistMessage(assistInputField.value);
+          assistInputField.value = '';
+        }
       });
     }
     // Close panel when clicking outside the whole assist widget
@@ -4788,37 +4940,32 @@
         const perPerson = Math.round((h.price * 2) / 4);
         const underBudget = perPerson <= 20000;
         const bg = TINTS[h.tint] || TINTS.ocean;
+        const locShort = h.location.split(',')[0];
 
+        // Visual-first card: image dominates, text is overlaid at the
+        // bottom, a thin AI-insight strip sits beneath the image.
         return '<article class="hotel-card" data-hotel="' + h.id + '">' +
-          '<div class="hotel-card-img" style="background:' + bg + '">' +
+          '<div class="hotel-card-media" style="background:' + bg + '">' +
             '<img src="' + h.img + '" alt="' + h.name + '" loading="lazy"/>' +
-            '<button class="heart">♡</button>' +
-          '</div>' +
-          '<div class="hotel-card-body">' +
-            '<div class="hotel-card-badges">' +
-              (h.badge ? '<span class="badge">' + h.badge + '</span>' : '') +
-              '<span class="hotel-card-meta">#' + h.rank + ' of 178 in Goa</span>' +
-            '</div>' +
-            '<h3>' + h.name + '</h3>' +
-            '<div class="rating-row">' +
-              '<span class="bubbles">' + bubbles + '</span>' +
-              '<span class="rating-count"><strong>' + h.rating + '</strong> · ' + h.reviewCount.toLocaleString() + ' reviews</span>' +
-            '</div>' +
-            '<div class="hotel-card-meta">⌖ ' + h.location + '</div>' +
-            '<div class="hotel-card-adapted">' +
-              '<span class="agent-dot"></span>' +
-              '<span class="hotel-card-adapted-text">' + adapted.line + '</span>' +
-              (adapted.signal ? '<a class="hotel-card-adapted-cite">via reviews →</a>' : '') +
-            '</div>' +
-          '</div>' +
-          '<div class="hotel-card-price">' +
-            '<div>' +
-              '<div class="hcp-rate">₹' + h.price.toLocaleString() + '<small>/ night for 4</small></div>' +
-              '<div class="hcp-budget ' + (underBudget ? '' : 'over') + '">' +
-                (underBudget ? '✓ under your ₹20k/person budget' : '⚠ ₹' + (perPerson - 20000).toLocaleString() + '/person over') +
+            (h.badge ? '<span class="hotel-card-tc">' + h.badge + '</span>' : '') +
+            '<button class="heart" aria-label="Save">♡</button>' +
+            '<div class="hotel-card-shadow"></div>' +
+            '<div class="hotel-card-overlay">' +
+              '<div class="hotel-card-rating-row">' +
+                '<span class="bubbles">' + bubbles + '</span>' +
+                '<span class="hotel-card-rating-text">' + h.rating + ' · ' + h.reviewCount.toLocaleString() + ' reviews</span>' +
+              '</div>' +
+              '<h3>' + h.name + '</h3>' +
+              '<div class="hotel-card-foot">' +
+                '<span class="hotel-card-loc">' + locShort + '</span>' +
+                '<span class="hotel-card-price-tag">₹' + h.price.toLocaleString() + '<small>/night</small></span>' +
               '</div>' +
             '</div>' +
-            '<button class="hcp-cta">View details</button>' +
+          '</div>' +
+          '<div class="hotel-card-ai">' +
+            '<span class="agent-dot"></span>' +
+            '<span class="hotel-card-ai-text">' + adapted.line + '</span>' +
+            (underBudget ? '<span class="hotel-card-budget-tag">✓ ₹' + perPerson.toLocaleString() + '/p</span>' : '') +
           '</div>' +
         '</article>';
       }).join('');
