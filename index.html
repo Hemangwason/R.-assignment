@@ -3994,56 +3994,124 @@
        around when the input is empty.
        ============================================================ */
 
+    /* Intent-aware trip suggestions. The picker reads the user's
+       query for a TRIP TYPE first (weekend, honeymoon, food, solo,
+       family, adventure) and falls back to DESTINATION matches
+       (Goa, Kerala, Himachal, Rajasthan) before defaulting to a
+       trending mix. Each item reads like a real curated plan —
+       duration, key activities, price band — not a category label. */
     const SUGGESTIONS = {
+      weekend: {
+        label: 'Weekend trips · ready to plan',
+        items: [
+          { ico: '🏖', title: 'Weekend in Goa with friends', meta: '2 nights · 24 group-friendly stays in ₹15–25k · beaches + Panjim food trail', query: 'weekend trip to Goa with friends, ₹20k per person' },
+          { ico: '🌧', title: 'Weekend in Lonavala', meta: '2-hour drive from Mumbai · 18 villas + boutique hotels · waterfalls in season', query: 'weekend trip to Lonavala' },
+          { ico: '🏰', title: 'Weekend in Jaipur', meta: '2 nights · heritage palace hotels from ₹8k · Amer Fort + Bapu Bazaar', query: 'weekend trip to Jaipur' },
+          { ico: '🌴', title: 'Weekend in Pondicherry', meta: '2 nights · French Quarter boutique stays · cafés + Auroville day trip', query: 'weekend trip to Pondicherry' }
+        ]
+      },
+      honeymoon: {
+        label: 'Honeymoon ideas · curated for couples',
+        items: [
+          { ico: '🏰', title: 'Udaipur lake palaces', meta: '5 nights · 5 historic palace hotels · trending Apr–Jun · ₹25k+/night', query: 'honeymoon couple Rajasthan 7 nights luxury' },
+          { ico: '🏝', title: 'Andamans private islands', meta: '7 nights · Havelock + Neil · diving + sunsets · resorts from ₹15k', query: 'honeymoon Andamans 7 nights' },
+          { ico: '🚣', title: 'Kerala backwaters + Munnar', meta: '6 nights · houseboat cruise + tea estate hill stay · slow + scenic', query: 'honeymoon Kerala backwaters' },
+          { ico: '☕', title: 'Coorg coffee estate retreats', meta: '4 nights · private plantations · misty weather year-round', query: 'honeymoon Coorg luxury' }
+        ]
+      },
+      food: {
+        label: 'Food trips · planned around the table',
+        items: [
+          { ico: '🍽', title: 'Panjim food trail in Goa', meta: '3 nights · 12 top restaurants · Bomras, Gunpowder, Edible Archives', query: 'best Goan food in Panjim 3 nights' },
+          { ico: '🍛', title: 'Hyderabad biryani circuit', meta: '2 nights · 8 iconic biryani spots · Paradise → Bawarchi → Shadab', query: 'Hyderabad biryani trip' },
+          { ico: '🥘', title: 'Lucknow nawabi cuisine', meta: '3 nights · 10 heritage restaurants · Tunday + Idris kababs · Aminabad', query: 'Lucknow food trip' },
+          { ico: '🍢', title: 'Amritsar street food weekend', meta: '2 nights · 15 famous stops · kulchas, chole, lassis + langar', query: 'Amritsar food weekend' }
+        ]
+      },
+      solo: {
+        label: 'Solo travel · safe, social, planned',
+        items: [
+          { ico: '⛰', title: 'Solo Himachal trek', meta: '5 nights · Triund + McLeod Ganj · hostels + monastery stays · ₹15k total', query: 'solo trip to Himachal, trekking, ₹15k' },
+          { ico: '🏖', title: 'Solo Goa hostels', meta: '4 nights · Anjuna backpacker hostels · sunset cafés + cliff walks', query: 'solo Goa backpacker hostels' },
+          { ico: '🏛', title: 'Solo Pondicherry', meta: '3 nights · French Quarter cycling · Auroville day trip · €€', query: 'solo Pondicherry trip' },
+          { ico: '🧘', title: 'Solo Rishikesh retreat', meta: '5 nights · yoga ashram + Ganges aarti · vegetarian focused', query: 'solo Rishikesh yoga retreat' }
+        ]
+      },
+      family: {
+        label: 'Family trips · kid-tested itineraries',
+        items: [
+          { ico: '🚣', title: 'Family Kerala houseboat', meta: '5 nights · backwaters + Munnar tea estate · safe with kids', query: '5 nights in Kerala with family, mid-budget, backwaters' },
+          { ico: '🏔', title: 'Mussoorie + Dehradun', meta: '4 nights · Camel\'s Back walks + cable car · cool weather', query: 'family Mussoorie trip' },
+          { ico: '🦁', title: 'Ranthambore tiger safari', meta: '3 nights · 4 safari drives · spotting peak Apr–Jun', query: 'family Ranthambore safari' },
+          { ico: '🏖', title: 'Goa villa for the family', meta: '4 nights · private villa with pool · sleeps 6 · kid-friendly beach', query: 'family Goa villa stay' }
+        ]
+      },
+      adventure: {
+        label: 'Adventure trips · plan-ready',
+        items: [
+          { ico: '⛰', title: 'Hampta Pass trek', meta: '5 nights · moderate difficulty · valley crossing · groups Jun–Sep', query: 'Hampta Pass trek booking' },
+          { ico: '🚣', title: 'Rishikesh river rafting', meta: '3 nights · Ganges grade 3+ rapids · camping + cliff jumps', query: 'Rishikesh rafting weekend' },
+          { ico: '🛻', title: 'Spiti valley road trip', meta: '10 nights · high-altitude desert · Kaza + monasteries · self-drive', query: 'Spiti valley road trip' },
+          { ico: '🚵', title: 'Manali → Leh bike tour', meta: '9 nights · Khardung La pass · for experienced riders only', query: 'Manali Leh bike tour' }
+        ]
+      },
       goa: {
         label: 'Top picks in Goa',
         items: [
-          { ico: '🏖', title: 'Anjuna & Vagator beach stays', meta: '47% of group bookings cluster here · walkable strips', query: 'beachfront hotels in Anjuna for a group of 4' },
-          { ico: '🍽', title: 'Best Goan food in Panjim', meta: 'Bomras, Gunpowder, Edible Archives — all 4.7+ across 3k reviews', query: 'best Goan food restaurants in Panjim' },
-          { ico: '👥', title: 'Goa for the long weekend with friends', meta: '24 group-friendly stays · ₹15–25k/night band busiest', query: 'weekend trip to Goa with friends, ₹20k per person' },
-          { ico: '🌿', title: 'Quiet South Goa stretches', meta: 'Sernabatim, Palolem, Patnem · highest "quiet" mentions', query: 'quiet beach resorts in South Goa' }
+          { ico: '🏖', title: 'Anjuna & Vagator beach stays', meta: '47% of group bookings cluster here · walkable strips · ₹15-22k/night', query: 'beachfront hotels in Anjuna for a group of 4' },
+          { ico: '🍽', title: 'Panjim Goan food trail', meta: '3-day food plan · Bomras, Gunpowder, Edible Archives — all 4.7+ rated', query: 'best Goan food restaurants in Panjim' },
+          { ico: '👥', title: 'Goa for the long weekend', meta: '2 nights · 24 group-friendly stays · ₹15-25k/night band busiest', query: 'weekend trip to Goa with friends, ₹20k per person' },
+          { ico: '🌿', title: 'Quiet South Goa stretches', meta: 'Sernabatim, Palolem, Patnem · highest "quiet" review mentions', query: 'quiet beach resorts in South Goa' }
         ]
       },
       kerala: {
         label: 'Top picks in Kerala',
         items: [
-          { ico: '🚣', title: 'Backwater houseboat stays', meta: 'Alleppey & Kumarakom · 3+ night average · trending', query: '5 nights in Kerala with family, mid-budget, backwaters' },
-          { ico: '🍵', title: 'Munnar tea estate retreats', meta: 'Cool weather year-round · top-rated for slow travel', query: 'Munnar tea estate stays' },
-          { ico: '🥘', title: 'Kochi food tours', meta: 'Fort Kochi heritage walks pair with Mattancherry food', query: 'Kochi food tour' },
-          { ico: '🏝', title: 'Varkala cliffside stays', meta: 'Beach-meets-cliff · backpacker-favorite reborn', query: 'Varkala beach resorts' }
+          { ico: '🚣', title: 'Backwater houseboat stays', meta: 'Alleppey & Kumarakom · 3+ night average · houseboats from ₹8k', query: '5 nights in Kerala with family, mid-budget, backwaters' },
+          { ico: '🍵', title: 'Munnar tea estate retreats', meta: 'Cool weather year-round · top-rated for slow travel · ₹6-15k/night', query: 'Munnar tea estate stays' },
+          { ico: '🥘', title: 'Kochi food + heritage', meta: '3 nights · Fort Kochi walks + Mattancherry spice market + Jew Town', query: 'Kochi food tour' },
+          { ico: '🏝', title: 'Varkala cliffside stays', meta: 'Beach-meets-cliff · backpacker-favorite reborn · ₹3-12k/night', query: 'Varkala beach resorts' }
         ]
       },
       himachal: {
         label: 'Top picks in Himachal',
         items: [
-          { ico: '⛰', title: 'Triund trek — solo friendly', meta: 'Day trek from McLeod Ganj · clear May weather window', query: 'solo trip to Himachal, trekking, ₹15k' },
-          { ico: '🏔', title: 'Spiti circuit (open from June)', meta: '7+ nights · high-altitude desert · books out fast', query: 'Spiti valley road trip' },
-          { ico: '🌲', title: 'Old Manali cafés & stays', meta: 'Pre-monsoon window · trekking + slow days mixed', query: 'Old Manali stays' },
-          { ico: '☕', title: 'Dharamshala monastery walks', meta: 'McLeod Ganj base · top-rated guided tours', query: 'Dharamshala monastery tours' }
+          { ico: '⛰', title: 'Triund trek — solo friendly', meta: '5 nights · Day trek from McLeod Ganj · clear May weather · hostels ₹500+', query: 'solo trip to Himachal, trekking, ₹15k' },
+          { ico: '🏔', title: 'Spiti circuit (June onwards)', meta: '10 nights · high-altitude desert · Kaza + monasteries · books out fast', query: 'Spiti valley road trip' },
+          { ico: '🌲', title: 'Old Manali cafés & stays', meta: '4 nights · pre-monsoon window · trekking + slow days mixed', query: 'Old Manali stays' },
+          { ico: '☕', title: 'Dharamshala monastery walks', meta: '3 nights · McLeod Ganj base · top-rated guided tours · 4.8 avg', query: 'Dharamshala monastery tours' }
         ]
       },
       rajasthan: {
         label: 'Top picks in Rajasthan',
         items: [
-          { ico: '🏰', title: 'Udaipur lake palaces', meta: 'Honeymoon-trending · 5 historic palace hotels', query: 'honeymoon couple Rajasthan 7 nights luxury' },
-          { ico: '🐪', title: 'Jaisalmer desert camps', meta: 'Sam dunes overnight · ₹6–18k range', query: 'Jaisalmer desert camp stay' },
-          { ico: '🕌', title: 'Jodhpur old city walks', meta: 'Mehrangarh fort + blue city — heritage walks 4.8 avg', query: 'Jodhpur heritage walks' },
-          { ico: '🎨', title: 'Jaipur craft & food trail', meta: 'Block printing, blue pottery, dal baati', query: 'Jaipur cultural tours' }
+          { ico: '🏰', title: 'Udaipur lake palaces', meta: '5 nights · 5 historic palace hotels · honeymoon-trending Apr-Jun', query: 'honeymoon couple Rajasthan 7 nights luxury' },
+          { ico: '🐪', title: 'Jaisalmer desert camps', meta: '3 nights · Sam dunes overnight · camps ₹6-18k · sunset jeep rides', query: 'Jaisalmer desert camp stay' },
+          { ico: '🕌', title: 'Jodhpur old city walks', meta: '3 nights · Mehrangarh fort + blue city heritage walks · 4.8 avg', query: 'Jodhpur heritage walks' },
+          { ico: '🎨', title: 'Jaipur craft & food trail', meta: '4 nights · block printing, blue pottery, dal baati churma cooking', query: 'Jaipur cultural tours' }
         ]
       },
       generic: {
-        label: 'Top picks',
+        label: 'Popular trips this week',
         items: [
-          { ico: '🏨', title: 'Hotels matching your search', meta: 'Refine with dates, group size, and budget', query: 'hotels search' },
-          { ico: '🍽', title: 'Restaurants in your area', meta: 'Filter by cuisine and rating', query: 'restaurants' },
-          { ico: '◎', title: 'Things to do nearby', meta: 'Top experiences and tours', query: 'things to do' },
-          { ico: '✦', title: 'Or use a fuller brief', meta: 'Describe your trip in your own words', query: 'weekend trip to Goa with friends, ₹20k per person' }
+          { ico: '🏖', title: 'Weekend in Goa with friends', meta: '2 nights · 24 stays in ₹15-25k · beaches + Panjim food trail', query: 'weekend trip to Goa with friends, ₹20k per person' },
+          { ico: '🏰', title: 'Heritage circuit in Rajasthan', meta: '7 nights · Udaipur + Jodhpur + Jaipur · palace hotels + bazaars', query: 'Rajasthan 7 nights heritage' },
+          { ico: '🚣', title: 'Kerala backwaters slow trip', meta: '5 nights · houseboats + Munnar tea estate · ₹8-15k/night', query: '5 nights in Kerala with family, mid-budget, backwaters' },
+          { ico: '⛰', title: 'Himachal trek + cafés', meta: '7 nights · Triund + Old Manali · cool May weather · solo-friendly', query: 'Himachal trekking trip' }
         ]
       }
     };
 
     function pickSuggestionSet(text) {
       const q = text.toLowerCase();
+      // Trip-type intents (most specific to a kind of plan)
+      if (/\b(weekend|2.?night|short trip|quick getaway|long weekend)\b/.test(q)) return SUGGESTIONS.weekend;
+      if (/\b(honeymoon|romantic|couple|anniversary)\b/.test(q)) return SUGGESTIONS.honeymoon;
+      if (/\b(food|foodie|eat|restaurant|cuisine|culinary|gastronom)\b/.test(q)) return SUGGESTIONS.food;
+      if (/\bsolo\b/.test(q)) return SUGGESTIONS.solo;
+      if (/\b(family|kids|children)\b/.test(q)) return SUGGESTIONS.family;
+      if (/\b(adventure|trek|hike|trekking|hiking|rafting|backpack|bike trip)\b/.test(q)) return SUGGESTIONS.adventure;
+      // Destination matches
       if (/\b(goa|panjim|anjuna|baga|vagator|calangute|candolim|morjim|palolem|colva)\b/.test(q)) return SUGGESTIONS.goa;
       if (/\b(kerala|kochi|munnar|alleppey|varkala|kovalam|wayanad)\b/.test(q)) return SUGGESTIONS.kerala;
       if (/\b(himachal|manali|shimla|dharamshala|spiti|kasol|mcleod)\b/.test(q)) return SUGGESTIONS.himachal;
