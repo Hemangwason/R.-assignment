@@ -1,0 +1,1529 @@
+/* ============================================================
+   PERSONALIZATION — Travel DNA capture flow
+
+   Tuned to the TripAdvisor visual identity:
+     · mint green (#34E0A1 / #00AA6C) as the primary accent
+     · cream + pastel surfaces (--ta-cream, --pastel-mint)
+     · card-based layouts with soft depth
+     · Inter, no serifs, generous radii
+
+   Five mechanisms, all reachable from the hero trigger pill:
+     1. Mood Board (image grid + free-text fallback)
+     2. This or That (binary cards)
+     3. How you travel (sliders with photo previews)
+     4. Travel DNA Radar (radial chart, every axis editable,
+        add custom axes)
+     5. Activation → opens the existing Goa results flow
+   ============================================================ */
+
+/* ============================================================
+   Trigger pill — sits between the search bar and trust row
+   ============================================================ */
+
+.dna-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+  padding: 11px 18px 11px 14px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: saturate(180%) blur(18px);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+  border: 1.5px solid rgba(0, 170, 108, 0.32);
+  border-radius: var(--r-pill);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ta-text);
+  cursor: pointer;
+  font-family: var(--font);
+  transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+  box-shadow:
+    0 6px 24px rgba(0, 170, 108, 0.22),
+    0 1px 0 rgba(255, 255, 255, 0.6) inset;
+  position: relative;
+}
+
+.dna-trigger::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: var(--r-pill);
+  background: var(--ta-green);
+  opacity: 0;
+  z-index: -1;
+  animation: dnaTriggerPulse 2.6s ease-in-out infinite;
+}
+
+@keyframes dnaTriggerPulse {
+  0%, 100% { transform: scale(1); opacity: 0; }
+  50% { transform: scale(1.06); opacity: 0.22; }
+}
+
+.dna-trigger:hover {
+  transform: translateY(-2px);
+  background: #fff;
+  box-shadow:
+    0 10px 32px rgba(0, 170, 108, 0.32),
+    0 1px 0 rgba(255, 255, 255, 0.8) inset;
+}
+
+.dna-trigger-helix {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ta-green), var(--ta-green-dark));
+  color: #fff;
+  font-size: 12px;
+  font-weight: 900;
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,0.08);
+}
+
+.dna-trigger-time {
+  color: var(--ta-green-dark);
+  font-weight: 800;
+}
+
+.dna-trigger-arrow {
+  margin-left: 2px;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--ta-green-dark);
+  transition: transform 0.18s ease;
+}
+
+.dna-trigger:hover .dna-trigger-arrow { transform: translateX(3px); }
+
+/* ============================================================
+   Modal shell — overlay + container
+   ============================================================ */
+
+.dna-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  background: rgba(14, 31, 45, 0.62);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  animation: dnaOverlayIn 0.3s ease;
+}
+
+.dna-modal.open { display: flex; }
+
+@keyframes dnaOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.dna-panel {
+  position: relative;
+  width: min(980px, 100%);
+  max-height: calc(100vh - 64px);
+  background: #FFFFFF;
+  border-radius: 32px;
+  overflow: hidden;
+  box-shadow:
+    0 40px 120px rgba(14, 31, 45, 0.48),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  animation: dnaPanelIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dna-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 40% at 0% 0%, rgba(230, 250, 239, 0.7) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 30% at 100% 100%, rgba(255, 246, 231, 0.6) 0%, transparent 50%);
+  z-index: 0;
+}
+
+.dna-panel > * { position: relative; z-index: 1; }
+
+@keyframes dnaPanelIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Modal header — slim title bar + close */
+.dna-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 28px 16px;
+  border-bottom: 1px solid rgba(14, 31, 45, 0.05);
+}
+
+.dna-head-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--ta-text);
+  letter-spacing: -0.01em;
+}
+
+.dna-head-title small {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ta-text-2);
+  letter-spacing: 0;
+  margin-left: 2px;
+}
+
+.dna-head-title-helix {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ta-green), var(--ta-green-dark));
+  color: #fff;
+  font-size: 14px;
+  font-weight: 900;
+  display: grid; place-items: center;
+  box-shadow: 0 4px 12px rgba(0, 170, 108, 0.32);
+}
+
+.dna-close {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: var(--ta-surface);
+  color: var(--ta-text);
+  font-size: 16px;
+  display: grid; place-items: center;
+  transition: background 0.18s ease, transform 0.12s ease;
+}
+
+.dna-close:hover { background: var(--ta-surface-2); transform: rotate(90deg); }
+
+/* Modal body — scrolls within */
+.dna-body {
+  overflow-y: auto;
+  padding: 28px 36px 12px;
+}
+
+.dna-step { display: none; }
+.dna-step.active {
+  display: block;
+  animation: dnaStepIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dnaStepIn {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.dna-step-eyebrow {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ta-green-dark);
+  margin-bottom: 8px;
+}
+
+.dna-step-title {
+  font-size: clamp(24px, 2.5vw, 30px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 8px;
+  color: var(--ta-text);
+}
+
+.dna-step-sub {
+  font-size: 14.5px;
+  color: var(--ta-text-2);
+  margin-bottom: 22px;
+  line-height: 1.5;
+}
+
+/* Modal bottom — tip pill + stepper + action bar */
+.dna-bottom {
+  background:
+    linear-gradient(180deg, transparent 0%, rgba(247, 248, 249, 0.6) 30%, #FFFFFF 100%);
+  border-top: 1px solid rgba(14, 31, 45, 0.05);
+  padding: 18px 28px 22px;
+  display: grid;
+  gap: 16px;
+}
+
+/* Tip pill — small centered hint above the stepper */
+.dna-tip {
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px 7px 10px;
+  background: #fff;
+  border: 1px solid rgba(14, 31, 45, 0.08);
+  border-radius: var(--r-pill);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ta-text-2);
+  box-shadow: 0 2px 8px rgba(14, 31, 45, 0.04);
+  max-width: 100%;
+}
+
+.dna-tip-ico {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--ta-green-soft);
+  color: var(--ta-green-dark);
+  font-size: 11px;
+  font-weight: 900;
+  display: grid; place-items: center;
+  flex-shrink: 0;
+}
+
+.dna-tip strong { color: var(--ta-text); font-weight: 800; }
+
+/* Numbered pill stepper — the visual feature */
+.dna-stepper {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  background: rgba(14, 31, 45, 0.04);
+  border-radius: 999px;
+  padding: 10px 24px;
+  align-items: center;
+}
+
+/* Animated gradient pill fill — width tied to active step */
+.dna-stepper::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 24px;
+  width: calc((100% - 48px) * (var(--step-progress, 0)));
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--ta-green-dark) 0%, var(--ta-green) 100%);
+  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 16px rgba(0, 170, 108, 0.32);
+}
+
+.dna-stepper-item {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  color: var(--ta-text-2);
+  transition: color 0.3s ease;
+}
+
+.dna-stepper-num {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--ta-text-3);
+  transition: color 0.3s ease;
+}
+
+.dna-stepper-circle {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid rgba(14, 31, 45, 0.12);
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--ta-text-2);
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+.dna-stepper-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ta-text-2);
+  transition: color 0.3s ease;
+  white-space: nowrap;
+}
+
+.dna-stepper-item.done .dna-stepper-circle {
+  background: #fff;
+  border-color: #fff;
+  color: var(--ta-green-dark);
+}
+
+.dna-stepper-item.done .dna-stepper-num,
+.dna-stepper-item.done .dna-stepper-label { color: #fff; }
+
+.dna-stepper-item.active .dna-stepper-circle {
+  background: #fff;
+  border-color: #fff;
+  color: var(--ta-green-dark);
+  transform: scale(1.08);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+.dna-stepper-item.active .dna-stepper-num,
+.dna-stepper-item.active .dna-stepper-label { color: #fff; font-weight: 800; }
+
+@media (max-width: 720px) {
+  .dna-stepper-label { display: none; }
+  .dna-stepper { padding: 8px 16px; }
+}
+
+/* Action bar */
+.dna-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.dna-actions-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dna-actions-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dna-back {
+  padding: 11px 18px;
+  font-size: 13.5px;
+  font-weight: 700;
+  border-radius: var(--r-pill);
+  color: var(--ta-text);
+  transition: background 0.18s ease;
+}
+
+.dna-back:hover { background: var(--ta-surface-2); }
+.dna-back[disabled] { opacity: 0.3; pointer-events: none; }
+
+.dna-next {
+  padding: 13px 26px;
+  background: var(--ta-text);
+  color: #fff;
+  font-weight: 800;
+  font-size: 14.5px;
+  border-radius: var(--r-pill);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease;
+  box-shadow: var(--sh-md);
+}
+
+.dna-next:hover { background: #1A2D3C; transform: translateY(-1px); box-shadow: var(--sh-lg); }
+.dna-next[disabled] { background: var(--ta-surface-3); color: var(--ta-text-3); box-shadow: none; pointer-events: none; }
+
+.dna-next-arrow { font-size: 16px; transition: transform 0.18s ease; }
+.dna-next:hover .dna-next-arrow { transform: translateX(3px); }
+
+.dna-skip {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ta-text-3);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  margin-left: 12px;
+}
+
+.dna-skip:hover { color: var(--ta-text-2); }
+
+/* ============================================================
+   STEP 1 — Mood Board (image grid + custom text fallback)
+   ============================================================ */
+
+.mood-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 720px) {
+  .mood-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.mood-card {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2.5px solid transparent;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease,
+              box-shadow 0.2s ease;
+  box-shadow: var(--sh-xs);
+}
+
+.mood-card:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: var(--sh-md);
+}
+
+.mood-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease, filter 0.3s ease;
+}
+
+.mood-card:hover img { transform: scale(1.08); }
+
+.mood-card-label {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 16px 12px 10px;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.78));
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: -0.005em;
+  line-height: 1.2;
+  pointer-events: none;
+}
+
+.mood-card-check {
+  position: absolute;
+  top: 8px; right: 8px;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--ta-green);
+  color: var(--ta-text);
+  font-size: 14px;
+  font-weight: 900;
+  display: grid; place-items: center;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(0, 170, 108, 0.35);
+}
+
+.mood-card.picked {
+  border-color: var(--ta-green-dark);
+  box-shadow: 0 0 0 4px rgba(52, 224, 161, 0.22), var(--sh-md);
+}
+
+.mood-card.picked .mood-card-check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.mood-card.picked img { filter: saturate(1.15) brightness(1.04); }
+
+/* Custom-vibe input — fallback when none of the cards fit */
+.mood-custom {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px 12px 18px;
+  background: var(--ta-cream);
+  border: 1.5px dashed rgba(0, 170, 108, 0.28);
+  border-radius: 16px;
+  transition: border-color 0.18s ease, background 0.18s ease;
+}
+
+@media (max-width: 720px) {
+  .mood-custom {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+}
+
+.mood-custom:focus-within {
+  border-style: solid;
+  border-color: var(--ta-green-dark);
+  background: #fff;
+}
+
+.mood-custom-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ta-text);
+  white-space: nowrap;
+}
+
+.mood-custom-label-ico {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--ta-green-soft);
+  color: var(--ta-green-dark);
+  font-size: 12px;
+  font-weight: 900;
+  display: grid; place-items: center;
+}
+
+.mood-custom-input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 14px;
+  font-family: var(--font);
+  font-weight: 500;
+  color: var(--ta-text);
+}
+
+.mood-custom-input::placeholder { color: var(--ta-text-3); }
+
+.mood-custom-add {
+  padding: 7px 14px;
+  background: var(--ta-text);
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 800;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+  transition: background 0.18s ease, transform 0.12s ease;
+}
+
+.mood-custom-add:hover { background: #1A2D3C; transform: translateY(-1px); }
+.mood-custom-add[disabled] { background: var(--ta-surface-3); color: var(--ta-text-3); pointer-events: none; }
+
+/* Custom chip strip — shows the user's typed moods as removable chips */
+.mood-custom-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.mood-custom-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px 5px 12px;
+  background: #fff;
+  border: 1.5px solid var(--ta-green-dark);
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ta-text);
+  animation: dnaStepIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mood-custom-chip button {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--ta-surface);
+  color: var(--ta-text-2);
+  font-size: 10px;
+  font-weight: 800;
+  display: grid; place-items: center;
+}
+
+.mood-custom-chip button:hover { background: var(--ta-text); color: #fff; }
+
+/* Live count under the grid */
+.mood-meter {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--ta-green-soft);
+  border: 1px solid rgba(0, 170, 108, 0.22);
+  border-radius: 14px;
+  font-size: 13px;
+  color: var(--ta-text);
+  font-weight: 600;
+}
+
+.mood-meter-count {
+  font-weight: 900;
+  font-size: 18px;
+  color: var(--ta-green-dark);
+}
+
+.mood-meter-tags {
+  margin-left: auto;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.mood-meter-tag {
+  padding: 3px 10px;
+  background: #fff;
+  border: 1px solid rgba(0, 170, 108, 0.22);
+  border-radius: var(--r-pill);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ta-green-dark);
+  animation: dnaStepIn 0.3s ease;
+}
+
+/* ============================================================
+   STEP 2 — This or That swipe cards
+   ============================================================ */
+
+.tot-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  min-height: 320px;
+}
+
+@media (max-width: 720px) {
+  .tot-stage { grid-template-columns: 1fr; }
+}
+
+.tot-option {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.tot-option:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: var(--sh-lg);
+}
+
+.tot-option img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.tot-option:hover img { transform: scale(1.05); }
+
+.tot-option-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, transparent 30%, rgba(0,0,0,0.78) 100%);
+}
+
+.tot-option-text {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 20px;
+  color: #fff;
+}
+
+.tot-option-text small {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.tot-option-text h4 {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.tot-option-text p {
+  font-size: 13px;
+  opacity: 0.92;
+  line-height: 1.45;
+}
+
+.tot-option.chose {
+  border-color: var(--ta-green-dark);
+  box-shadow: 0 0 0 6px rgba(52, 224, 161, 0.22), var(--sh-lg);
+}
+
+.tot-vs {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--ta-text);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  display: grid; place-items: center;
+  box-shadow: var(--sh-md);
+  pointer-events: none;
+  z-index: 2;
+}
+
+@media (max-width: 720px) {
+  .tot-vs { top: auto; bottom: 50%; transform: translate(-50%, 50%); }
+}
+
+.tot-progress {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--ta-text-2);
+  font-weight: 600;
+}
+
+.tot-progress-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--ta-surface-2);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.tot-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--ta-green), var(--ta-green-dark));
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================================
+   STEP 3 — How you travel (sliders + photo previews)
+   ============================================================ */
+
+.howy-stack {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 4px;
+}
+
+/* Each slider is a vertical card with a floating preview tooltip
+   that pops above the track and slides with the thumb. */
+.howy-slider {
+  position: relative;
+  padding: 22px 24px 18px;
+  background: linear-gradient(180deg, #FFFFFF 0%, var(--ta-cream) 100%);
+  border: 1px solid rgba(14, 31, 45, 0.06);
+  border-radius: 24px;
+  box-shadow: 0 8px 24px rgba(14, 31, 45, 0.04);
+}
+
+.howy-side-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.howy-side-title {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: -0.015em;
+  color: var(--ta-text);
+}
+
+.howy-side-sub {
+  font-size: 12.5px;
+  color: var(--ta-text-2);
+  font-weight: 600;
+  margin-top: 3px;
+}
+
+.howy-side-value {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--ta-green-dark);
+  background: #fff;
+  border: 1px solid rgba(0, 170, 108, 0.32);
+  padding: 5px 12px;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 170, 108, 0.12);
+}
+
+/* Floating preview tooltip — slides with the thumb, arrow points down */
+.howy-tooltip-wrap {
+  position: relative;
+  height: 132px;
+  margin-bottom: 4px;
+}
+
+.howy-tooltip {
+  position: absolute;
+  top: 0;
+  width: 192px;
+  margin-left: -96px;
+  background: #fff;
+  border: 1px solid rgba(14, 31, 45, 0.08);
+  border-radius: 18px;
+  box-shadow: 0 12px 32px rgba(14, 31, 45, 0.12);
+  overflow: hidden;
+  transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  left: 50%;
+}
+
+.howy-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-right: 1px solid rgba(14, 31, 45, 0.08);
+  border-bottom: 1px solid rgba(14, 31, 45, 0.08);
+  border-bottom-right-radius: 3px;
+}
+
+.howy-tooltip-img {
+  position: relative;
+  height: 82px;
+  overflow: hidden;
+  background: var(--ta-surface-2);
+}
+
+.howy-tooltip-img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.howy-tooltip-img img.show { opacity: 1; }
+
+.howy-tooltip-tag {
+  padding: 9px 12px 11px;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--ta-text);
+  letter-spacing: -0.005em;
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* Track — premium thin pill */
+.howy-track {
+  position: relative;
+  height: 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  margin: 18px 14px 12px;
+  box-shadow: inset 0 1px 3px rgba(14, 31, 45, 0.08);
+}
+
+.howy-track-pace { background: linear-gradient(90deg, var(--pastel-sky) 0%, var(--pastel-cream) 50%, var(--pastel-blush) 100%); }
+.howy-track-wallet { background: linear-gradient(90deg, var(--pastel-mint) 0%, var(--pastel-peach) 50%, var(--pastel-blush) 100%); }
+.howy-track-crowd { background: linear-gradient(90deg, var(--pastel-cream) 0%, var(--pastel-sky) 100%); }
+
+/* 5 stop circles on the track */
+.howy-track-notches {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  padding: 0 1px;
+}
+
+.howy-notch {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1.5px solid rgba(14, 31, 45, 0.16);
+  box-shadow: 0 1px 2px rgba(14, 31, 45, 0.08);
+}
+
+.howy-thumb {
+  position: absolute;
+  top: 50%;
+  width: 36px; height: 36px;
+  background: #fff;
+  border: 3px solid var(--ta-green-dark);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  box-shadow: 0 6px 18px rgba(0, 170, 108, 0.42), 0 0 0 6px rgba(0, 170, 108, 0.08);
+  transition: transform 0.1s ease, box-shadow 0.18s ease;
+  display: grid;
+  place-items: center;
+  z-index: 2;
+}
+
+.howy-thumb::after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ta-green), var(--ta-green-dark));
+}
+
+.howy-thumb:active { cursor: grabbing; transform: translate(-50%, -50%) scale(1.12); }
+
+.howy-ends {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--ta-text-2);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0 4px;
+}
+
+/* Summary tile under the three sliders */
+.howy-summary {
+  margin-top: 18px;
+  background: linear-gradient(135deg, var(--ta-text) 0%, #1A2D3C 100%);
+  border-radius: 20px;
+  padding: 20px 22px;
+  color: #fff;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 18px;
+  align-items: center;
+}
+
+.howy-summary-text {
+  font-size: 14.5px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.howy-summary-text strong { color: var(--ta-green); font-weight: 800; }
+
+.howy-summary-cost {
+  text-align: right;
+}
+
+.howy-summary-amt {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  color: var(--ta-green);
+  line-height: 1;
+}
+
+.howy-summary-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* ============================================================
+   STEP 4 — Travel DNA Radar (every axis editable + add new)
+   ============================================================ */
+
+.dna-radar-wrap {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+@media (max-width: 720px) {
+  .dna-radar-wrap { grid-template-columns: 1fr; }
+}
+
+.dna-radar-stage {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  background: linear-gradient(135deg, var(--ta-cream) 0%, var(--pastel-mint) 100%);
+  border-radius: 24px;
+  border: 1px solid rgba(0, 170, 108, 0.16);
+}
+
+.dna-radar-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 8px 24px rgba(0, 170, 108, 0.22));
+}
+
+.dna-radar-axis-line {
+  stroke: rgba(14, 31, 45, 0.12);
+  stroke-width: 1;
+}
+
+.dna-radar-ring {
+  fill: none;
+  stroke: rgba(14, 31, 45, 0.10);
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+}
+
+.dna-radar-shape {
+  fill: rgba(0, 170, 108, 0.18);
+  stroke: var(--ta-green-dark);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  transition: d 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dna-radar-point {
+  fill: var(--ta-green-dark);
+  stroke: #fff;
+  stroke-width: 2;
+  cursor: pointer;
+}
+
+.dna-radar-label {
+  font-size: 11px;
+  font-weight: 800;
+  font-family: var(--font);
+  fill: var(--ta-text);
+  letter-spacing: -0.005em;
+  text-anchor: middle;
+  user-select: none;
+}
+
+.dna-radar-label-num {
+  font-size: 9.5px;
+  font-weight: 700;
+  fill: var(--ta-text-2);
+}
+
+.dna-radar-side h4 {
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+}
+
+.dna-radar-side p {
+  font-size: 13.5px;
+  color: var(--ta-text-2);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.dna-axis-tuner {
+  display: grid;
+  gap: 6px;
+}
+
+.dna-axis-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 36px 28px;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 10px;
+  background: var(--ta-surface);
+  border-radius: 12px;
+  font-size: 12.5px;
+  transition: background 0.18s ease;
+}
+
+.dna-axis-row:hover { background: var(--ta-surface-2); }
+
+.dna-axis-row.custom { background: var(--ta-green-soft); }
+
+.dna-axis-name {
+  font-weight: 800;
+  color: var(--ta-text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.dna-axis-name-ico {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: rgba(0, 170, 108, 0.18);
+  color: var(--ta-green-dark);
+  font-size: 9px;
+  font-weight: 900;
+  display: grid; place-items: center;
+  flex-shrink: 0;
+}
+
+.dna-axis-bar {
+  height: 8px;
+  background: var(--ta-surface-3);
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.dna-axis-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--ta-green), var(--ta-green-dark));
+  transition: width 0.3s ease;
+}
+
+.dna-axis-val {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--ta-green-dark);
+  text-align: right;
+}
+
+.dna-axis-remove {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ta-text-3);
+  font-size: 11px;
+  font-weight: 800;
+  display: grid; place-items: center;
+  opacity: 0;
+  transition: opacity 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+
+.dna-axis-row:hover .dna-axis-remove { opacity: 1; }
+.dna-axis-remove:hover { background: var(--ta-text); color: #fff; }
+
+/* "Add a dimension" form */
+.dna-axis-add {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #fff;
+  border: 1.5px dashed rgba(0, 170, 108, 0.32);
+  border-radius: 14px;
+}
+
+.dna-axis-add:focus-within {
+  border-style: solid;
+  border-color: var(--ta-green-dark);
+}
+
+.dna-axis-add-input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 13px;
+  font-family: var(--font);
+  font-weight: 600;
+  color: var(--ta-text);
+}
+
+.dna-axis-add-input::placeholder { color: var(--ta-text-3); }
+
+.dna-axis-add-btn {
+  padding: 7px 13px;
+  background: var(--ta-green-dark);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+  transition: background 0.18s ease;
+}
+
+.dna-axis-add-btn:hover { background: #007F52; }
+.dna-axis-add-btn[disabled] { background: var(--ta-surface-3); color: var(--ta-text-3); pointer-events: none; }
+
+/* ============================================================
+   STEP 5 — Activation
+   ============================================================ */
+
+.dna-activate {
+  text-align: center;
+  padding: 28px 20px 12px;
+}
+
+.dna-activate-orb {
+  width: 96px; height: 96px;
+  margin: 0 auto 24px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fff, var(--ta-green) 50%, var(--ta-green-dark) 100%);
+  position: relative;
+  animation: dnaOrbSpin 3.2s ease-in-out infinite;
+  box-shadow:
+    0 0 0 8px rgba(0, 170, 108, 0.10),
+    0 0 0 18px rgba(0, 170, 108, 0.05),
+    0 18px 48px rgba(0, 170, 108, 0.30);
+}
+
+@keyframes dnaOrbSpin {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.05); }
+}
+
+.dna-activate-orb::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: grid; place-items: center;
+  color: var(--ta-text);
+  font-size: 44px;
+  font-weight: 900;
+  text-shadow: 0 2px 8px rgba(255, 255, 255, 0.6);
+  animation: dnaCheckIn 0.5s 0.4s both cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dnaCheckIn {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.dna-activate h3 {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+
+.dna-activate p {
+  font-size: 15px;
+  color: var(--ta-text-2);
+  margin-bottom: 22px;
+  line-height: 1.5;
+  max-width: 500px;
+  margin-left: auto; margin-right: auto;
+}
+
+.dna-activate-tags {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.dna-activate-tag {
+  padding: 7px 14px;
+  background: var(--ta-green-soft);
+  border: 1.5px solid rgba(0, 170, 108, 0.32);
+  border-radius: var(--r-pill);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ta-green-dark);
+  animation: dnaStepIn 0.4s backwards;
+}
+
+.dna-activate-tag:nth-child(1) { animation-delay: 0.1s; }
+.dna-activate-tag:nth-child(2) { animation-delay: 0.2s; }
+.dna-activate-tag:nth-child(3) { animation-delay: 0.3s; }
+.dna-activate-tag:nth-child(4) { animation-delay: 0.4s; }
+.dna-activate-tag:nth-child(5) { animation-delay: 0.5s; }
+
+/* The "next stop" hint that appears before they click activate */
+.dna-activate-next-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--ta-cream);
+  border: 1px solid var(--ta-border);
+  border-radius: var(--r-pill);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ta-text-2);
+}
+
+.dna-activate-next-hint strong { color: var(--ta-text); }
+
+/* ============================================================
+   AMBIENT TOAST — appears after modal closes
+   ============================================================ */
+
+.dna-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 80;
+  max-width: 380px;
+  background: rgba(14, 31, 45, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #fff;
+  border-radius: 18px;
+  padding: 14px 18px;
+  display: none;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 18px 48px rgba(14, 31, 45, 0.32);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dna-toast.show {
+  display: flex;
+  animation: dnaToastIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dnaToastIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.dna-toast-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--ta-green);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.dna-toast-dot::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: var(--ta-green);
+  opacity: 0.4;
+  animation: agentPulse 1.8s ease-out infinite;
+}
+
+.dna-toast-body { flex: 1; min-width: 0; }
+
+.dna-toast-eyebrow {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ta-green);
+  margin-bottom: 3px;
+}
+
+.dna-toast-text {
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #fff;
+}
+
+.dna-toast-text strong { font-weight: 800; }
+
+.dna-toast-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.dna-toast-act {
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  border-radius: var(--r-pill);
+  letter-spacing: 0.02em;
+  transition: background 0.18s ease;
+}
+
+.dna-toast-act:hover { background: rgba(255, 255, 255, 0.2); }
+.dna-toast-act.primary { background: var(--ta-green); color: var(--ta-text); }
+.dna-toast-act.primary:hover { background: var(--ta-green-hover); }
+
+/* ============================================================
+   PERSISTENT DNA BADGE — bottom right, after activation
+   ============================================================ */
+
+.dna-badge {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 70;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px 10px 10px;
+  background: #fff;
+  border: 1.5px solid rgba(0, 170, 108, 0.32);
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  box-shadow: var(--sh-lg);
+  font-family: var(--font);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.dna-badge.show { display: inline-flex; animation: dnaToastIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+
+.dna-badge:hover { transform: translateY(-2px); box-shadow: var(--sh-xl); }
+
+.dna-badge-orb {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ta-green), var(--ta-green-dark));
+  color: #fff;
+  font-size: 12px;
+  font-weight: 900;
+  display: grid; place-items: center;
+  flex-shrink: 0;
+}
+
+.dna-badge-text {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--ta-text);
+  letter-spacing: -0.005em;
+}
+
+.dna-badge-text strong { color: var(--ta-green-dark); }
+
+/* ============================================================
+   PERSONALIZED CHIPS — inline strip below search bar
+   ============================================================ */
+
+.dna-personal-strip {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.dna-personal-strip.show { display: flex; animation: dnaStepIn 0.4s ease; }
+
+.dna-personal-label {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+}
+
+.dna-personal-chip {
+  padding: 7px 13px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 170, 108, 0.32);
+  border-radius: var(--r-pill);
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--ta-green-dark);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dna-personal-chip-ico { font-size: 12px; }

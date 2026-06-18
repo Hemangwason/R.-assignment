@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="personalize.css">
   <style>
     /* ============================================================
        FORCE LIGHT MODE — beat system dark-mode overrides
@@ -3739,6 +3740,15 @@
           </div>
         </div>
 
+        <button class="dna-trigger" id="dna-trigger" type="button">
+          <span class="dna-trigger-helix">⌬</span>
+          <span>Build your Travel DNA — picks tuned to you</span>
+          <span class="dna-trigger-time">· 15s</span>
+          <span class="dna-trigger-arrow">→</span>
+        </button>
+
+        <div class="dna-personal-strip" id="dna-personal-strip"></div>
+
         <div class="trust-row">
           <span>Trusted by 463M travelers</span>
           <span class="trust-sep">·</span>
@@ -5477,5 +5487,153 @@
 
     renderHotels();
   </script>
+
+  <!-- ============================================================
+       Travel DNA — personalization modal, badge, ambient toast
+       ============================================================ -->
+
+  <div class="dna-modal" id="dna-modal" role="dialog" aria-modal="true">
+    <div class="dna-panel">
+      <div class="dna-head">
+        <div class="dna-head-title">
+          <span class="dna-head-title-helix">⌬</span>
+          <span>Travel DNA <small>· 5 quick reads · 60 seconds</small></span>
+        </div>
+        <button class="dna-close" id="dna-close" aria-label="Close">✕</button>
+      </div>
+
+      <div class="dna-body">
+
+        <!-- Step 1 · Mood Board ============================= -->
+        <section class="dna-step active" id="dna-step-1">
+          <span class="dna-step-eyebrow">Step 1 · Pick what catches your eye</span>
+          <h2 class="dna-step-title">What kind of moments do you travel for?</h2>
+          <p class="dna-step-sub">Tap any images that resonate. Don't see your kind of trip? Describe it in your own words below.</p>
+
+          <div class="mood-grid" id="mood-grid"></div>
+
+          <div class="mood-custom">
+            <label class="mood-custom-label" for="mood-custom-input">
+              <span class="mood-custom-label-ico">+</span>
+              <span>Or describe it</span>
+            </label>
+            <input class="mood-custom-input" id="mood-custom-input" type="text" placeholder="e.g. quiet wellness retreat, foodie weekend, slow travel with kids…" maxlength="60"/>
+            <button class="mood-custom-add" id="mood-custom-add" type="button" disabled>Add</button>
+          </div>
+          <div class="mood-custom-chips" id="mood-custom-chips"></div>
+
+          <div class="mood-meter">
+            <span class="mood-meter-count" id="mood-count">0</span>
+            <span>captured so far</span>
+            <div class="mood-meter-tags" id="mood-tags"></div>
+          </div>
+        </section>
+
+        <!-- Step 2 · This or That =========================== -->
+        <section class="dna-step" id="dna-step-2">
+          <span class="dna-step-eyebrow" id="tot-eyebrow">Step 2 · This or That</span>
+          <h2 class="dna-step-title">Which one sounds more like you?</h2>
+          <p class="dna-step-sub">Five quick A/B picks. Each answer triangulates three axes — budget, pace, crowd tolerance.</p>
+
+          <div class="tot-stage" id="tot-stage"></div>
+
+          <div class="tot-progress">
+            <span id="tot-progress-label">1 of 5</span>
+            <div class="tot-progress-bar"><div class="tot-progress-fill" id="tot-progress-fill" style="width:0%"></div></div>
+          </div>
+        </section>
+
+        <!-- Step 3 · How you travel ========================= -->
+        <section class="dna-step" id="dna-step-3">
+          <span class="dna-step-eyebrow">Step 3 · How you travel</span>
+          <h2 class="dna-step-title">Dial in pace, budget, company.</h2>
+          <p class="dna-step-sub">Drag any slider — the photo and your live estimate reshape as you go.</p>
+
+          <div class="howy-stack" id="howy-stack"></div>
+
+          <div class="howy-summary">
+            <div class="howy-summary-text" id="howy-summary-text"></div>
+            <div class="howy-summary-cost">
+              <div class="howy-summary-amt" id="howy-summary-amt">₹12,000</div>
+              <div class="howy-summary-label">per night · est</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Step 4 · Radar chart ============================ -->
+        <section class="dna-step" id="dna-step-4">
+          <span class="dna-step-eyebrow">Step 4 · Your Travel DNA</span>
+          <h2 class="dna-step-title">Here's what we read — yours to edit.</h2>
+          <p class="dna-step-sub">Six dimensions, inferred from your taps + picks + sliders. Drag any bar to tune. Add your own dimension if something is missing — Wellness, Photography, Family-friendly, anything.</p>
+
+          <div class="dna-radar-wrap">
+            <div class="dna-radar-stage">
+              <svg id="dna-radar-svg" class="dna-radar-svg" viewBox="0 0 320 320" aria-label="Travel DNA radar chart"></svg>
+            </div>
+            <div class="dna-radar-side">
+              <h4>Tune anything · add anything.</h4>
+              <p>Every implicit signal became a visible bar. Push any back if we got it wrong, or add a new dimension you care about — the radar reshapes live.</p>
+              <div class="dna-axis-tuner" id="dna-axis-tuner"></div>
+
+              <div class="dna-axis-add">
+                <input class="dna-axis-add-input" id="dna-axis-add-input" type="text" placeholder="Add a dimension · Wellness, Photography, Pet-friendly…" maxlength="22"/>
+                <button class="dna-axis-add-btn" id="dna-axis-add-btn" type="button" disabled>+ Add</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Step 5 · Activate =============================== -->
+        <section class="dna-step" id="dna-step-5">
+          <div class="dna-activate">
+            <div class="dna-activate-orb"></div>
+            <h3>Your Travel DNA is ready.</h3>
+            <p>We'll drop you into your Goa itinerary with hotels, things to do and restaurants already ranked for the way you travel. Every save, dismiss and dwell-time keeps tuning your DNA in the background.</p>
+            <div class="dna-activate-tags" id="dna-activate-tags"></div>
+            <div class="dna-activate-next-hint">
+              <span>Next:</span>
+              <strong>Goa · 24 picks ranked for you</strong>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <div class="dna-bottom">
+        <div class="dna-tip" id="dna-tip"></div>
+        <div class="dna-stepper" id="dna-stepper" style="--step-progress: 0"></div>
+        <div class="dna-actions">
+          <div class="dna-actions-left">
+            <button class="dna-skip" id="dna-skip" type="button">Skip for now</button>
+          </div>
+          <div class="dna-actions-right">
+            <button class="dna-back" id="dna-back" type="button" disabled>← Back</button>
+            <button class="dna-next" id="dna-next" type="button" disabled>Next <span class="dna-next-arrow">→</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Persistent DNA badge — bottom right after activation -->
+  <button class="dna-badge" id="dna-badge" type="button" aria-label="Open Travel DNA">
+    <span class="dna-badge-orb">⌬</span>
+    <span class="dna-badge-text">Travel DNA <strong>active</strong></span>
+  </button>
+
+  <!-- Ambient learning toast — fires from JS -->
+  <div class="dna-toast" id="dna-toast" role="status" aria-live="polite">
+    <span class="dna-toast-dot"></span>
+    <div class="dna-toast-body">
+      <div class="dna-toast-eyebrow">DNA · just learned</div>
+      <div class="dna-toast-text"></div>
+    </div>
+    <div class="dna-toast-actions">
+      <button class="dna-toast-act dismiss" type="button">Undo</button>
+      <button class="dna-toast-act primary" type="button">Tune</button>
+    </div>
+  </div>
+
+  <script src="personalize.js"></script>
 </body>
 </html>
